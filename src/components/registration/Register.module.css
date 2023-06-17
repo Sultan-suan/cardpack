@@ -1,0 +1,19 @@
+.wrapper {
+    position: absolute;
+    width: 413px;
+    height: 600px;
+    left: 434px;
+    top: 60px;
+
+    background: #F9F9FE;
+    border-radius: 8px;
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 50%;
+}
