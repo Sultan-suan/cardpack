@@ -1,30 +1,72 @@
-import React from 'react';
-import s from "../login/Login.module.css";
+import React, {useState} from 'react';
+import s from './Register.module.css'
+import {useDispatch, useSelector} from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Register = () => {
+
+type validation = {
+    email: string,
+    password: string,
+    error: Error
+
+}
+export const Register = () => {
+    const [email, setEmail] = useState('')
+   const [password, setPassword] = useState('');
+
+    const emailChange = (event: { target: { value: React.SetStateAction<string>}}) => {
+     setEmail(event.target.value)
+    }
+
+    const passwordChange = (event: { target: { value: React.SetStateAction<string>}}) => {
+        setPassword(event.target.value)
+    }
+
+    const handleSubmit = (event: { preventDefault: () => void}) => {
+        event.preventDefault()
+        console.log(`Email: ${email}, Password: ${password}`);
+    };
+
+    const packs = () => {
+        const response = axios.post("https://cards-nya-back-production.up.railway.app/2.0/auth/register",
+            {
+                email,
+                password
+            })
+        console.log(response)
+    }
+
     return (
-        <div className={s.wrapper}>
-            <h1>Register</h1>
-            <form className={s.form}>
-                <div>
-                    <div>
-                        <div>login</div>
-                        <input type="text"/>
-                    </div>
-                    <div>
-                        <div>password</div>
-                        <input type="password"/>
-                    </div>
-                    <div>
-                        <div>repeat password</div>
-                        <input type="password"/>
-                    </div>
-                </div>
 
-                <button>Sign up</button>
+        <div className={s.wrapper}>
+            <div>
+                <h4>Register</h4>
+            </div>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                    id="email"
+                    value={email}
+                    onChange={emailChange}
+                    required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={passwordChange}
+                        required
+                    />
+                </div>
+                <button onClick={packs} type="submit" className={s.button}>Register now</button>
             </form>
         </div>
     );
 };
 
-export default Register;

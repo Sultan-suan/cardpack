@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import {Routes, Route, Link} from 'react-router-dom'
 import './App.css';
 import {Layout} from "./components/Layout/Layout";
 import Login from "./components/login/Login";
-import Register from "./components/registration/Register";
+import {Register} from "./components/registration/Register";
 
-function App() {
+export function App() {
     return (
         <div className="App">
             <Routes>
@@ -19,4 +18,4 @@ function App() {
     );
 }
 
-export default App;
+
