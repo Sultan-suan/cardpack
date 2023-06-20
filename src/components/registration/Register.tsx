@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import s from './Register.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -9,8 +9,8 @@ type validation = {
     email: string,
     password: string,
     error: Error
-
 }
+
 export const Register = () => {
     const [email, setEmail] = useState('')
    const [password, setPassword] = useState('');
@@ -43,7 +43,7 @@ export const Register = () => {
             <div>
                 <h4>Register</h4>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form className={s.form} onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email:</label>
                     <input
@@ -65,6 +65,7 @@ export const Register = () => {
                     />
                 </div>
                 <button onClick={packs} type="submit" className={s.button}>Register now</button>
+                <Link to={'/login'}>Login</Link>
             </form>
         </div>
     );
