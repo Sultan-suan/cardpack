@@ -1,5 +1,7 @@
 import {Dispatch} from "redux";
 import axios from "axios";
+import {getLogin} from "../api/api";
+// import {getLogin} from "../api/api";
 
 export type UserType = {
     userId: any
@@ -20,7 +22,17 @@ let initialState: InitialStateType = {
     user: {} as UserType,
     isAuth: false,
 }
-type ActionType = any
+type ActionType = setIsAuthUserType | setUserDataActionType
+
+export type setUserDataActionType = {
+    type: 'login/SET_USER_DATA'
+    user: UserType
+}
+
+export type setIsAuthUserType = {
+    type: 'login/SET_IS_AUTH'
+    value: boolean
+}
 
 const SET_USER_DATA = 'login/SET_USER_DATA'
 const SET_IS_AUTH = 'login/SET_IS_AUTH'
@@ -39,15 +51,16 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
                 isAuth: action.value
             }
         }
-        default: return state
+        default:
+            return state
     }
 }
 
-export const setUserData = (user: UserType) => ({
-    type: SET_USER_DATA , user
+export const setUserData = (user: UserType): setUserDataActionType => ({
+    type: SET_USER_DATA, user
 })
 
-export const setIsAuth = (value: boolean) => ({
+export const setIsAuth = (value: boolean): setIsAuthUserType => ({
     type: SET_IS_AUTH, value
 })
 
@@ -55,12 +68,13 @@ export const setIsAuth = (value: boolean) => ({
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: Dispatch) => {
         try {
-            axios.post<UserType>('https://cards-nya-back-production.up.railway.app/2.0/auth/login', {email, password, rememberMe})
-                .then((response) => {
-                    dispatch(setUserData(response.data))
+            getLogin(email, password, rememberMe)
+                .then((data) => {
+                    dispatch(setUserData(data))
                     dispatch(setIsAuth(true))
                 })
         } catch (e) {
+            debugger
             console.log(e);
         }
     }
