@@ -1,5 +1,4 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-// import {authReducer} from "./authReduser";
 import thunk from 'redux-thunk'
 
 // объединяя reducer-ы с помощью combineReducers,

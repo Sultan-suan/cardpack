@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
 import s from './Register.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -12,60 +12,61 @@ type validation = {
 
 }
 export const Register = () => {
+    //no useState
     const [email, setEmail] = useState('')
-   const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
 
-    const emailChange = (event: { target: { value: React.SetStateAction<string>}}) => {
-     setEmail(event.target.value)
+    const emailChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.currentTarget.value)
     }
 
-    const passwordChange = (event: { target: { value: React.SetStateAction<string>}}) => {
-        setPassword(event.target.value)
+    const passwordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.currentTarget.value)
     }
 
-    const handleSubmit = (event: { preventDefault: () => void}) => {
-        event.preventDefault()
-        console.log(`Email: ${email}, Password: ${password}`);
-    };
+    // redux => registration reducer
+    // thunk
+    // navigate to login
 
-    const packs = () => {
+    //ui
+    //redux
+
+
+
+    const register = () => {
         const response = axios.post("https://cards-nya-back-production.up.railway.app/2.0/auth/register",
             {
                 email,
                 password
             })
-        console.log(response)
     }
 
     return (
-
         <div className={s.wrapper}>
             <div>
                 <h4>Register</h4>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
+            <div>
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="email"
                     id="email"
                     value={email}
                     onChange={emailChange}
                     required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={passwordChange}
-                        required
-                    />
-                </div>
-                <button onClick={packs} type="submit" className={s.button}>Register now</button>
-            </form>
+                />
+            </div>
+            <div>
+                <label htmlFor="email">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={passwordChange}
+                    required
+                />
+            </div>
+            <button onClick={register} className={s.button}>Register now</button>
         </div>
     );
 };
