@@ -6,8 +6,7 @@ import {authReducer} from "./auth-reducer";
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
-    // auth: authReducer
-    login: authReducer
+    auth: authReducer
 })
 // непосредственно создаём store
 export const store = createStore(rootReducer, applyMiddleware(thunk));

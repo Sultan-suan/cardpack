@@ -1,77 +1,64 @@
 import {Dispatch} from "redux";
 import axios from "axios";
 
-export type InitialStateType = {
+export type UserType = {
     userId: any
-    login: any
-    isAuth: boolean
-    // isAuth: boolean
-    // checked: boolean
-    // captchaUrl: any
     _id: string;
     email: string;
     name: string;
     avatar?: string;
     publicCardPacksCount: number; // количество колод
-
-    // created: Date;
-    // updated: Date;
     isAdmin: boolean;
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
 }
-
-let initialState: InitialStateType = {
-    userId: null,
-    login: null,
-    email: '',
-    rememberMe: false,
-    isAuth: false,
-    _id: '',
-    name: '',
-    avatar: '',
-    publicCardPacksCount: 0, // количество колод
-
-    // created: Date,
-    // updated: Date,
-    isAdmin: false,
-    verified: false, // подтвердил ли почту
-    // isAuth: false,
-    // checked: false,
-    // captchaUrl: null
+export type InitialStateType = {
+    user: UserType,
+    isAuth: boolean
 }
-
-export type SetUserDataActionType = ReturnType<typeof setUserData>
+let initialState: InitialStateType = {
+    user: {} as UserType,
+    isAuth: false,
+}
+type ActionType = any
 
 const SET_USER_DATA = 'login/SET_USER_DATA'
+const SET_IS_AUTH = 'login/SET_IS_AUTH'
 
-export const authReducer = (state: InitialStateType = initialState, action: SetUserDataActionType): InitialStateType => {
+export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "login/SET_USER_DATA": {
+        case SET_USER_DATA: {
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                user: action.user
+            }
+        }
+        case SET_IS_AUTH: {
+            return {
+                ...state,
+                isAuth: action.value
             }
         }
         default: return state
     }
 }
 
-export const setUserData = (email: string, publicCardPacksCount: number, name: string, created: string, updated: string) => ({
-    type: SET_USER_DATA, data: {email, publicCardPacksCount, name, created, updated}
+export const setUserData = (user: UserType) => ({
+    type: SET_USER_DATA , user
 })
 
+export const setIsAuth = (value: boolean) => ({
+    type: SET_IS_AUTH, value
+})
 
 
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: Dispatch) => {
         try {
-            axios.post('https://cards-nya-back-production.up.railway.app/2.0/auth/login', {email, password, rememberMe})
+            axios.post<UserType>('https://cards-nya-back-production.up.railway.app/2.0/auth/login', {email, password, rememberMe})
                 .then((response) => {
-                    console.log(response.data)
-                    const {email, publicCardPacksCount, name, created, updated} = response.data
-                    dispatch(setUserData(email, publicCardPacksCount, name, created, updated))
+                    dispatch(setUserData(response.data))
+                    dispatch(setIsAuth(true))
                 })
         } catch (e) {
             console.log(e);
