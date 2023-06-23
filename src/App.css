@@ -1,7 +1,10 @@
 .App {
   text-align: center;
-  background-color: #E5E5E5;
   height: 100vh;
+  font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+  background-color: #d0e2f1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   /*display: flex;*/
   /*flex-direction: column;*/
   /*justify-content: center;*/

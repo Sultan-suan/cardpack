@@ -70,6 +70,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
         try {
             getLogin(email, password, rememberMe)
                 .then((data) => {
+                    console.log(data)
                     dispatch(setUserData(data))
                     dispatch(setIsAuth(true))
                 })
