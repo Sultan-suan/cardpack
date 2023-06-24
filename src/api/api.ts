@@ -11,4 +11,10 @@ export const getLogin = (email: string, password: string, rememberMe:boolean) =>
             return response.data
         })
 }
+export const getRegister = (email: string, password: string) => {
+    return instance.post('auth/register/', {email, password})
+        .then((response) => {
+            return response.data
+        })
+}
 
