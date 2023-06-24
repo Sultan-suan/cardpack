@@ -26,7 +26,7 @@ export const Register = () => {
 
     // redux => registration reducer
     // thunk
-    // navigate to login
+    // navigate to
 
     //ui
     //redux
