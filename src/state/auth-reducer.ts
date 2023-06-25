@@ -15,13 +15,12 @@ export type UserType = {
     rememberMe: boolean;
 }
 export type InitialStateType = {
-    addUser: any
+
     user: UserType,
     isAuth: boolean
     isRegister: boolean
 }
 let initialState: InitialStateType = {
-    addUser: {},
     user: {} as UserType,
     isAuth: false,
     isRegister: false
@@ -35,7 +34,7 @@ export type setUserDataActionType = {
 
 export type setRegisterDataActionType = {
     type: 'register/SET_REGISTER_DATA'
-    addUser: any
+
     isRegister: boolean
 }
 
@@ -53,7 +52,6 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         case SET_REGISTER_DATA: {
             return {
                 ...state,
-                addUser:action.addUser,
                 isRegister: action.isRegister
             }
         }
@@ -78,8 +76,8 @@ export const setUserData = (user: UserType): setUserDataActionType => ({
     type: SET_USER_DATA, user
 })
 
-export const setRegisterData = (addUser: any, isRegister: boolean): setRegisterDataActionType => ({
-    type: SET_REGISTER_DATA, addUser, isRegister
+export const setRegisterData = (isRegister: boolean): setRegisterDataActionType => ({
+    type: SET_REGISTER_DATA, isRegister
 })
 
 export const setIsAuth = (value: boolean): setIsAuthUserType => ({
@@ -87,35 +85,27 @@ export const setIsAuth = (value: boolean): setIsAuthUserType => ({
 })
 
 
-
-
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: Dispatch) => {
         try {
             getLogin(email, password, rememberMe)
                 .then((data) => {
-                    console.log(data)
                     dispatch(setUserData(data))
                     dispatch(setIsAuth(true))
                 })
         } catch (e) {
-            debugger
             console.log(e);
         }
     }
 }
 
 export const RegisterTC = (email: string, password: string) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
-            getRegister(email, password)
-                .then((data) => {
-                    console.log(data)
-                    dispatch(setRegisterData(data, true))
-                })
+            await getRegister(email, password)
+            dispatch(setRegisterData(true))
         } catch (e) {
-            debugger
-            console.log(e);
+            console.log('error from register', e);
         }
     }
 }
