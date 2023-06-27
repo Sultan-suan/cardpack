@@ -55,7 +55,6 @@ export const Register = () => {
     //3 show error from back
 
 
-    //useFormik
     return (
         <form onSubmit={formik.handleSubmit} className={s.form}>
             <div className={s.wrapper}>
