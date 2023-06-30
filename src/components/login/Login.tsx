@@ -44,7 +44,7 @@ const Login = () => {
                 onSubmit={async (values) => {
                     // await new Promise((r) => setTimeout(r, 500));
                     // alert(JSON.stringify(values, null, 2));
-                    await dispatch(loginTC(values.email, values.password, values.rememberMe))
+                    await dispatch(loginTC(values.email, values.password, values.rememberMe, true))
                 }}
             >
                 <Form className={s.form}>
