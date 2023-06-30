@@ -19,7 +19,7 @@ export const getRegister = (email: string, password: string) => {
 }
 
 export const authMe = () => {
-    return instance.post('auth/admin/', {})
+    return instance.post('auth/me/', {})
         .then((response) => {
             return response.data
         })

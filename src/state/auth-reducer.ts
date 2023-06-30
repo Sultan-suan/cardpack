@@ -40,7 +40,6 @@ export type setRegisterDataActionType = {
 }
 
 export type setIsAuthUserType = {
-    isAuth: boolean
     type: 'login/SET_IS_AUTH'
     value: boolean
 
@@ -84,8 +83,8 @@ export const setRegisterData = (isRegister: boolean): setRegisterDataActionType 
     type: SET_REGISTER_DATA, isRegister
 })
 
-export const setIsAuth = (value: boolean, isAuth: boolean): setIsAuthUserType => ({
-    type: SET_IS_AUTH, value, isAuth
+export const setIsAuth = (value: boolean, ): setIsAuthUserType => ({
+    type: SET_IS_AUTH, value
 })
 
 
@@ -95,7 +94,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean, is
             getLogin(email, password, rememberMe)
                 .then((data) => {
                     dispatch(setUserData(data, isAuth))
-                    dispatch(setIsAuth(true, true))
+                    dispatch(setIsAuth(true))
                     localStorage.setItem('token', data.token)
                 })
         } catch (e) {
@@ -117,15 +116,14 @@ export const RegisterTC = (email: string, password: string) => {
 
 export const authMeTC = (navigate: any) => async (dispatch: Dispatch) => {
         try {
-            dispatch(setIsAuth(true, true))
             const token = localStorage.getItem("token")
             if (token) {
-                const response = await authMe()
-                localStorage.setItem("token", response.data.token)
-                dispatch(setIsAuth(response.data.user, true))
+                dispatch(setIsAuth(true))
+                const data = await authMe()
+                localStorage.setItem("token", data.token)
             }
         } catch (e) {
-            navigate('/admin')
+            // navigate('/login')
             console.log('error from register', e);
         }
     }

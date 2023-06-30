@@ -27,10 +27,10 @@ const Login = () => {
 
     useEffect(() => {
         if (isAuth) {
-            navigate('/')
+            navigate('/auth')
         }
     }, [isAuth])
-
+    // console.log(isAuth)
     return (
         <div className={s.wrapper}>
 
