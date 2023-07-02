@@ -2,10 +2,7 @@ import React, {useEffect} from 'react';
 import s from './Register.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from 'react-router-dom';
-
-
 import {useFormik} from "formik";
-
 import {TextField} from "@mui/material";
 import {RegisterTC} from "../../state/auth-reducer";
 
@@ -50,9 +47,6 @@ export const Register = () => {
             navigate('/login')
         }
     }, [isRegister])
-    //1 validate (not valid email and length of pass
-    // 2 show error
-    //3 show error from back
 
 
     return (
@@ -89,7 +83,6 @@ export const Register = () => {
                     <button type="submit" className={s.button}>
                         Register
                     </button>
-
 
 
                 </div>

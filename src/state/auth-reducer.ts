@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
-import axios from "axios";
-import {authMe, getLogin, getRegister} from "../api/api";
-// import {getLogin} from "../api/api";
+import {authApi} from "../api/api";
+
 
 export type UserType = {
     userId: any
@@ -25,22 +24,20 @@ let initialState: InitialStateType = {
     isAuth: false,
     isRegister: false
 }
-type ActionType = setIsAuthUserType | setUserDataActionType | setRegisterDataActionType
+type ActionType = SetIsAuthUserType | SetUserDataActionType | SetRegisterDataActionType
 
-export type setUserDataActionType = {
-    isAuth: boolean
+export type SetUserDataActionType = {
     type: 'login/SET_USER_DATA'
     user: UserType
 }
 
-export type setRegisterDataActionType = {
+export type SetRegisterDataActionType = {
     type: 'register/SET_REGISTER_DATA'
 
     isRegister: boolean
 }
 
-export type setIsAuthUserType = {
-    isAuth: boolean
+export type SetIsAuthUserType = {
     type: 'login/SET_IS_AUTH'
     value: boolean
 
@@ -76,26 +73,27 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 
-export const setUserData = (user: UserType, isAuth: boolean): setUserDataActionType => ({
-    type: SET_USER_DATA, user, isAuth
+export const setUserData = (user: UserType): SetUserDataActionType => ({
+    type: SET_USER_DATA, user
 })
 
-export const setRegisterData = (isRegister: boolean): setRegisterDataActionType => ({
+export const setRegisterData = (isRegister: boolean): SetRegisterDataActionType => ({
     type: SET_REGISTER_DATA, isRegister
 })
 
-export const setIsAuth = (value: boolean, isAuth: boolean): setIsAuthUserType => ({
-    type: SET_IS_AUTH, value, isAuth
+export const setIsAuth = (value: boolean): SetIsAuthUserType => ({
+    type: SET_IS_AUTH, value
 })
 
 
-export const loginTC = (email: string, password: string, rememberMe: boolean, isAuth: boolean) => {
+
+export const loginTC = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: Dispatch) => {
         try {
-            getLogin(email, password, rememberMe)
+            authApi.getLogin(email, password, rememberMe)
                 .then((data) => {
-                    dispatch(setUserData(data, isAuth))
-                    dispatch(setIsAuth(true, true))
+                    dispatch(setUserData(data))
+                    dispatch(setIsAuth(true))
                     localStorage.setItem('token', data.token)
                 })
         } catch (e) {
@@ -107,7 +105,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean, is
 export const RegisterTC = (email: string, password: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            await getRegister(email, password)
+            await authApi.getRegister(email, password)
             dispatch(setRegisterData(true))
         } catch (e) {
             console.log('error from register', e);
@@ -116,18 +114,18 @@ export const RegisterTC = (email: string, password: string) => {
 }
 
 export const authMeTC = (navigate: any) => async (dispatch: Dispatch) => {
-        try {
-            dispatch(setIsAuth(true, true))
-            const token = localStorage.getItem("token")
-            if (token) {
-                const response = await authMe()
-                localStorage.setItem("token", response.data.token)
-                dispatch(setIsAuth(response.data.user, true))
-            }
-        } catch (e) {
-            navigate('/admin')
-            console.log('error from register', e);
+    try {
+        const token = localStorage.getItem("token")
+        if (token) {
+            const response = await authApi.authMe(token)
+            localStorage.setItem("token", response.token)
+            dispatch(setUserData(response))
+            dispatch(setIsAuth( true))
         }
+    } catch (e) {
+        navigate('/login')
+        console.log('error from register', e);
     }
+}
 
 

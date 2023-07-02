@@ -4,26 +4,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../state/auth-reducer";
 import {Link, useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
+import {AppRootStateType} from "../../state/store";
 
 const Login = () => {
-    const isAuth = useSelector<any>(state => state.auth.isAuth)
-    // const [email, setEmail] = useState('nya-admin@nya.nya')
-    // const [password, setPassword] = useState('1qazxcvBG')
-    // const [rememberMe, setRememberMe] = useState(false)
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
 
-    // const login = () => {
-    //     dispatch(loginTC(email, password, rememberMe))
-    // }
-    //
-    // const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setEmail(e.currentTarget.value)
-    // }
-    //
-    // const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setPassword(e.currentTarget.value)
-    // }
 
     useEffect(() => {
         if (isAuth) {
@@ -42,22 +29,18 @@ const Login = () => {
                     rememberMe: false,
                 }}
                 onSubmit={async (values) => {
-                    // await new Promise((r) => setTimeout(r, 500));
-                    // alert(JSON.stringify(values, null, 2));
-                    await dispatch(loginTC(values.email, values.password, values.rememberMe, true))
+
+                    await dispatch(loginTC(values.email, values.password, values.rememberMe))
                 }}
             >
                 <Form className={s.form}>
                     <div className={s.formHolder}>
-                        {/*<div className={s.input}>*/}
-                        {/*    <label htmlFor="email">email</label>*/}
-                            <Field  className={s.input} id="email" name="email" placeholder="jane@acme.com"/>
-                        {/*</div>*/}
 
-                        {/*<div className={s.input}>*/}
-                        {/*    <label htmlFor="password">password</label>*/}
-                            <Field className={s.input} id="password" name="password" placeholder="Enter your password" type='password'/>
-                        {/*</div>*/}
+                        <Field className={s.input} id="email" name="email" placeholder="jane@acme.com"/>
+
+                        <Field className={s.input} id="password" name="password" placeholder="Enter your password"
+                               type='password'/>
+
 
                     </div>
 
@@ -75,33 +58,6 @@ const Login = () => {
                     <Link className={s.createAccount} to={'/register'}>Create Account</Link>
                 </Form>
             </Formik>
-
-
-            {/*<div className={s.form}>*/}
-            {/*    <div>*/}
-            {/*        <div>*/}
-            {/*            <label>login</label>*/}
-            {/*            <input type="text"*/}
-            {/*                   value={email}*/}
-            {/*                   onChange={onChangeEmail}/>*/}
-            {/*        </div>*/}
-            {/*        <div>*/}
-            {/*            <label>password</label>*/}
-            {/*            <input type="password"*/}
-            {/*                   value={password}*/}
-            {/*                   onChange={onChangePassword}/>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div>*/}
-            {/*        <input type="checkbox"*/}
-            {/*               onChange={(e) => {*/}
-            {/*                   setRememberMe(!rememberMe)*/}
-            {/*               }}/>*/}
-            {/*        <div>remember me</div>*/}
-            {/*    </div>*/}
-            {/*    <button onClick={login}>Login</button>*/}
-            {/*    <Link to={'/register'}>Create Account</Link>*/}
-            {/*</div>*/}
         </div>
     );
 };
