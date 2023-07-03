@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {authMeTC, UserType} from "../../state/auth-reducer";
+import {authMeTC, logoutTC, UserType} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
@@ -23,9 +23,18 @@ export const Main = () => {
             packsApi.get()
         }
     }, [isAuth])
+
+    const logout = () => {
+        dispatch(logoutTC(navigate))
+    }
     return (
         <div>
             {user.name}
+            <div>
+                <button onClick={logout}>
+                    logout
+                </button>
+            </div>
         </div>
     );
 };
