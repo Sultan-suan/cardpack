@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import {packsApi} from "../../api/api";
+import PacksList from "./packsList/PacksList";
 
 
 export const Main = () => {
@@ -27,6 +28,7 @@ export const Main = () => {
     const logout = () => {
         dispatch(logoutTC(navigate))
     }
+    console.log(user)
     return (
         <div>
             {user.name}
@@ -34,6 +36,9 @@ export const Main = () => {
                 <button onClick={logout}>
                     logout
                 </button>
+            </div>
+            <div>
+                <PacksList/>
             </div>
         </div>
     );
