@@ -134,14 +134,13 @@ export const logoutTC = (navigate: any) => async (dispatch: Dispatch) => {
     try {
         const token = localStorage.getItem("token")
         if (token) {
-            const response = await authApi.logout()
-            localStorage.setItem("token", response.token)
+            const response = await authApi.logout(token)
+            localStorage.removeItem("token")
             dispatch(setUserData(response))
             dispatch(setIsAuth( false))
             navigate('/login')
         }
     } catch (e) {
-
         console.log(e);
     }
 }

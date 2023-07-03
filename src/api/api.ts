@@ -26,8 +26,8 @@ export const authApi = {
                 return response.data
             })
     },
-    logout: () => {
-        return instance.delete('auth/me?user_id=639d91d96e80bf001ed7c478')
+    logout: (token: string) => {
+        return instance.delete('auth/me?' + token)
             .then((response) => {
                 return response.data
             })
