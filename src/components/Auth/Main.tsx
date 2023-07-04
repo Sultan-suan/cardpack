@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import {packsApi} from "../../api/api";
 import PacksList from "./packsList/PacksList";
+import {getCardPacksTC} from "../../state/packs-reducer";
 
 
 export const Main = () => {
@@ -15,7 +16,7 @@ export const Main = () => {
 
     useEffect(() => {
         if (!isAuth) {
-            dispatch(authMeTC(navigate))
+            dispatch(getCardPacksTC())
         }
     }, [])
 
@@ -28,6 +29,7 @@ export const Main = () => {
     const logout = () => {
         dispatch(logoutTC(navigate))
     }
+
     console.log(user)
     return (
         <div>
