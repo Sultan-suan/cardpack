@@ -31,7 +31,6 @@ export const Main = () => {
     console.log(user)
     return (
         <div>
-            {user.name}
             <div>
                 <button onClick={logout}>
                     logout
