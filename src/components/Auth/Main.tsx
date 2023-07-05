@@ -45,7 +45,7 @@ export const Main = () => {
                 </button>
             </div>
             <div>
-                <PacksList/>
+                <PacksList packs={packs}/>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ResponseCardsPackType} from "../types/types";
+import {ResponseCardsPackType} from "../types/types";
 
 const instance = axios.create({
     withCredentials: true,
@@ -33,17 +33,13 @@ export const authApi = {
                 return response.data
             })
     }
-
-
 }
-
 
 export const packsApi = {
     get: () => {
-       return instance.get<ResponseCardsPackType>('cards/pack?pageCount=10')
-           .then((response) => {
-               return response.data
-           })
+        return instance.get<ResponseCardsPackType>('cards/pack?pageCount=10')
+            .then((response) => {
+                return response.data
+            })
     }
-
 }
