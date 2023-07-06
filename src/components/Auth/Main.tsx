@@ -45,7 +45,7 @@ export const Main = () => {
                 </button>
             </div>
             <div>
-                <PacksList packs={packs}/>
+                <PacksList packs={packs} userId={user._id}/>
             </div>
         </div>
     );
