@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './PacksList.module.css'
 import {CardsPacksType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
+import PortalEdit from "../../../portals/PortalEdit";
+import PortalDelete from "../../../portals/PortalDelete";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -9,6 +11,23 @@ type PacksListType = {
 }
 
 const PacksList = (props: PacksListType) => {
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isEditOpen, setIsEditOpen] = useState(false)
+
+    const onCloseDeleteModal = () => {
+        setIsDeleteOpen(false)
+    }
+    const openDeleteModal = () => {
+        setIsDeleteOpen(true)
+        console.log('Modal window open')
+    }
+    const onCloseEditModal = () => {
+        setIsEditOpen(false)
+    }
+    const openEditModal = () => {
+        setIsEditOpen(true)
+        console.log('Modal window open')
+    }
 
     return (
         <div>
@@ -41,8 +60,10 @@ const PacksList = (props: PacksListType) => {
                             <div className={s.td}>
                                 {
                                     el.user_id === props.userId && <>
-                                        <button className={s.deleteButton}>delete</button>
-                                        <button className={s.editButton}>edit</button>
+                                        <button onClick={openDeleteModal} className={s.deleteButton}>delete</button>
+                                        <PortalDelete isOpen={isDeleteOpen} onClose={onCloseDeleteModal}/>
+                                        <button  onClick={openEditModal} className={s.editButton}>edit</button>
+                                        <PortalEdit isOpen={isEditOpen} onClose={onCloseEditModal}/>
                                     </>
                                 }
                                 <button className={s.learnButton}>learn</button>
