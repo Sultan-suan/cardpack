@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import s from './Portal.module.css'
+import {useDispatch} from "react-redux";
+import {deleteCardPacksTC} from "../state/packs-reducer";
 
 type ModalPropsType = {
-    isOpen: boolean;
+    id: string;
     onClose: () => void;
     // children: React.ReactNode;
 };
 
-const PortalDelete: React.FC<ModalPropsType> = ({isOpen, onClose}) => {
+const PortalDelete: React.FC<ModalPropsType> = ({id, onClose}) => {
     let portal = document.getElementById('portal')
-    return isOpen && portal ? ReactDOM.createPortal(
+    const dispatch = useDispatch<any>();
+    const dle = () => {
+        dispatch(deleteCardPacksTC(id))
+    }
+    return id && portal ? ReactDOM.createPortal(
         <div className={s.modal}>
             <div className={s.modalContent}>
                 <div>
@@ -22,7 +28,7 @@ const PortalDelete: React.FC<ModalPropsType> = ({isOpen, onClose}) => {
                 </div>
                 <div className={s.buttonWrapper}>
                     <button className={s.cancelButton}  onClick={onClose}>Cancel</button>
-                    <button className={s.deleteButton} onClick={onClose}>Delete</button>
+                    <button className={s.deleteButton} onClick={dle}>Delete</button>
                 </div>
             </div>
 

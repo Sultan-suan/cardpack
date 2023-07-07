@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ResponseCardsPackType} from "../types/types";
+import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
 
 const instance = axios.create({
     withCredentials: true,
@@ -36,8 +36,20 @@ export const authApi = {
 }
 
 export const packsApi = {
-    get: () => {
+    getPacks: () => {
         return instance.get<ResponseCardsPackType>('cards/pack?pageCount=10&user_id=639d91d96e80bf001ed7c478')
+            .then((response) => {
+                return response.data
+            })
+    },
+    deletePack: (packId: string) => {
+        return instance.delete('cards/pack?id=' + packId)
+            .then((response) => {
+                return response.data
+            })
+    },
+    addPack: (newPack: CardsPacksType) => {
+        return instance.post('cards/pack', newPack)
             .then((response) => {
                 return response.data
             })

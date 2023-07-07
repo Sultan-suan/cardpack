@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import s from './PacksList.module.css'
-import {CardsPacksType} from "../../../types/types";
+import {CardsPacksType, NewCardPackType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
 import PortalEdit from "../../../portals/PortalEdit";
 import PortalDelete from "../../../portals/PortalDelete";
+import PortalAdd from "../../../portals/PortalAdd";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -11,15 +12,16 @@ type PacksListType = {
 }
 
 const PacksList = (props: PacksListType) => {
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [deleteId, setDeleteId] = useState('')
     const [isEditOpen, setIsEditOpen] = useState(false)
+    const [addPack, setAddPack] = useState(false)
 
     const onCloseDeleteModal = () => {
-        setIsDeleteOpen(false)
+        setDeleteId('')
     }
-    const openDeleteModal = () => {
-        setIsDeleteOpen(true)
-        console.log('Modal window open')
+    const openDeleteModal = (id: string) => {
+        setDeleteId(id)
+        console.log('Modal window open ' + id)
     }
     const onCloseEditModal = () => {
         setIsEditOpen(false)
@@ -28,7 +30,13 @@ const PacksList = (props: PacksListType) => {
         setIsEditOpen(true)
         console.log('Modal window open')
     }
-
+    const onCloseAddModal = () => {
+        setAddPack(false)
+    }
+    const openAddModal = () => {
+        setAddPack(true)
+        console.log('Added pack')
+    }
     return (
         <div>
             <h1>Packs list</h1>
@@ -37,7 +45,7 @@ const PacksList = (props: PacksListType) => {
                     <input className={s.inputSearch} placeholder={'Search'} type="search"/>
                 </div>
                 <div>
-                    <button className={s.button}>Add new pack</button>
+                    <button className={s.button} onClick={openAddModal}>Add new pack</button>
                 </div>
             </div>
             <table className={s.wrapper}>
@@ -60,16 +68,19 @@ const PacksList = (props: PacksListType) => {
                             <div className={s.td}>
                                 {
                                     el.user_id === props.userId && <>
-                                        <button onClick={openDeleteModal} className={s.deleteButton}>delete</button>
-                                        <PortalDelete isOpen={isDeleteOpen} onClose={onCloseDeleteModal}/>
-                                        <button  onClick={openEditModal} className={s.editButton}>edit</button>
-                                        <PortalEdit isOpen={isEditOpen} onClose={onCloseEditModal}/>
+                                        <button onClick={() => openDeleteModal(el._id)}
+                                                className={s.deleteButton}>delete
+                                        </button>
+                                        <button onClick={openEditModal} className={s.editButton}>edit</button>
                                     </>
                                 }
                                 <button className={s.learnButton}>learn</button>
                             </div>
                         </div>
                     })}
+                    <PortalEdit isOpen={isEditOpen} onClose={onCloseEditModal}/>
+                    <PortalDelete id={deleteId} onClose={onCloseDeleteModal}/>
+                    <PortalAdd addPack={addPack} onClose={onCloseAddModal}/>
                 </div>
             </table>
         </div>
