@@ -16,6 +16,9 @@ const PacksList = (props: PacksListType) => {
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [addPack, setAddPack] = useState(false)
 
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+
     const onCloseDeleteModal = () => {
         setDeleteId('')
     }
@@ -37,6 +40,7 @@ const PacksList = (props: PacksListType) => {
         setAddPack(true)
         console.log('Added pack')
     }
+
     return (
         <div>
             <h1>Packs list</h1>
@@ -63,7 +67,7 @@ const PacksList = (props: PacksListType) => {
                         return <div className={s.tr} key={el.created}>
                             <div className={s.td}>{el.name}</div>
                             <div className={s.td}>{el.cardsCount}</div>
-                            <div className={s.td}>{changeDateFormat(el.updated)}</div>
+                            <div className={s.td}>{el.updated}</div>
                             <div className={s.td}>{el.name}</div>
                             <div className={s.td}>
                                 {
