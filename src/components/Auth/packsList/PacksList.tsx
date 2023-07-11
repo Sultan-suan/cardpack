@@ -13,7 +13,7 @@ type PacksListType = {
 
 const PacksList = (props: PacksListType) => {
     const [deleteId, setDeleteId] = useState('')
-    const [isEditOpen, setIsEditOpen] = useState(false)
+    const [EditPackId, setEditOpen] = useState('')
     const [addPack, setAddPack] = useState(false)
 
     const current = new Date();
@@ -27,10 +27,10 @@ const PacksList = (props: PacksListType) => {
         console.log('Modal window open ' + id)
     }
     const onCloseEditModal = () => {
-        setIsEditOpen(false)
+        setEditOpen('')
     }
-    const openEditModal = () => {
-        setIsEditOpen(true)
+    const openEditModal = (id: string) => {
+        setEditOpen(id)
         console.log('Modal window open')
     }
     const onCloseAddModal = () => {
@@ -68,21 +68,21 @@ const PacksList = (props: PacksListType) => {
                             <div className={s.td}>{el.name}</div>
                             <div className={s.td}>{el.cardsCount}</div>
                             <div className={s.td}>{el.updated}</div>
-                            <div className={s.td}>{el.name}</div>
+                            <div className={s.td}>{el.user_name}</div>
                             <div className={s.td}>
                                 {
                                     el.user_id === props.userId && <>
                                         <button onClick={() => openDeleteModal(el._id)}
                                                 className={s.deleteButton}>delete
                                         </button>
-                                        <button onClick={openEditModal} className={s.editButton}>edit</button>
+                                        <button onClick={()=>openEditModal(el._id)} className={s.editButton}>edit</button>
                                     </>
                                 }
                                 <button className={s.learnButton}>learn</button>
                             </div>
                         </div>
                     })}
-                    <PortalEdit isOpen={isEditOpen} onClose={onCloseEditModal}/>
+                    <PortalEdit EditPackId={EditPackId} onClose={onCloseEditModal} />
                     <PortalDelete id={deleteId} onClose={onCloseDeleteModal}/>
                     <PortalAdd addPack={addPack} onClose={onCloseAddModal}/>
                 </div>

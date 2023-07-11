@@ -9,14 +9,14 @@ type InitStateType = {
 let initialState: InitStateType = {
     cardsPacks: [],
 }
-type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPacksActionType
+type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
     data: CardsPacksType[];
 }
 
-export  type AddNewCardPacksActionType = {
+export  type AddNewCardPackActionType = {
     type: 'packs/ADD_NEW_CARD_PACK';
     newPack: any
 }
@@ -26,10 +26,16 @@ export type DeleteCardPacksActionType = {
     packId: string;
 }
 
+export type ChangeCardPackTitleActionType = {
+    type: 'packs/CHANGE_CARD_PACK_TITLE'
+    packId: string
+    newTitle: string
+}
 
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
 const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
 const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
+const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -45,10 +51,15 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
             }
         }
         case ADD_NEW_CARD_PACK: {
-            // console.log(newCardPack)
             return {
                 ...state,
                 cardsPacks: [...state.cardsPacks, action.newPack]
+            }
+        }
+        case CHANGE_CARD_PACK_TITLE: {
+            return {
+                ...state,
+                cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {...pack, name: pack.name = action.newTitle}: pack)
             }
         }
         default:
@@ -64,8 +75,12 @@ export const deleteCardPack = (packId: string): DeleteCardPacksActionType => ({
     type: DELETE_CARD_PACKS, packId
 })
 
-export const addNewCardPacks = (newPack: CardsPacksType): AddNewCardPacksActionType => ({
+export const addNewCardPack = (newPack: CardsPacksType): AddNewCardPackActionType => ({
     type: ADD_NEW_CARD_PACK, newPack
+})
+
+export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCardPackTitleActionType => ({
+    type: CHANGE_CARD_PACK_TITLE, packId, newTitle
 })
 
 
@@ -100,7 +115,20 @@ export const addNewCardPackTC = (newPackName: string) => {
         try {
             packsApi.addPack(newPackName)
                 .then((data) => {
-                    dispatch(addNewCardPacks(data.newCardsPack))
+                    dispatch(addNewCardPack(data.newCardsPack))
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+
+export const changeCardPackTitleTC = (packId: string, newTitle: string) => {
+    return (dispatch: Dispatch) => {
+        try {
+            packsApi.editPack(packId, newTitle)
+                .then((data) => {
+                    dispatch(changeCardPackTitle(data.updatedCardsPack._id, data.updatedCardsPack.name))
                 })
         } catch (e) {
             console.log(e);

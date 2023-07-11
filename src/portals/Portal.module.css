@@ -23,6 +23,7 @@
     align-items: center;
 }
 
+.addButton,
 .deleteButton,
 .cancelButton {
     padding: 5px;
@@ -35,7 +36,12 @@
     color: white;
 }
 
+.addButton {
+    background-color: #0f09cb;
+    color: #a4c4fa;
+}
+
 .cancelButton {
-    background-color: #8cb6f6;
+    background-color: #a4c4fa;
     color: #0f09cb;
 }

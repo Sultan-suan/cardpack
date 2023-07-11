@@ -54,5 +54,15 @@ export const packsApi = {
             .then((response) => {
                 return response.data
             })
+    },
+    editPack: (packId: string,newPackName: string) => {
+        return instance.put('cards/pack', {cardsPack: {
+                    _id: packId,
+                    name: newPackName
+                }
+            })
+            .then((response) => {
+                return response.data
+            })
     }
 }

@@ -1,15 +1,13 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from "./Portal.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {addNewCardPacks, addNewCardPackTC, deleteCardPacksTC} from "../state/packs-reducer";
+import {useDispatch} from "react-redux";
+import {addNewCardPackTC} from "../state/packs-reducer";
 import ReactDOM from "react-dom";
-import {CardsPacksType} from "../types/types";
-import {AppRootStateType} from "../state/store";
+
 
 type ModalPropsType = {
     addPack: boolean;
     onClose: () => void;
-    // children: React.ReactNode;
 };
 
 const PortalAdd: React.FC<ModalPropsType> = ({addPack, onClose}) => {
@@ -38,10 +36,9 @@ const PortalAdd: React.FC<ModalPropsType> = ({addPack, onClose}) => {
                 </div>
                 <div className={s.buttonWrapper}>
                     <button className={s.cancelButton} onClick={onClose}>Cancel</button>
-                    <button onClick={add} className={s.deleteButton}>Add</button>
+                    <button onClick={add} className={s.addButton}>Add</button>
                 </div>
             </div>
-
         </div>, portal
     ) : null;
 };
