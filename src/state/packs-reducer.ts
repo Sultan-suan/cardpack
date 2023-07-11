@@ -1,17 +1,15 @@
 import {Dispatch} from "redux";
-import { packsApi} from "../api/api";
-import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
+import {packsApi} from "../api/api";
+import {CardsPacksType} from "../types/types";
 
 
 type InitStateType = {
     cardsPacks: CardsPacksType[]
-    // newPack?: AddNewCardPacksActionType
 }
 let initialState: InitStateType = {
     cardsPacks: [],
-    // newPack: {} as AddNewCardPacksActionType
 }
-type ActionType = SetCardPacksActionType | DeleteCardPacksActionType |AddNewCardPacksActionType
+type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPacksActionType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -20,7 +18,7 @@ export type SetCardPacksActionType = {
 
 export  type AddNewCardPacksActionType = {
     type: 'packs/ADD_NEW_CARD_PACK';
-    newPack: CardsPacksType
+    newPack: any
 }
 
 export type DeleteCardPacksActionType = {
@@ -47,38 +45,10 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
             }
         }
         case ADD_NEW_CARD_PACK: {
-            const newCardPack: any = {
-                // name: "no Name", // если не отправить будет таким
-                // path: "/def", // если не отправить будет такой
-                // grade: 0, // не обязателен
-                // shots: 0, // не обязателен
-                // rating: 0, // не обязателен
-                // deckCover: "url or base64", // не обязателен
-                // private: false, // если не отправить будет такой
-                // type: "pack",
-                // updated: new Date()// если не отправить будет таким
-                cardsCount: 0,
-                created: 'name',
-                grade: 0,
-                more_id: '1233',
-                name: 'name',
-                path: '/string',
-                private: false,
-                rating: 0,
-                shots: 0,
-                type: 'string',
-                updated: '01.02.2022',
-                user_id: '123',
-                user_name: 'name',
-                __v: 0,
-                _id: '123'
-            }
             // console.log(newCardPack)
-            action.newPack = newCardPack
             return {
-               ...state,
+                ...state,
                 cardsPacks: [...state.cardsPacks, action.newPack]
-
             }
         }
         default:
@@ -104,7 +74,6 @@ export const getCardPacksTC = () => {
         try {
             packsApi.getPacks()
                 .then((data) => {
-                    console.log(data)
                     dispatch(setCardPacks(data.cardPacks))
                 })
         } catch (e) {
@@ -118,7 +87,7 @@ export const deleteCardPacksTC = (id: string) => {
         try {
             packsApi.deletePack(id)
                 .then((data) => {
-                   dispatch(deleteCardPack(id))
+                    dispatch(deleteCardPack(id))
                 })
         } catch (e) {
             console.log(e);
@@ -126,17 +95,16 @@ export const deleteCardPacksTC = (id: string) => {
     }
 }
 
-// export const addNewCardPackTC = (packName: string) => {
-//     return (dispatch: Dispatch) => {
-//         try {
-//             packsApi.addPack({})
-//                 .then((data) => {
-//                    dispatch(addNewCardPacks(packName))
-//                     console.log(newPack)
-//                 })
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     }
-// }
+export const addNewCardPackTC = (newPackName: string) => {
+    return (dispatch: Dispatch) => {
+        try {
+            packsApi.addPack(newPackName)
+                .then((data) => {
+                    dispatch(addNewCardPacks(data.newCardsPack))
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
 

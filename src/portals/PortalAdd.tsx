@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from "./Portal.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewCardPacks, deleteCardPacksTC} from "../state/packs-reducer";
+import {addNewCardPacks, addNewCardPackTC, deleteCardPacksTC} from "../state/packs-reducer";
 import ReactDOM from "react-dom";
 import {CardsPacksType} from "../types/types";
 import {AppRootStateType} from "../state/store";
@@ -13,14 +13,20 @@ type ModalPropsType = {
 };
 
 const PortalAdd: React.FC<ModalPropsType> = ({addPack, onClose}) => {
-   let portal = document.getElementById('portal')
-    const packs = useSelector<AppRootStateType, any>(state => state.packs.cardsPacks)
+    const [packName, setPackName] = useState('')
+    let portal = document.getElementById('portal')
     const dispatch = useDispatch<any>();
+
     const add = () => {
-        dispatch(addNewCardPacks(packs))
+        dispatch(addNewCardPackTC(packName))
         onClose()
     }
-    return  addPack && portal ? ReactDOM.createPortal(
+
+    const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+        setPackName(e.currentTarget.value)
+    }
+
+    return addPack && portal ? ReactDOM.createPortal(
         <div className={s.modal}>
             <div className={s.modalContent}>
                 <div>
@@ -28,7 +34,7 @@ const PortalAdd: React.FC<ModalPropsType> = ({addPack, onClose}) => {
                 </div>
                 <div>
                     <label htmlFor="pack-name">Name Pack</label>
-                    <input type="text" id={'pack-name'}/>
+                    <input type="text" id={'pack-name'} value={packName} onChange={onChangeName}/>
                 </div>
                 <div className={s.buttonWrapper}>
                     <button className={s.cancelButton} onClick={onClose}>Cancel</button>
@@ -37,8 +43,7 @@ const PortalAdd: React.FC<ModalPropsType> = ({addPack, onClose}) => {
             </div>
 
         </div>, portal
-
-    ): null;
+    ) : null;
 };
 
 export default PortalAdd;

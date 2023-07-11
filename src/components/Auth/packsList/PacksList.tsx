@@ -63,8 +63,8 @@ const PacksList = (props: PacksListType) => {
                     </div>
                 </div>
                 <div className={s.body}>
-                    {props.packs.map(el => {
-                        return <div className={s.tr} key={el.created}>
+                    {props.packs.map((el, i) => {
+                        return <div className={s.tr} key={i}>
                             <div className={s.td}>{el.name}</div>
                             <div className={s.td}>{el.cardsCount}</div>
                             <div className={s.td}>{el.updated}</div>

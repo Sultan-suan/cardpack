@@ -1,5 +1,6 @@
 import axios from "axios";
 import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
+import Login from "../components/login/Login";
 
 const instance = axios.create({
     withCredentials: true,
@@ -48,8 +49,8 @@ export const packsApi = {
                 return response.data
             })
     },
-    addPack: (newPack: CardsPacksType) => {
-        return instance.post('cards/pack', newPack)
+    addPack: (newPackName: string) => {
+        return instance.post('cards/pack', {cardsPack: {name: newPackName}})
             .then((response) => {
                 return response.data
             })

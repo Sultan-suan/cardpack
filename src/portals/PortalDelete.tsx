@@ -15,6 +15,7 @@ const PortalDelete: React.FC<ModalPropsType> = ({id, onClose}) => {
     const dispatch = useDispatch<any>();
     const dle = () => {
         dispatch(deleteCardPacksTC(id))
+        onClose()
     }
     return id && portal ? ReactDOM.createPortal(
         <div className={s.modal}>
