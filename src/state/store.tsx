@@ -3,12 +3,14 @@ import thunk from 'redux-thunk'
 import {authReducer} from "./auth-reducer";
 import {searchReducer} from "./search-reducer";
 import {packsReducer} from "./packs-reducer";
+import {PackSearchReducer} from "./pack-search-reducer";
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
     search: searchReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    PackSearchReducer: PackSearchReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
