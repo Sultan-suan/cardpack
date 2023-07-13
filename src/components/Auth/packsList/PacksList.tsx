@@ -5,6 +5,9 @@ import {changeDateFormat} from "../../../helpers/helpers";
 import PortalEdit from "../../../portals/PortalEdit";
 import PortalDelete from "../../../portals/PortalDelete";
 import PortalAdd from "../../../portals/PortalAdd";
+import CommonModal from "../../../portals/CommonModal";
+import {useDispatch} from "react-redux";
+import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -16,8 +19,7 @@ const PacksList = (props: PacksListType) => {
     const [EditPackId, setEditOpen] = useState('')
     const [addPack, setAddPack] = useState(false)
 
-    const current = new Date();
-    const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+    const dispatch = useDispatch<any>();
 
     const onCloseDeleteModal = () => {
         setDeleteId('')
@@ -39,6 +41,23 @@ const PacksList = (props: PacksListType) => {
     const openAddModal = () => {
         setAddPack(true)
         console.log('Added pack')
+    }
+
+
+
+    const add = (packName: string) => {
+        dispatch(addNewCardPackTC(packName))
+        setAddPack(false)
+    }
+
+    const dle = (id: string) => {
+        dispatch(deleteCardPacksTC(id))
+        setDeleteId('')
+    }
+
+    const edit = (packId: string, newPackName: string) => {
+        dispatch(changeCardPackTitleTC(packId, newPackName))
+        setEditOpen('')
     }
 
     return (
@@ -67,7 +86,7 @@ const PacksList = (props: PacksListType) => {
                         return <div className={s.tr} key={i}>
                             <div className={s.td}>{el.name}</div>
                             <div className={s.td}>{el.cardsCount}</div>
-                            <div className={s.td}>{el.updated}</div>
+                            <div className={s.td}>{changeDateFormat(el.updated)}</div>
                             <div className={s.td}>{el.user_name}</div>
                             <div className={s.td}>
                                 {
@@ -82,6 +101,7 @@ const PacksList = (props: PacksListType) => {
                             </div>
                         </div>
                     })}
+                    {/*<CommonModal onOpen={addPack} onClose={onCloseAddModal} buttonTitle={'add'} onAction={add}/>*/}
                     <PortalEdit EditPackId={EditPackId} onClose={onCloseEditModal} />
                     <PortalDelete id={deleteId} onClose={onCloseDeleteModal}/>
                     <PortalAdd addPack={addPack} onClose={onCloseAddModal}/>
