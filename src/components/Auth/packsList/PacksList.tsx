@@ -1,10 +1,7 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './PacksList.module.css'
 import {CardsPacksType, NewCardPackType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
-import PortalEdit from "../../../portals/PortalEdit";
-import PortalDelete from "../../../portals/PortalDelete";
-import PortalAdd from "../../../portals/PortalAdd";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch} from "react-redux";
 import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
@@ -18,6 +15,8 @@ const PacksList = (props: PacksListType) => {
     const [deleteId, setDeleteId] = useState('')
     const [EditPackId, setEditOpen] = useState('')
     const [addPack, setAddPack] = useState(false)
+    const [packName, setPackName] = useState('')
+    const [newPackName, setNewPackName] = useState('')
 
     const dispatch = useDispatch<any>();
 
@@ -43,21 +42,27 @@ const PacksList = (props: PacksListType) => {
         console.log('Added pack')
     }
 
-
-
-    const add = (packName: string) => {
+    const add = () => {
         dispatch(addNewCardPackTC(packName))
         setAddPack(false)
     }
 
-    const dle = (id: string) => {
-        dispatch(deleteCardPacksTC(id))
+    const deletePack = () => {
+        dispatch(deleteCardPacksTC(deleteId))
         setDeleteId('')
     }
 
-    const edit = (packId: string, newPackName: string) => {
-        dispatch(changeCardPackTitleTC(packId, newPackName))
+    const edit = () => {
+        dispatch(changeCardPackTitleTC(EditPackId, newPackName))
         setEditOpen('')
+    }
+
+    const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+        setPackName(e.currentTarget.value)
+    }
+
+    const onChangeEditName = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewPackName(e.currentTarget.value)
     }
 
     return (
@@ -94,17 +99,39 @@ const PacksList = (props: PacksListType) => {
                                         <button onClick={() => openDeleteModal(el._id)}
                                                 className={s.deleteButton}>delete
                                         </button>
-                                        <button onClick={()=>openEditModal(el._id)} className={s.editButton}>edit</button>
+                                        <button onClick={() => openEditModal(el._id)} className={s.editButton}>edit
+                                        </button>
                                     </>
                                 }
                                 <button className={s.learnButton}>learn</button>
                             </div>
                         </div>
                     })}
-                    {/*<CommonModal onOpen={addPack} onClose={onCloseAddModal} buttonTitle={'add'} onAction={add}/>*/}
-                    <PortalEdit EditPackId={EditPackId} onClose={onCloseEditModal} />
-                    <PortalDelete id={deleteId} onClose={onCloseDeleteModal}/>
-                    <PortalAdd addPack={addPack} onClose={onCloseAddModal}/>
+                    <CommonModal onOpen={addPack}
+                                 onClose={onCloseAddModal}
+                                 buttonTitle={'Add'}
+                                 onAction={add}
+                                 title={'Add new pack'}
+                                 isDeleteModal={deleteId}
+                                 inputValue={packName}
+                                 onChange={onChangeName}
+                    />
+                    <CommonModal onOpen={EditPackId}
+                                 onClose={onCloseEditModal}
+                                 buttonTitle={'Edit'}
+                                 onAction={edit}
+                                 title={'Change pack name'}
+                                 isDeleteModal={deleteId}
+                                 inputValue={newPackName}
+                                 onChange={onChangeEditName}
+                    />
+                    <CommonModal onOpen={deleteId}
+                                 onClose={onCloseDeleteModal}
+                                 buttonTitle={'Delete'}
+                                 onAction={deletePack}
+                                 title={'Delete Pack'}
+                                 isDeleteModal={deleteId}
+                      />
                 </div>
             </table>
         </div>
