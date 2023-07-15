@@ -5,6 +5,7 @@ import {changeDateFormat} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch} from "react-redux";
 import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
+import Settings from "../../settings/Settings";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -66,7 +67,7 @@ const PacksList = (props: PacksListType) => {
     }
 
     return (
-        <div>
+        <div className={s.componentWrapper}>
             <h1>Packs list</h1>
             <div className={s.header}>
                 <div>
@@ -76,64 +77,67 @@ const PacksList = (props: PacksListType) => {
                     <button className={s.button} onClick={openAddModal}>Add new pack</button>
                 </div>
             </div>
-            <table className={s.wrapper}>
-                <div className={s.head}>
-                    <div className={s.tr}>
-                        <div className={s.th}>Name</div>
-                        <div className={s.th}>Cards</div>
-                        <div className={s.th}>Last updated</div>
-                        <div className={s.th}>created by</div>
-                        <div className={s.th}>Actions</div>
-                    </div>
-                </div>
-                <div className={s.body}>
-                    {props.packs.map((el, i) => {
-                        return <div className={s.tr} key={i}>
-                            <div className={s.td}>{el.name}</div>
-                            <div className={s.td}>{el.cardsCount}</div>
-                            <div className={s.td}>{changeDateFormat(el.updated)}</div>
-                            <div className={s.td}>{el.user_name}</div>
-                            <div className={s.td}>
-                                {
-                                    el.user_id === props.userId && <>
-                                        <button onClick={() => openDeleteModal(el._id)}
-                                                className={s.deleteButton}>delete
-                                        </button>
-                                        <button onClick={() => openEditModal(el._id)} className={s.editButton}>edit
-                                        </button>
-                                    </>
-                                }
-                                <button className={s.learnButton}>learn</button>
-                            </div>
+            <div className={s.content}>
+                <Settings/>
+                <table className={s.wrapper}>
+                    <div className={s.head}>
+                        <div className={s.tr}>
+                            <div className={s.th}>Name</div>
+                            <div className={s.th}>Cards</div>
+                            <div className={s.th}>Last updated</div>
+                            <div className={s.th}>created by</div>
+                            <div className={s.th}>Actions</div>
                         </div>
-                    })}
-                    <CommonModal onOpen={addPack}
-                                 onClose={onCloseAddModal}
-                                 buttonTitle={'Add'}
-                                 onAction={add}
-                                 title={'Add new pack'}
-                                 isDeleteModal={deleteId}
-                                 inputValue={packName}
-                                 onChange={onChangeName}
-                    />
-                    <CommonModal onOpen={EditPackId}
-                                 onClose={onCloseEditModal}
-                                 buttonTitle={'Edit'}
-                                 onAction={edit}
-                                 title={'Change pack name'}
-                                 isDeleteModal={deleteId}
-                                 inputValue={newPackName}
-                                 onChange={onChangeEditName}
-                    />
-                    <CommonModal onOpen={deleteId}
-                                 onClose={onCloseDeleteModal}
-                                 buttonTitle={'Delete'}
-                                 onAction={deletePack}
-                                 title={'Delete Pack'}
-                                 isDeleteModal={deleteId}
-                      />
-                </div>
-            </table>
+                    </div>
+                    <div className={s.body}>
+                        {props.packs.map((el, i) => {
+                            return <div className={s.tr} key={i}>
+                                <div className={s.td}>{el.name}</div>
+                                <div className={s.td}>{el.cardsCount}</div>
+                                <div className={s.td}>{changeDateFormat(el.updated)}</div>
+                                <div className={s.td}>{el.user_name}</div>
+                                <div className={s.td}>
+                                    {
+                                        el.user_id === props.userId && <>
+                                            <button onClick={() => openDeleteModal(el._id)}
+                                                    className={s.deleteButton}>delete
+                                            </button>
+                                            <button onClick={() => openEditModal(el._id)} className={s.editButton}>edit
+                                            </button>
+                                        </>
+                                    }
+                                    <button className={s.learnButton}>learn</button>
+                                </div>
+                            </div>
+                        })}
+                        <CommonModal onOpen={addPack}
+                                     onClose={onCloseAddModal}
+                                     buttonTitle={'Add'}
+                                     onAction={add}
+                                     title={'Add new pack'}
+                                     isDeleteModal={deleteId}
+                                     inputValue={packName}
+                                     onChange={onChangeName}
+                        />
+                        <CommonModal onOpen={EditPackId}
+                                     onClose={onCloseEditModal}
+                                     buttonTitle={'Edit'}
+                                     onAction={edit}
+                                     title={'Change pack name'}
+                                     isDeleteModal={deleteId}
+                                     inputValue={newPackName}
+                                     onChange={onChangeEditName}
+                        />
+                        <CommonModal onOpen={deleteId}
+                                     onClose={onCloseDeleteModal}
+                                     buttonTitle={'Delete'}
+                                     onAction={deletePack}
+                                     title={'Delete Pack'}
+                                     isDeleteModal={deleteId}
+                        />
+                    </div>
+                </table>
+            </div>
         </div>
     );
 };
