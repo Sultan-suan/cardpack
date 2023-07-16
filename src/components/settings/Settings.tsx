@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import s from './Settings.module.css'
-import RangeSlider from "../slider/Slider";
+import MultiRangeSlider from "../slider/Slider";
 
 const Settings = () => {
     const [isActive, setIsActive] = useState(false)
@@ -20,7 +20,13 @@ const Settings = () => {
                 <h2>Number of cards</h2>
                 <div>
                     Slider
-                    <RangeSlider/>
+                    <MultiRangeSlider
+                        min={0}
+                        max={100}
+                        onChange={({ min, max }: { min: number; max: number }) =>
+                            console.log(`min = ${min}, max = ${max}`)
+                        }
+                    />
                 </div>
             </div>
 

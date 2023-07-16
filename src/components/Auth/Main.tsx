@@ -47,7 +47,7 @@ export const Main = () => {
                 </button>
             </div>
             <div>
-                <RangeSlider/>
+                {/*<RangeSlider/>*/}
                 <PacksList packs={packs} userId={user._id}/>
             </div>
         </div>

@@ -1,37 +1,20 @@
-.horizontalSlider {
-    width: 100%;
-    max-width: 500px;
-    height: 100vh;
-    margin: auto;
+.container {
+    margin: 50px;
 }
-.exampleThumb {
-    cursor: pointer;
-    position: absolute;
-    z-index: 100;
-    background: #ffffff;
-    border: 5px solid #3774ff;
-    border-radius: 100%;
-    display: block;
-    box-shadow: 0 0 2px 0 rgb(0 0 0);
-}
-.exampleThumb.active {
-    background-color: grey;
-}
-.exampleTrack {
-    position: relative;
-    background: #ddd;
-}
-.exampleTrack.exampleTrack-0 {
-    background: #83a9ff;
-}
-.horizontalSlider .exampleTrack {
-    top: 20px;
-    height: 4px;
-}
-.horizontalSlider .exampleThumb {
-    top: 12px;
-    width: 10px;
-    outline: none;
+
+.container.track {
+    background-color: #ddd;
     height: 10px;
-    line-height: 38px;
+}
+.container.track.active {
+    background-color: #ff5722;
+    height: 100%;
+}
+
+.container.thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ff5722;
+    cursor: pointer;
 }
