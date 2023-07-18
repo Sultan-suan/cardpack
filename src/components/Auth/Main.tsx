@@ -5,14 +5,14 @@ import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import {packsApi} from "../../api/api";
 import PacksList from "./packsList/PacksList";
-import {getCardPacksTC} from "../../state/packs-reducer";
+import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
 import {CardsPacksType, ResponseCardsPackType} from "../../types/types";
 
 
 export const Main = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
     const user = useSelector<AppRootStateType, UserType>(state => state.auth.user)
-    const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packs.cardsPacks)
+    const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
 
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()

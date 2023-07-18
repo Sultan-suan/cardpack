@@ -3,11 +3,15 @@ import {packsApi} from "../api/api";
 import {CardsPacksType} from "../types/types";
 
 
-type InitStateType = {
-    cardsPacks: CardsPacksType[]
+export type InitStateType = {
+    cardsPacks: CardsPacksType[],
+    cardPacksTotalCount: number,
+    pageCount: number
 }
 let initialState: InitStateType = {
     cardsPacks: [],
+    cardPacksTotalCount: 0,
+    pageCount: 0
 }
 type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType
 
@@ -47,7 +51,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         }
         case DELETE_CARD_PACKS: {
             return {
-                cardsPacks: state.cardsPacks.filter(pack => pack._id != action.packId)
+               ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id != action.packId)
             }
         }
         case ADD_NEW_CARD_PACK: {
