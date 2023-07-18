@@ -1,20 +1,4 @@
-.container {
-    margin: 50px;
-}
-
-.container.track {
-    background-color: #ddd;
-    height: 10px;
-}
-.container.track.active {
-    background-color: #ff5722;
-    height: 100%;
-}
-
-.container.thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #ff5722;
-    cursor: pointer;
+.slider {
+    width: 200px;
+    margin: auto;
 }
