@@ -7,6 +7,8 @@ import {packsApi} from "../../api/api";
 import PacksList from "./packsList/PacksList";
 import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
 import {CardsPacksType, ResponseCardsPackType} from "../../types/types";
+import Settings from "../settings/Settings";
+import RangeSlider from "../slider/Slider";
 
 
 export const Main = () => {
@@ -45,6 +47,7 @@ export const Main = () => {
                 </button>
             </div>
             <div>
+                {/*<RangeSlider/>*/}
                 <PacksList packs={packs} userId={user._id}/>
             </div>
         </div>

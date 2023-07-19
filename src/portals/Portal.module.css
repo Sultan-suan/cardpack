@@ -23,7 +23,7 @@
     align-items: center;
 }
 
-.addButton,
+.saveButton,
 .deleteButton,
 .cancelButton {
     padding: 5px;
@@ -36,7 +36,7 @@
     color: white;
 }
 
-.addButton {
+.saveButton {
     background-color: #0f09cb;
     color: #a4c4fa;
 }
