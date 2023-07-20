@@ -37,8 +37,8 @@ export const authApi = {
 }
 
 export const packsApi = {
-    getPacks: () => {
-        return instance.get<ResponseCardsPackType>('cards/pack?pageCount=10&user_id=639d91d96e80bf001ed7c478')
+    getPacks: (page: number) => {
+        return instance.get<ResponseCardsPackType>(`cards/pack?pageCount=2&user_id=639d91d96e80bf001ed7c478&page=${page}`)
             .then((response) => {
                 return response.data
             })

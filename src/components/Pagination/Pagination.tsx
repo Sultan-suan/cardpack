@@ -10,9 +10,9 @@ import {Selector} from '../Selector/Selector';
 
 export const Pagination = () => {
     const dispatch = useDispatch()
-    const page = useSelector<AppRootStateType, any>(state => state.PackSearchReducer.page)
-    const pageCount = useSelector<AppRootStateType, any>(state => state.PackSearchReducer.pageCount)
-    const cardPacksTotalCount = useSelector<AppRootStateType, any>(state => state.packsReducer.cardPacksTotalCount)
+    const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page)
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
+    const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount)
     const totalPage = Math.ceil(cardPacksTotalCount / pageCount)
     const firstPage = () => {
         dispatch(setPageNumber(1))
@@ -21,11 +21,11 @@ export const Pagination = () => {
         dispatch(setPageNumber(totalPage))
     }
 
-    const PrevPage = () => {
+    const prevPage = () => {
         dispatch(setPageNumber(page - 1))
     }
 
-    const NextPage = () => {
+    const nextPage = () => {
         dispatch(setPageNumber(page + 1))
     }
 
@@ -48,12 +48,12 @@ export const Pagination = () => {
     return (
         <nav>
             <div>
-                <button onClick={PrevPage} disabled={page === 1}>&lt</button>
-                {pagesArray.map(pg =>
-                    <button key={pg} className={page == pg ? s.navButton_focus : s.navButton}
-                            onClick={() => dispatch(setPageNumber(pg))}>{pg}</button>)}
+                <button onClick={prevPage} disabled={page === 1}>&lt</button>
+                {pagesArray.map((pg) => (
+                    <button key={pg} className={page === pg ? s.navButton_focus : s.navButton}
+                            onClick={() => dispatch(setPageNumber(pg))}>{pg}</button>))}
 
-                <button className={s.navButton} onClick={NextPage} disabled={page === totalPage}>&gt</button>
+                <button className={s.navButton} onClick={nextPage} disabled={page === totalPage}>&gt</button>
             </div>
 
             <div className={s.selector}>

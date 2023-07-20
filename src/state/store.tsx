@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     search: searchReducer,
     packsReducer: packsReducer,
-    PackSearchReducer: PackSearchReducer,
+    packSearchReducer: PackSearchReducer,
     cardReducer: cardSearchReducer
 })
 

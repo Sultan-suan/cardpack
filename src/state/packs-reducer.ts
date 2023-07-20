@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {packsApi} from "../api/api";
 import {CardsPacksType} from "../types/types";
+import {AppRootStateType} from "./store";
 
 
 export type InitStateType = {
@@ -89,9 +90,10 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 
 
 export const getCardPacksTC = () => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch, state: AppRootStateType) => {
         try {
-            packsApi.getPacks()
+
+            packsApi.getPacks(state.packSearchReducer?.page || 1)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                 })

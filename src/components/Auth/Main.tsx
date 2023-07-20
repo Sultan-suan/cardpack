@@ -9,12 +9,14 @@ import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
 import {CardsPacksType, ResponseCardsPackType} from "../../types/types";
 import Settings from "../settings/Settings";
 import RangeSlider from "../slider/Slider";
+import {Pagination} from "../Pagination/Pagination";
 
 
 export const Main = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
     const user = useSelector<AppRootStateType, UserType>(state => state.auth.user)
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
+    const page = useSelector<AppRootStateType, number>(state => state.packSearchReducer.page)
 
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()
@@ -29,7 +31,7 @@ export const Main = () => {
         if (isAuth) {
             dispatch(getCardPacksTC())
         }
-    }, [isAuth])
+    }, [isAuth,page])
 
     const logout = () => {
         dispatch(logoutTC(navigate))
@@ -49,6 +51,7 @@ export const Main = () => {
             <div>
                 {/*<RangeSlider/>*/}
                 <PacksList packs={packs} userId={user._id}/>
+                <Pagination/>
             </div>
         </div>
     );
