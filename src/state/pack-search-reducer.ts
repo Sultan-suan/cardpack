@@ -1,6 +1,8 @@
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {packsApi} from "../api/api";
+import {CardsPacksType} from "../types/types";
+import {setCardPacks} from "./packs-reducer";
 
 type ActionsType =
     | ReturnType<typeof getPacksBySearch>
@@ -11,21 +13,21 @@ type ActionsType =
 
 
 export type SearchParamsStateType = {
-    packName: string,
-    min: number,
-    max: number,
-    page: number,
-    pageCount?: number,
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
     user_id: string
+    packName: string
 }
 
 const initialSearchState: SearchParamsStateType = {
-    packName: "",
-    min: 0,
-    max: 25,
+    minCardsCount: 0,
+    maxCardsCount: 25,
     page: 1,
-    pageCount: 8,
-    user_id: ""
+    pageCount: 1,
+    user_id: "",
+    packName: "",
 }
 
 export const PackSearchReducer = (state: SearchParamsStateType = initialSearchState, action: ActionsType): SearchParamsStateType => {
@@ -37,7 +39,7 @@ export const PackSearchReducer = (state: SearchParamsStateType = initialSearchSt
         case 'SET_PAGE_COUNT_NUMBER':
             return {...state, pageCount: action.pageCount}
         case 'SET_MIN_MAX_PACKS':
-            return {...state, min: action.min, max: action.max}
+            return {...state, minCardsCount: action.min, maxCardsCount: action.max}
         case 'SET_ALL_PACKS':
             return {...state
                 // , user_id: action.userId
@@ -66,12 +68,26 @@ export const setShowAllPacks = (userId: string) => ({
 export const getAllCardPacksTC = (id: string) => {
     return (dispatch: Dispatch, state: AppRootStateType ) => {
         try {
-            packsApi.getPacks( id)
+            packsApi.getPacks( id, 8)
                 .then((data) => {
-                    dispatch(setShowAllPacks(''))
+                    dispatch(setCardPacks(data.cardPacks))
                 })
         } catch (e) {
             console.log(e);
         }
     }
 }
+
+export const getPageCountNumberTC = (pageCount: number) => {
+    return (dispatch: Dispatch, state: AppRootStateType) => {
+        try {
+            packsApi.getPacks( '', pageCount)
+                .then((data) => {
+                    dispatch(setCardPacks(data.cardPacks))
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+

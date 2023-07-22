@@ -89,11 +89,11 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 })
 
 
-export const getCardPacksTC = (id: string) => {
+export const getCardPacksTC = () => {
     return (dispatch: Dispatch, state: AppRootStateType) => {
         try {
 
-            packsApi.getPacks(id)
+            packsApi.getPacks('', 8)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                 })

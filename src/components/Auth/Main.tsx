@@ -28,7 +28,7 @@ export const Main = () => {
 
     useEffect(() => {
         if (isAuth) {
-            dispatch(getCardPacksTC(''))
+            dispatch(getCardPacksTC())
         }
     }, [isAuth,page])
 

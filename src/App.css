@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  height: 100vh;
+  min-height: 100vh;
   font-family: "Fira Sans", Helvetica, Arial, sans-serif;
   background-color: #d0e2f1;
   -webkit-font-smoothing: antialiased;

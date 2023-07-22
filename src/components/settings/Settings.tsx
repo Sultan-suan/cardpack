@@ -19,13 +19,13 @@ const Settings = (props: SettingsPropsType) => {
     const handleAllChange = () => {
         setIsAllActive(true)
         setIsMyActive(false)
-        dispatch(getCardPacksTC(''))
+        dispatch(getAllCardPacksTC(''))
     }
 
     const handleMyChange = () => {
         setIsAllActive(false)
         setIsMyActive(true)
-        dispatch(getCardPacksTC(props.userId))
+        dispatch(getAllCardPacksTC(props.userId))
     }
 
     return (
