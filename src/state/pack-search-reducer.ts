@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {AppRootStateType} from "./store";
+import {packsApi} from "../api/api";
+
 type ActionsType =
     | ReturnType<typeof getPacksBySearch>
     | ReturnType<typeof setPageNumber>
@@ -35,7 +39,9 @@ export const PackSearchReducer = (state: SearchParamsStateType = initialSearchSt
         case 'SET_MIN_MAX_PACKS':
             return {...state, min: action.min, max: action.max}
         case 'SET_ALL_PACKS':
-            return {...state, user_id: action.userId}
+            return {...state
+                // , user_id: action.userId
+            }
         default:
             return state
     }
@@ -56,3 +62,16 @@ export const setMinMaxPacks = (min: number, max: number) => ({
 export const setShowAllPacks = (userId: string) => ({
     type: 'SET_ALL_PACKS' as const, userId
 })
+
+export const getAllCardPacksTC = (id: string) => {
+    return (dispatch: Dispatch, state: AppRootStateType ) => {
+        try {
+            packsApi.getPacks( id)
+                .then((data) => {
+                    dispatch(setShowAllPacks(''))
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}

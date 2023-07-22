@@ -89,11 +89,11 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 })
 
 
-export const getCardPacksTC = () => {
+export const getCardPacksTC = (id: string) => {
     return (dispatch: Dispatch, state: AppRootStateType) => {
         try {
 
-            packsApi.getPacks(state.packSearchReducer?.page || 1)
+            packsApi.getPacks(id)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                 })

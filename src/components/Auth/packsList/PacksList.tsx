@@ -20,7 +20,7 @@ const PacksList = (props: PacksListType) => {
     const [newPackName, setNewPackName] = useState('')
 
     const dispatch = useDispatch<any>();
-
+    console.log(props.userId)
     const onCloseDeleteModal = () => {
         setDeleteId('')
     }
@@ -78,7 +78,7 @@ const PacksList = (props: PacksListType) => {
                 </div>
             </div>
             <div className={s.content}>
-                <Settings/>
+                <Settings userId={props.userId}/>
                 <table className={s.wrapper}>
                     <div className={s.head}>
                         <div className={s.tr}>

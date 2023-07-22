@@ -1,5 +1,6 @@
 .container {
     width: 20%;
+    margin: 10px;
 }
 
 .button {
@@ -10,5 +11,5 @@
 .active  {
     width: 96px;
     height: 36px;
-    background-color: #3e3d3d;
+    background-color: #6f6f6f;
 }

@@ -3,12 +3,10 @@ import {authMeTC, logoutTC, UserType} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
-import {packsApi} from "../../api/api";
 import PacksList from "./packsList/PacksList";
 import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
-import {CardsPacksType, ResponseCardsPackType} from "../../types/types";
-import Settings from "../settings/Settings";
-import RangeSlider from "../slider/Slider";
+import {CardsPacksType} from "../../types/types";
+
 import {Pagination} from "../Pagination/Pagination";
 
 
@@ -17,6 +15,7 @@ export const Main = () => {
     const user = useSelector<AppRootStateType, UserType>(state => state.auth.user)
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
     const page = useSelector<AppRootStateType, number>(state => state.packSearchReducer.page)
+    const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
 
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()
@@ -29,7 +28,7 @@ export const Main = () => {
 
     useEffect(() => {
         if (isAuth) {
-            dispatch(getCardPacksTC())
+            dispatch(getCardPacksTC(''))
         }
     }, [isAuth,page])
 
@@ -50,7 +49,7 @@ export const Main = () => {
             </div>
             <div>
                 {/*<RangeSlider/>*/}
-                <PacksList packs={packs} userId={user._id}/>
+                <PacksList packs={packs} userId={userId}/>
                 <Pagination/>
             </div>
         </div>
