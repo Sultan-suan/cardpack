@@ -25,7 +25,7 @@ const initialSearchState: SearchParamsStateType = {
     minCardsCount: 0,
     maxCardsCount: 25,
     page: 1,
-    pageCount: 1,
+    pageCount: 8,
     user_id: "",
     packName: "",
 }
