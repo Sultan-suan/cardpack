@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
-import {SearchParamsStateType, setPageCountNumber, setPageNumber} from "../../state/pack-search-reducer";
+import {
+    getPageCountNumberTC,
+    setPageCountNumber,
+    setPageNumber
+} from "../../state/pack-search-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
-import {InitStateType, packsReducer} from "../../state/packs-reducer";
-import {CardsPacksType} from "../../types/types";
-import {buttonClasses} from "@mui/material";
 import s from "./Pagination.module.css"
 import {Selector} from '../Selector/Selector';
 
 export const Pagination = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<any>()
     const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page)
     const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
     const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount)
@@ -31,7 +32,6 @@ export const Pagination = () => {
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1)
 
-    const [limit, setLimit] = useState(8)
 
     const options = [
         {value: 2, body: '2'},
@@ -41,8 +41,10 @@ export const Pagination = () => {
     ]
 
     const changePage = (value: number) => {
-        setLimit(value)
+        // setLimit(value)
         dispatch(setPageCountNumber(value))
+        dispatch(getPageCountNumberTC(value))
+        console.log(value)
     }
 
     return (
@@ -58,11 +60,9 @@ export const Pagination = () => {
 
             <div className={s.selector}>
                 <h6>Show</h6>
-                <Selector value={limit} options={options} onChange={(value: number) => changePage(value)}/>
+                <Selector value={pageCount} options={options} onChange={changePage}/>
             </div>
         </nav>
-
-
     );
 };
 
