@@ -1,69 +1,96 @@
 import axios from "axios";
-import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
-import Login from "../components/login/Login";
-import {objectToString} from "../helpers/helpers";
+import {SearchParamsStateType} from "../redux/search-reducer";
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://cards-nya-back-production.up.railway.app/2.0/'
+import {CardSearchReducerType} from "../redux/searchCard-reducer";
+
+export const $api = axios.create({
+    baseURL: "https://cards-nya-back-production.up.railway.app/2.0",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    withCredentials: true
 })
 
-
-export const authApi = {
-    getLogin: (email: string, password: string, rememberMe: boolean) => {
-        return instance.post('auth/login', {email, password, rememberMe})
-            .then((response) => {
-                return response.data
-            })
-    },
-    getRegister: (email: string, password: string) => {
-        return instance.post('auth/register', {email, password})
-            .then((response) => {
-                return response.data
-            })
-    },
-
-    authMe: (token: string) => {
-        return instance.post('auth/me', {token})
-            .then((response) => {
-                return response.data
-            })
-    },
-    logout: (token: string) => {
-        return instance.delete('auth/me?' + token)
-            .then((response) => {
-                return response.data
-            })
+export class AuthService {
+    static async registration(email: string, password: string) {
+        return await $api.post('auth/register', {email, password})
     }
+
+    static async login(email: string, password: string, rememberMe: boolean) {
+        return await $api.post('auth/login', {email, password, rememberMe})
+    }
+
+    static async authMe() {
+        return await $api.post('auth/me', {})
+    }
+
 }
 
-export const packsApi = {
-    getPacks: (id: any, pageCount: number) => {
-        return instance.get<ResponseCardsPackType>(`cards/pack?pageCount=${pageCount}&user_id=${id}`)
-            .then((response) => {
-                return response.data
-            })
-    },
-    deletePack: (packId: string) => {
-        return instance.delete('cards/pack?id=' + packId)
-            .then((response) => {
-                return response.data
-            })
-    },
-    addPack: (newPackName: string) => {
-        return instance.post('cards/pack', {cardsPack: {name: newPackName}})
-            .then((response) => {
-                return response.data
-            })
-    },
-    editPack: (packId: string,newPackName: string) => {
-        return instance.put('cards/pack', {cardsPack: {
-                    _id: packId,
-                    name: newPackName
+export class PacksService {
+    static async getTable(params?: SearchParamsStateType) {
+        if (params) {
+            const keys = Object.keys(params)
+            let searchParams = ""
+            keys.forEach((k) => {
+                const value = params[k as keyof SearchParamsStateType]
+                if (value) {
+                    searchParams += k + "=" + value + "&"
                 }
             })
-            .then((response) => {
-                return response.data
-            })
+            return await $api.get('cards/pack?' + searchParams)
+        } else {
+            return await $api.get('cards/pack?')
+        }
+    }
+
+    static async addTable(name: string) {
+        return await $api.post('cards/pack', {cardsPack: {name: name}})
+    }
+
+    static async removeTable(id: string) {
+        return await $api.delete(`cards/pack?id=${id}`)
+    }
+
+    static async changeTable(id: string, newName: any) {
+        return await $api.put(`cards/pack`, {cardsPack: {_id: id, name: newName}})
     }
 }
+
+export class CardService {
+    static async getNewCard(cardsPackId?: string, params?: CardSearchReducerType) {
+        if (params) {
+            const keys = Object.keys(params)
+            let searchParams = ""
+            keys.forEach((k) => {
+                const value = params[k as keyof CardSearchReducerType]
+                if (value) {
+                    searchParams += "&" + k + "=" + value
+                }
+            })
+            return await $api.get(`cards/card?cardsPack_id=${cardsPackId}` + searchParams)
+        } else {
+            return await $api.get(`cards/card?cardsPack_id=${cardsPackId}`)
+        }
+    }
+
+    static async getCard(cardsPackId?: string) {
+        return await $api.get(`cards/card?cardsPack_id=${cardsPackId}`)
+    }
+
+    static async addCard(question: string, answer: string, cardsPackId?: string) {
+        return await $api.post('cards/card', {card: {cardsPack_id: cardsPackId, question: question, answer: answer}})
+    }
+
+    static async removeCard(cardId: string) {
+        return await $api.delete(`cards/card?id=${cardId}`)
+    }
+
+    static async changeCard(cardId: string, question: string, answer: string) {
+        return await $api.put('cards/card', {card: {_id: cardId, question: question, answer: answer}})
+    }
+}
+
+
+
+
+

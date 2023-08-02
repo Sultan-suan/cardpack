@@ -1,67 +1,86 @@
 import React, {useState} from 'react';
-import {
-    getPageCountNumberTC,
-    setPageCountNumber,
-    setPageNumber
-} from "../../state/pack-search-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../state/store";
-import s from "./Pagination.module.css"
-import {Selector} from '../Selector/Selector';
+import {AppRootStateType} from "../../redux/store";
+import {
+    SearchParamsStateType,
+    setMinMaxMeaningAC,
+    setPageCountNumberAC,
+    setPageNumberAC
+} from "../../redux/search-reducer";
+import s from './Pagination.module.css'
+import {TableStateType} from "../../redux/packs-reducer";
+import {Selector} from "../Selector/Selector";
+import debounce from "lodash.debounce";
+
 
 export const Pagination = () => {
+
     const dispatch = useDispatch<any>()
-    const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page)
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
-    const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount)
+
+    const {cardPacksTotalCount} = useSelector<AppRootStateType, TableStateType>(state => state.tableReducer)
+    const {page, pageCount} = useSelector<AppRootStateType, SearchParamsStateType>(state => state.PackSearchReducer)
+
     const totalPage = Math.ceil(cardPacksTotalCount / pageCount)
+
     const firstPage = () => {
-        dispatch(setPageNumber(1))
+        dispatch(setPageNumberAC(1))
     }
+
     const lastPage = () => {
-        dispatch(setPageNumber(totalPage))
+        dispatch(setPageNumberAC(totalPage))
     }
 
-    const prevPage = () => {
-        dispatch(setPageNumber(page - 1))
+    const PrevPage = () => {
+        dispatch(setPageNumberAC(page - 1))
     }
 
-    const nextPage = () => {
-        dispatch(setPageNumber(page + 1))
+    const NextPage = () => {
+        dispatch(setPageNumberAC(page + 1))
     }
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1)
 
+    const [limit, setLimit] = useState(8);
 
     const options = [
         {value: 2, body: '2'},
         {value: 4, body: '4'},
         {value: 6, body: '6'},
-        {value: 8, body: '8'}
+        {value: 8, body: '8'},
     ]
 
     const changePage = (value: number) => {
-        // setLimit(value)
-        dispatch(setPageCountNumber(value))
-        dispatch(getPageCountNumberTC(value))
-        console.log(value)
+        setLimit(value)
+        dispatch(setPageCountNumberAC(value))
     }
 
     return (
-        <nav>
-            <div>
-                <button onClick={prevPage} disabled={page === 1}>&lt</button>
-                {pagesArray.map((pg) => (
-                    <button key={pg} className={page === pg ? s.navButton_focus : s.navButton}
-                            onClick={() => dispatch(setPageNumber(pg))}>{pg}</button>))}
+        <nav className={s.nav_ex2}>
+            <div className={s.pagination}>
+                {/*<button className={s.navButton} onClick={firstPage} disabled={page === 1}>&lt;&lt;</button>*/}
+                <button className={s.navButton} onClick={PrevPage} disabled={page === 1}>&lt;</button>
 
-                <button className={s.navButton} onClick={nextPage} disabled={page === totalPage}>&gt</button>
+                {pagesArray.map(pg =>
+                    <button key={pg}
+                            className={page == pg ? s.navButton_focus : s.navButton}
+                            onClick={() => dispatch(setPageNumberAC(pg))}>
+                        {pg}
+                    </button>
+                )}
+
+                <button className={s.navButton} onClick={NextPage} disabled={page === totalPage}>&gt;</button>
             </div>
+
 
             <div className={s.selector}>
-                <h6>Show</h6>
-                <Selector value={pageCount} options={options} onChange={changePage}/>
+                <h5>Show</h5>
+                <Selector value={limit}
+                          options={options}
+                          onChange={(value: number) => changePage(value)}
+                />
+                <h5>Cards per page</h5>
             </div>
+
         </nav>
     );
 };
