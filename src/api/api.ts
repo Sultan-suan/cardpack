@@ -1,4 +1,7 @@
 import axios from "axios";
+import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
+import Login from "../components/login/Login";
+import {objectToString} from "../helpers/helpers";
 
 const instance = axios.create({
     withCredentials: true,
@@ -25,14 +28,42 @@ export const authApi = {
             .then((response) => {
                 return response.data
             })
+    },
+    logout: (token: string) => {
+        return instance.delete('auth/me?' + token)
+            .then((response) => {
+                return response.data
+            })
     }
-
 }
 
-
 export const packsApi = {
-    get: () => {
-        instance.get('cards/pack?user_id=639d91d96e80bf001ed7c478')
+    getPacks: (id: any, pageCount: number) => {
+        return instance.get<ResponseCardsPackType>(`cards/pack?pageCount=${pageCount}&user_id=${id}`)
+            .then((response) => {
+                return response.data
+            })
+    },
+    deletePack: (packId: string) => {
+        return instance.delete('cards/pack?id=' + packId)
+            .then((response) => {
+                return response.data
+            })
+    },
+    addPack: (newPackName: string) => {
+        return instance.post('cards/pack', {cardsPack: {name: newPackName}})
+            .then((response) => {
+                return response.data
+            })
+    },
+    editPack: (packId: string,newPackName: string) => {
+        return instance.put('cards/pack', {cardsPack: {
+                    _id: packId,
+                    name: newPackName
+                }
+            })
+            .then((response) => {
+                return response.data
+            })
     }
-
 }

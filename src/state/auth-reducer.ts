@@ -87,6 +87,8 @@ export const setIsAuth = (value: boolean): SetIsAuthUserType => ({
 
 
 
+
+
 export const loginTC = (email: string, password: string, rememberMe: boolean) => {
     return (dispatch: Dispatch) => {
         try {
@@ -125,6 +127,21 @@ export const authMeTC = (navigate: any) => async (dispatch: Dispatch) => {
     } catch (e) {
         navigate('/login')
         console.log('error from register', e);
+    }
+}
+
+export const logoutTC = (navigate: any) => async (dispatch: Dispatch) => {
+    try {
+        const token = localStorage.getItem("token")
+        if (token) {
+            const response = await authApi.logout(token)
+            localStorage.removeItem("token")
+            dispatch(setUserData(response))
+            dispatch(setIsAuth( false))
+            navigate('/login')
+        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
