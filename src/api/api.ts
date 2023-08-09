@@ -1,7 +1,7 @@
 import axios from "axios";
-import {CardsPacksType, NewCardPackType, ResponseCardsPackType} from "../types/types";
-import Login from "../components/login/Login";
+import {ResponseCardsPackType} from "../types/types";
 import {objectToString} from "../helpers/helpers";
+import {SearchParamsStateType} from "../state/pack-search-reducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -38,8 +38,8 @@ export const authApi = {
 }
 
 export const packsApi = {
-    getPacks: (id: any, pageCount: number) => {
-        return instance.get<ResponseCardsPackType>(`cards/pack?pageCount=${pageCount}&user_id=${id}`)
+    getPacks: (objectOfParams: SearchParamsStateType) => {
+        return instance.get<ResponseCardsPackType>(`cards/pack?${objectToString(objectOfParams)}`)
             .then((response) => {
                 return response.data
             })

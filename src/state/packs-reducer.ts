@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {packsApi} from "../api/api";
 import {CardsPacksType} from "../types/types";
 import {AppRootStateType} from "./store";
+import {SearchParamsStateType} from "./pack-search-reducer";
 
 
 export type InitStateType = {
@@ -90,10 +91,10 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 
 
 export const getCardPacksTC = () => {
-    return (dispatch: Dispatch, state: AppRootStateType) => {
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
 
-            packsApi.getPacks('', 8)
+            packsApi.getPacks(getState().packSearchReducer)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                 })

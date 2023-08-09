@@ -109,3 +109,7 @@
     background-color: #8cb6f6;
     color: #0f09cb;
 }
+
+.searchWrapper {
+    display: flex;
+}

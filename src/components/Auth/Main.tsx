@@ -36,7 +36,6 @@ export const Main = () => {
         dispatch(logoutTC(navigate))
     }
 
-    console.log(packs)
     return (
         <div>
             <div>

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
 import s from './PacksList.module.css'
 import {CardsPacksType, NewCardPackType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
@@ -6,6 +6,9 @@ import CommonModal from "../../../portals/CommonModal";
 import {useDispatch} from "react-redux";
 import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
 import Settings from "../../settings/Settings";
+import {getAllCardPacksTC, getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
+import up from './../../../assets/icons/up.png'
+import down from './../../../assets/icons/down.png'
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -18,9 +21,9 @@ const PacksList = (props: PacksListType) => {
     const [addPack, setAddPack] = useState(false)
     const [packName, setPackName] = useState('')
     const [newPackName, setNewPackName] = useState('')
+    const [updated, setUpdated] = useState(true)
 
     const dispatch = useDispatch<any>();
-    console.log(props.userId)
     const onCloseDeleteModal = () => {
         setDeleteId('')
     }
@@ -66,12 +69,32 @@ const PacksList = (props: PacksListType) => {
         setNewPackName(e.currentTarget.value)
     }
 
+    const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(getPacksName(e.currentTarget.value))
+        // dispatch(getAllCardPacksTC())
+    }
+
+    const onClickSearch = () => {
+        dispatch(getAllCardPacksTC())
+    }
+
+    const onClickSort = () => {
+        setUpdated(!updated)
+        if(updated) {
+            dispatch(setSortPacks('updated'))
+        } else {
+            dispatch(setSortPacks(''))
+        }
+        dispatch(getAllCardPacksTC())
+    }
+
     return (
         <div className={s.componentWrapper}>
             <h1>Packs list</h1>
             <div className={s.header}>
-                <div>
-                    <input className={s.inputSearch} placeholder={'Search'} type="search"/>
+                <div className={s.searchWrapper}>
+                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>
+                    <button onClick={onClickSearch}>search</button>
                 </div>
                 <div>
                     <button className={s.button} onClick={openAddModal}>Add new pack</button>
@@ -84,7 +107,9 @@ const PacksList = (props: PacksListType) => {
                         <div className={s.tr}>
                             <div className={s.th}>Name</div>
                             <div className={s.th}>Cards</div>
-                            <div className={s.th}>Last updated</div>
+                            <div className={s.th}>Last updated
+                                <button onClick={onClickSort}>.{updated ? down : up }</button>
+                            </div>
                             <div className={s.th}>created by</div>
                             <div className={s.th}>Actions</div>
                         </div>

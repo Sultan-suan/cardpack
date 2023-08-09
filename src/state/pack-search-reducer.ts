@@ -5,33 +5,35 @@ import {CardsPacksType} from "../types/types";
 import {setCardPacks} from "./packs-reducer";
 
 type ActionsType =
-    | ReturnType<typeof getPacksBySearch>
+    | ReturnType<typeof getPacksName>
     | ReturnType<typeof setPageNumber>
     | ReturnType<typeof setPageCountNumber>
     | ReturnType<typeof setMinMaxPacks>
     | ReturnType<typeof setShowAllPacks>
+    | ReturnType<typeof setSortPacks>
 
 
 export type SearchParamsStateType = {
-    maxCardsCount: number
-    minCardsCount: number
+    max: number
+    min: number
     page: number
     pageCount: number
     user_id: string
     packName: string
+    sortPacks: string
 }
 
 const initialSearchState: SearchParamsStateType = {
-    minCardsCount: 0,
-    maxCardsCount: 25,
+    min: 0,
+    max: 25,
     page: 1,
     pageCount: 8,
     user_id: "",
     packName: "",
+    sortPacks: ''
 }
-
 export const PackSearchReducer = (state: SearchParamsStateType = initialSearchState, action: ActionsType): SearchParamsStateType => {
-    switch(action.type) {
+    switch (action.type) {
         case 'GET_PACKS_BY_SEARCH':
             return {...state, packName: action.packName}
         case 'SET_PAGE_NUMBER':
@@ -39,17 +41,18 @@ export const PackSearchReducer = (state: SearchParamsStateType = initialSearchSt
         case 'SET_PAGE_COUNT_NUMBER':
             return {...state, pageCount: action.pageCount}
         case 'SET_MIN_MAX_PACKS':
-            return {...state, minCardsCount: action.min, maxCardsCount: action.max}
+            return {...state, min: action.min, max: action.max}
         case 'SET_ALL_PACKS':
-            return {...state
-                // , user_id: action.userId
-            }
+            return {...state, user_id: action.userId}
+        case 'SET_SORT_PACKS':
+            return {...state, sortPacks: action.sortBy}
+
         default:
             return state
     }
 }
 
-export const getPacksBySearch = (packName: string) => ({
+export const getPacksName = (packName: string) => ({
     type: 'GET_PACKS_BY_SEARCH' as const, packName
 })
 export const setPageNumber = (page: number) => ({
@@ -64,30 +67,33 @@ export const setMinMaxPacks = (min: number, max: number) => ({
 export const setShowAllPacks = (userId: string) => ({
     type: 'SET_ALL_PACKS' as const, userId
 })
+export const setSortPacks = (sortBy: string) => ({
+    type: 'SET_SORT_PACKS' as const, sortBy
+})
 
-export const getAllCardPacksTC = (id: string) => {
-    return (dispatch: Dispatch, state: AppRootStateType ) => {
+export const getAllCardPacksTC = () => {
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            packsApi.getPacks( id, 8)
+            packsApi.getPacks(getState().packSearchReducer)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                 })
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }
 }
 
-export const getPageCountNumberTC = (pageCount: number) => {
-    return (dispatch: Dispatch, state: AppRootStateType) => {
-        try {
-            packsApi.getPacks( '', pageCount)
-                .then((data) => {
-                    dispatch(setCardPacks(data.cardPacks))
-                })
-        } catch (e) {
-            console.log(e);
-        }
-    }
-}
+// export const getPageCountNumberTC = (pageCount: number) => {
+//     return (dispatch: Dispatch, state: AppRootStateType) => {
+//         try {
+//             packsApi.getPacks( '', pageCount)
+//                 .then((data) => {
+//                     dispatch(setCardPacks(data.cardPacks))
+//                 })
+//         } catch (e) {
+//             console.log(e);
+//         }
+//     }
+// }
 

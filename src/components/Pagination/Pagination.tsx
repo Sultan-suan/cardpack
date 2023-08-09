@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-    getPageCountNumberTC,
+    getAllCardPacksTC,
     setPageCountNumber,
     setPageNumber
 } from "../../state/pack-search-reducer";
@@ -14,6 +14,7 @@ export const Pagination = () => {
     const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page)
     const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
     const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount)
+
     const totalPage = Math.ceil(cardPacksTotalCount / pageCount)
     const firstPage = () => {
         dispatch(setPageNumber(1))
@@ -41,10 +42,8 @@ export const Pagination = () => {
     ]
 
     const changePage = (value: number) => {
-        // setLimit(value)
         dispatch(setPageCountNumber(value))
-        dispatch(getPageCountNumberTC(value))
-        console.log(value)
+        dispatch(getAllCardPacksTC())
     }
 
     return (
