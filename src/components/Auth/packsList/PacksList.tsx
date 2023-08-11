@@ -4,9 +4,9 @@ import {CardsPacksType, NewCardPackType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch} from "react-redux";
-import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
+import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC, getCardPacksTC} from "../../../state/packs-reducer";
 import Settings from "../../settings/Settings";
-import {getAllCardPacksTC, getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
+import {getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import up from './../../../assets/icons/up.png'
 import down from './../../../assets/icons/down.png'
 
@@ -75,7 +75,7 @@ const PacksList = (props: PacksListType) => {
     }
 
     const onClickSearch = () => {
-        dispatch(getAllCardPacksTC())
+        dispatch(getCardPacksTC())
     }
 
     const onClickSort = () => {
@@ -85,7 +85,7 @@ const PacksList = (props: PacksListType) => {
         } else {
             dispatch(setSortPacks(''))
         }
-        dispatch(getAllCardPacksTC())
+        dispatch(getCardPacksTC())
     }
 
     return (

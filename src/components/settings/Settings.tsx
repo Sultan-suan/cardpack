@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import s from './Settings.module.css'
 import Slider from "../slider/Slider";
-import NewSlider from "../NewSlider/NewSlider";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllCardPacksTC, SearchParamsStateType, setShowAllPacks} from "../../state/pack-search-reducer";
+import {setShowAllPacks} from "../../state/pack-search-reducer";
 import {getCardPacksTC} from "../../state/packs-reducer";
-import {AppRootStateType} from "../../state/store";
 
 export type SettingsPropsType = {
     userId: string
@@ -21,14 +19,14 @@ const Settings = (props: SettingsPropsType) => {
         setIsAllActive(true)
         setIsMyActive(false)
         dispatch(setShowAllPacks(''))
-        dispatch(getAllCardPacksTC())
+        dispatch(getCardPacksTC())
     }
 
     const handleMyChange = () => {
         setIsAllActive(false)
         setIsMyActive(true)
         dispatch(setShowAllPacks(props.userId))
-        dispatch(getAllCardPacksTC())
+        dispatch(getCardPacksTC())
     }
 
     return (

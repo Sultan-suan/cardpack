@@ -2,7 +2,6 @@ import {Dispatch} from "redux";
 import {packsApi} from "../api/api";
 import {CardsPacksType} from "../types/types";
 import {AppRootStateType} from "./store";
-import {SearchParamsStateType} from "./pack-search-reducer";
 
 
 export type InitStateType = {
@@ -65,7 +64,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         case CHANGE_CARD_PACK_TITLE: {
             return {
                 ...state,
-                cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {...pack, name: pack.name = action.newTitle}: pack)
+                cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {...pack, name: action.newTitle}: pack)
             }
         }
         default:
@@ -93,7 +92,6 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 export const getCardPacksTC = () => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-
             packsApi.getPacks(getState().packSearchReducer)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
@@ -108,7 +106,7 @@ export const deleteCardPacksTC = (id: string) => {
     return (dispatch: Dispatch) => {
         try {
             packsApi.deletePack(id)
-                .then((data) => {
+                .then(() => {
                     dispatch(deleteCardPack(id))
                 })
         } catch (e) {

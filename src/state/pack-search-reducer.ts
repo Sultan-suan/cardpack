@@ -32,7 +32,7 @@ const initialSearchState: SearchParamsStateType = {
     packName: "",
     sortPacks: ''
 }
-export const PackSearchReducer = (state: SearchParamsStateType = initialSearchState, action: ActionsType): SearchParamsStateType => {
+export const packSearchReducer = (state: SearchParamsStateType = initialSearchState, action: ActionsType): SearchParamsStateType => {
     switch (action.type) {
         case 'GET_PACKS_BY_SEARCH':
             return {...state, packName: action.packName}
@@ -71,29 +71,4 @@ export const setSortPacks = (sortBy: string) => ({
     type: 'SET_SORT_PACKS' as const, sortBy
 })
 
-export const getAllCardPacksTC = () => {
-    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        try {
-            packsApi.getPacks(getState().packSearchReducer)
-                .then((data) => {
-                    dispatch(setCardPacks(data.cardPacks))
-                })
-        } catch (e) {
-            console.error(e);
-        }
-    }
-}
-
-// export const getPageCountNumberTC = (pageCount: number) => {
-//     return (dispatch: Dispatch, state: AppRootStateType) => {
-//         try {
-//             packsApi.getPacks( '', pageCount)
-//                 .then((data) => {
-//                     dispatch(setCardPacks(data.cardPacks))
-//                 })
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     }
-// }
 

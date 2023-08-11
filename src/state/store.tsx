@@ -1,17 +1,15 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk'
 import {authReducer} from "./auth-reducer";
-import {searchReducer} from "./search-reducer";
 import {packsReducer} from "./packs-reducer";
-import {PackSearchReducer} from "./pack-search-reducer";
+import {packSearchReducer} from "./pack-search-reducer";
 import {cardSearchReducer} from "./searchCard-reducer";
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    search: searchReducer,
     packsReducer: packsReducer,
-    packSearchReducer: PackSearchReducer,
+    packSearchReducer: packSearchReducer,
     cardReducer: cardSearchReducer
 })
 

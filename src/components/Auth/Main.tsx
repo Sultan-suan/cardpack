@@ -47,7 +47,6 @@ export const Main = () => {
                 </button>
             </div>
             <div>
-                {/*<RangeSlider/>*/}
                 <PacksList packs={packs} userId={userId}/>
                 <Pagination/>
             </div>

@@ -123,6 +123,8 @@ export const authMeTC = (navigate: any) => async (dispatch: Dispatch) => {
             localStorage.setItem("token", response.token)
             dispatch(setUserData(response))
             dispatch(setIsAuth( true))
+        } else {
+            navigate('/login')
         }
     } catch (e) {
         navigate('/login')

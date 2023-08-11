@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    getAllCardPacksTC,
     setPageCountNumber,
     setPageNumber
 } from "../../state/pack-search-reducer";
@@ -8,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
 import {Selector} from '../Selector/Selector';
+import {getCardPacksTC} from "../../state/packs-reducer";
 
 export const Pagination = () => {
     const dispatch = useDispatch<any>()
@@ -43,7 +43,7 @@ export const Pagination = () => {
 
     const changePage = (value: number) => {
         dispatch(setPageCountNumber(value))
-        dispatch(getAllCardPacksTC())
+        dispatch(getCardPacksTC())
     }
 
     return (
