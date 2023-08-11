@@ -8,6 +8,7 @@ import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
 import {CardsPacksType} from "../../types/types";
 
 import {Pagination} from "../Pagination/Pagination";
+import {SearchParamsStateType} from "../../state/pack-search-reducer";
 
 
 export const Main = () => {
@@ -16,6 +17,8 @@ export const Main = () => {
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
     const page = useSelector<AppRootStateType, number>(state => state.packSearchReducer.page)
     const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
+    const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer)
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
 
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()
@@ -30,7 +33,16 @@ export const Main = () => {
         if (isAuth) {
             dispatch(getCardPacksTC())
         }
-    }, [isAuth,page])
+    }, [
+        isAuth,
+        objectOfParams.pageCount,
+        objectOfParams.sortPacks,
+        objectOfParams.max,
+        objectOfParams.min,
+        objectOfParams.user_id,
+        objectOfParams.packName,
+        objectOfParams.page
+    ])
 
     const logout = () => {
         dispatch(logoutTC(navigate))

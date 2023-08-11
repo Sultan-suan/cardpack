@@ -1,7 +1,6 @@
 import axios from "axios";
 import {ResponseCardsPackType} from "../types/types";
-import {objectToString} from "../helpers/helpers";
-import {SearchParamsStateType} from "../state/pack-search-reducer";
+import {objectToString, ObjectType} from "../helpers/helpers";
 
 const instance = axios.create({
     withCredentials: true,
@@ -38,7 +37,7 @@ export const authApi = {
 }
 
 export const packsApi = {
-    getPacks: (objectOfParams: SearchParamsStateType) => {
+    getPacks: (objectOfParams: ObjectType) => {
         return instance.get<ResponseCardsPackType>(`cards/pack?${objectToString(objectOfParams)}`)
             .then((response) => {
                 return response.data

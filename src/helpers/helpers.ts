@@ -1,3 +1,4 @@
+import {SearchParamsStateType} from "../state/pack-search-reducer";
 
 export function changeDateFormat(date: string) {
     let n = 0
@@ -15,8 +16,9 @@ export function changeDateFormat(date: string) {
     return reverseDate.join('.')
 }
 
-export function objectToString(obj: any) {
+export type ObjectType = {[key: string]: string | number}
+
+export function objectToString(obj: ObjectType) {
     return Object.entries(obj).map(ar => ar.join('=')).join('&')
 }
 
-let user_id = 'user_id=639d91d96e80bf001ed7c478'

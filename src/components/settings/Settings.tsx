@@ -19,14 +19,12 @@ const Settings = (props: SettingsPropsType) => {
         setIsAllActive(true)
         setIsMyActive(false)
         dispatch(setShowAllPacks(''))
-        dispatch(getCardPacksTC())
     }
 
     const handleMyChange = () => {
         setIsAllActive(false)
         setIsMyActive(true)
         dispatch(setShowAllPacks(props.userId))
-        dispatch(getCardPacksTC())
     }
 
     return (

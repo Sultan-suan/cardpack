@@ -18,7 +18,6 @@ const Slider = () => {
 
     const oncLICKHandler = () => {
         dispatch(setMinMaxPacks(min, max))
-        dispatch(getCardPacksTC())
     }
 
     return (

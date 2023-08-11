@@ -43,7 +43,6 @@ export const Pagination = () => {
 
     const changePage = (value: number) => {
         dispatch(setPageCountNumber(value))
-        dispatch(getCardPacksTC())
     }
 
     return (

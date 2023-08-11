@@ -71,7 +71,6 @@ const PacksList = (props: PacksListType) => {
 
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(getPacksName(e.currentTarget.value))
-        // dispatch(getAllCardPacksTC())
     }
 
     const onClickSearch = () => {
@@ -85,7 +84,6 @@ const PacksList = (props: PacksListType) => {
         } else {
             dispatch(setSortPacks(''))
         }
-        dispatch(getCardPacksTC())
     }
 
     return (
