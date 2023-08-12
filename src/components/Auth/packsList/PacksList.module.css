@@ -1,10 +1,68 @@
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin: 10px;
+:root {
+    --white: #ffffff;
+    --darkblue: #246fa0;
+    --lightblue: rgb(213, 213, 213);
 }
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 70%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.tableWrapper {
+    /*min-width: 750px;*/
+    /*display: grid;*/
+    /*grid-template-columns: 2fr 1fr 1.5fr 1fr 2fr;*/
+    overflow-x: auto;
+
+}
+
+.table {
+    background-color: #ffffff;
+    min-width: 100%;
+    /*margin: 10px;*/
+    padding: 20px;
+}
+
+.tableWrapper .table {
+    margin: 50px 0 20px;
+    border-collapse: collapse;
+    text-align: center;
+}
+.tableWrapper .table .th,
+.tableWrapper .table .td {
+    padding: 8px 20px;
+    min-width: 90px;
+}
+
+.tableWrapper .table .th {
+    color: var(--white);
+    background: var(--darkblue);
+}
+
+.tableWrapper .table .tbody .tr:nth-of-type(even) > * {
+    background: var(--lightblue);
+}
+
+.tableWrapper .table .td:first-child {
+    /*display: grid;*/
+    /*grid-template-columns: 25px 1fr;*/
+    /*grid-gap: 10px;*/
+    text-align: left;
+}
+/*.header {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: space-around;*/
+/*    align-items: center;*/
+/*    margin: 10px;*/
+/*}*/
 
 .inputSearch {
     border: 0;
@@ -27,7 +85,7 @@
     display: block;
     margin: 15px auto;
     padding: 15px 45px;
-    width: 100%;
+    /*width: 100%;*/
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
@@ -42,54 +100,49 @@
     flex-direction: row;
 }
 
-.wrapper {
-    /*float: right;*/
-    width: 70%;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr 1fr 2fr;
-}
 
-.head, .body, .tr {
-    display: contents;
-}
 
-.th, .td  {
-    padding: 15px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    /*text-align: left;*/
-    display: flex;
-    align-items: center;
-}
+/*.head, .body, .tr {*/
+/*    display: contents;*/
+/*}*/
 
-.th {
-    position: sticky;
-    top: 0;
-    background: #6c7ae0;
-    font-weight: normal;
-    font-size: 1.1rem;
-    color: white;
-}
+/*.th, .td  {*/
+/*    padding: 15px;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*    white-space: nowrap;*/
+/*    !*text-align: left;*!*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
 
-.th:last-child {
-    border: 0;
-}
+/*.th {*/
+/*    position: sticky;*/
+/*    top: 0;*/
+/*    background: #6c7ae0;*/
+/*    font-weight: normal;*/
+/*    font-size: 1.1rem;*/
+/*    color: white;*/
+/*}*/
 
-.td {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: #808080;
-}
+/*.th:last-child {*/
+/*    border: 0;*/
+/*}*/
 
-.td {
-    background: #f8f6ff;
-}
+/*.td {*/
+/*    padding-top: 10px;*/
+/*    padding-bottom: 10px;*/
+/*    color: #808080;*/
+/*}*/
 
-.tr:nth-child(even) .td {
+/*.td {*/
+/*    background: #f8f6ff;*/
+/*}*/
 
-    background-color: #d0d0d0;
-}
+/*.tr:nth-child(even) .td {*/
+
+/*    background-color: #d0d0d0;*/
+/*}*/
 
 .deleteButton,
 .editButton,
@@ -108,6 +161,13 @@
 .learnButton {
     background-color: #8cb6f6;
     color: #0f09cb;
+}
+
+.searchAndAdd {
+    margin: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .searchWrapper {

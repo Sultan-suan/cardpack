@@ -15,10 +15,8 @@ export const Main = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
     const user = useSelector<AppRootStateType, UserType>(state => state.auth.user)
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
-    const page = useSelector<AppRootStateType, number>(state => state.packSearchReducer.page)
     const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
     const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer)
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
 
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()

@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import s from './Settings.module.css'
 import Slider from "../slider/Slider";
 import {useDispatch, useSelector} from "react-redux";
-import {setShowAllPacks} from "../../state/pack-search-reducer";
-import {getCardPacksTC} from "../../state/packs-reducer";
+import {setPageCountNumber, setShowAllPacks} from "../../state/pack-search-reducer";
+import {Selector} from "../Selector/Selector";
+import {AppRootStateType} from "../../state/store";
+import {options} from "../../helpers/helpers";
 
 export type SettingsPropsType = {
     userId: string
@@ -12,6 +14,7 @@ export type SettingsPropsType = {
 const Settings = (props: SettingsPropsType) => {
     const [isMyActive, setIsMyActive] = useState(false)
     const [isAllActive, setIsAllActive] = useState(false)
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
     const dispatch = useDispatch<any>()
 
 
@@ -25,6 +28,10 @@ const Settings = (props: SettingsPropsType) => {
         setIsAllActive(false)
         setIsMyActive(true)
         dispatch(setShowAllPacks(props.userId))
+    }
+
+    const changePage = (value: number) => {
+        dispatch(setPageCountNumber(value))
     }
 
     return (
@@ -42,7 +49,10 @@ const Settings = (props: SettingsPropsType) => {
                     <Slider/>
                 </div>
             </div>
-
+            <div className={s.selector}>
+                <h6>Show</h6>
+                <Selector value={pageCount} options={options} onChange={changePage}/>
+            </div>
         </div>
     );
 };

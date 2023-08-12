@@ -1,6 +1,6 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './PacksList.module.css'
-import {CardsPacksType, NewCardPackType} from "../../../types/types";
+import {CardsPacksType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch} from "react-redux";
@@ -79,7 +79,7 @@ const PacksList = (props: PacksListType) => {
 
     const onClickSort = () => {
         setUpdated(!updated)
-        if(updated) {
+        if (updated) {
             dispatch(setSortPacks('updated'))
         } else {
             dispatch(setSortPacks(''))
@@ -87,9 +87,9 @@ const PacksList = (props: PacksListType) => {
     }
 
     return (
-        <div className={s.componentWrapper}>
+        <div className={s.container}>
             <h1>Packs list</h1>
-            <div className={s.header}>
+            <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
                     <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>
                     <button onClick={onClickSearch}>search</button>
@@ -100,28 +100,32 @@ const PacksList = (props: PacksListType) => {
             </div>
             <div className={s.content}>
                 <Settings userId={props.userId}/>
-                <table className={s.wrapper}>
-                    <div className={s.head}>
-                        <div className={s.tr}>
-                            <div className={s.th}>Name</div>
-                            <div className={s.th}>Cards</div>
-                            <div className={s.th}>Last updated
-                                <button onClick={onClickSort}>.{updated ? down : up }</button>
-                            </div>
-                            <div className={s.th}>created by</div>
-                            <div className={s.th}>Actions</div>
-                        </div>
-                    </div>
-                    <div className={s.body}>
+                <div className={s.tableWrapper}>
+                    <table className={s.table} >
+                        <thead className={s.head}>
+                        <tr className={s.tr}>
+                            <th className={s.th}>Name</th>
+                            <th className={s.th}>Cards</th>
+                            <th className={s.th}>Last updated
+                                <button onClick={onClickSort}>sort
+                                    {/*{updated ? down : up}*/}
+                                </button>
+                            </th>
+                            <th className={s.th}>created by</th>
+                            <th className={s.th}>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody className={s.tbody}>
                         {props.packs.map((el, i) => {
-                            return <div className={s.tr} key={i}>
-                                <div className={s.td}>{el.name}</div>
-                                <div className={s.td}>{el.cardsCount}</div>
-                                <div className={s.td}>{changeDateFormat(el.updated)}</div>
-                                <div className={s.td}>{el.user_name}</div>
-                                <div className={s.td}>
+                            return <tr className={s.tr} key={i}>
+                                <td className={s.td}>{el.name}</td>
+                                <td className={s.td}>{el.cardsCount}</td>
+                                <td className={s.td}>{changeDateFormat(el.updated)}</td>
+                                <td className={s.td}>{el.user_name}</td>
+                                <td className={s.td}>
                                     {
-                                        el.user_id === props.userId && <>
+                                        el.user_id === props.userId &&
+                                        <>
                                             <button onClick={() => openDeleteModal(el._id)}
                                                     className={s.deleteButton}>delete
                                             </button>
@@ -130,8 +134,8 @@ const PacksList = (props: PacksListType) => {
                                         </>
                                     }
                                     <button className={s.learnButton}>learn</button>
-                                </div>
-                            </div>
+                                </td>
+                            </tr>
                         })}
                         <CommonModal onOpen={addPack}
                                      onClose={onCloseAddModal}
@@ -158,8 +162,9 @@ const PacksList = (props: PacksListType) => {
                                      title={'Delete Pack'}
                                      isDeleteModal={deleteId}
                         />
-                    </div>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

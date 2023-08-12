@@ -4,7 +4,6 @@ import s from './Slider.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {setMinMaxPacks} from "../../state/pack-search-reducer";
 import {AppRootStateType} from "../../state/store";
-import {getCardPacksTC} from "../../state/packs-reducer";
 
 
 const Slider = () => {

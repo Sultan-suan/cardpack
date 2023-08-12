@@ -22,3 +22,10 @@ export function objectToString(obj: ObjectType) {
     return Object.entries(obj).map(ar => ar.join('=')).join('&')
 }
 
+export const options = [
+    {value: 2, body: '2'},
+    {value: 4, body: '4'},
+    {value: 6, body: '6'},
+    {value: 8, body: '8'}
+]
+
