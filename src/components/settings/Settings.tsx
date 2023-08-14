@@ -3,7 +3,7 @@ import s from './Settings.module.css'
 import Slider from "../slider/Slider";
 import {useDispatch, useSelector} from "react-redux";
 import {setPageCountNumber, setShowAllPacks} from "../../state/pack-search-reducer";
-import {Selector} from "../Selector/Selector";
+import {Selector} from "../selector/Selector";
 import {AppRootStateType} from "../../state/store";
 import {options} from "../../helpers/helpers";
 
@@ -30,28 +30,22 @@ const Settings = (props: SettingsPropsType) => {
         dispatch(setShowAllPacks(props.userId))
     }
 
-    const changePage = (value: number) => {
-        dispatch(setPageCountNumber(value))
-    }
+
 
     return (
         <div className={s.container}>
             <div>
                 <h2>Show packs cards</h2>
-                <div>
+                <div className={s.buttonsWrapper}>
                     <button onClick={handleMyChange} className={isMyActive ? s.active : s.button}>My</button>
                     <button onClick={handleAllChange} className={isAllActive ? s.active : s.button}>All</button>
                 </div>
             </div>
             <div>
                 <h2>Number of cards</h2>
-                <div>
+                <div className={s.slider}>
                     <Slider/>
                 </div>
-            </div>
-            <div className={s.selector}>
-                <h6>Show</h6>
-                <Selector value={pageCount} options={options} onChange={changePage}/>
             </div>
         </div>
     );

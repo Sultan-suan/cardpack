@@ -6,9 +6,9 @@ import {AppRootStateType} from "../../state/store";
 import PacksList from "./packsList/PacksList";
 import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
 import {CardsPacksType} from "../../types/types";
-
-import {Pagination} from "../Pagination/Pagination";
 import {SearchParamsStateType} from "../../state/pack-search-reducer";
+import s from './Main.module.css'
+import Settings from "../settings/Settings";
 
 
 export const Main = () => {
@@ -47,18 +47,17 @@ export const Main = () => {
     }
 
     return (
-        <div>
+        <div className={s.container}>
+            <Settings userId={userId}/>
             <div>
-                {user.name}
-            </div>
-            <div>
-                <button onClick={logout}>
-                    logout
-                </button>
-            </div>
-            <div>
-                <PacksList packs={packs} userId={userId}/>
-                <Pagination/>
+                <div>
+                    {/*<button className={s.logout} onClick={logout}>*/}
+                        {/*logout*/}
+                    {/*</button>*/}
+                </div>
+                <div className={s.packList}>
+                    <PacksList packs={packs} userId={userId}/>
+                </div>
             </div>
         </div>
     );

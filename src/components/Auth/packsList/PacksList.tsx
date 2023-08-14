@@ -9,6 +9,7 @@ import Settings from "../../settings/Settings";
 import {getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import up from './../../../assets/icons/up.png'
 import down from './../../../assets/icons/down.png'
+import {Pagination} from "../../pagination/Pagination";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -99,7 +100,7 @@ const PacksList = (props: PacksListType) => {
                 </div>
             </div>
             <div className={s.content}>
-                <Settings userId={props.userId}/>
+                {/*<Settings userId={props.userId}/>*/}
                 <div className={s.tableWrapper}>
                     <table className={s.table} >
                         <thead className={s.head}>
@@ -166,6 +167,7 @@ const PacksList = (props: PacksListType) => {
                     </table>
                 </div>
             </div>
+            <Pagination/>
         </div>
     );
 };

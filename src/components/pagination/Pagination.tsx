@@ -6,7 +6,8 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
-import {Selector} from '../Selector/Selector';
+import {Selector} from "../selector/Selector";
+import {options} from "../../helpers/helpers";
 
 export const Pagination = () => {
     const dispatch = useDispatch<any>()
@@ -24,6 +25,7 @@ export const Pagination = () => {
 
     const prevPage = () => {
         dispatch(setPageNumber(page - 1))
+        console.log(totalPage)
     }
 
     const nextPage = () => {
@@ -32,8 +34,13 @@ export const Pagination = () => {
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1)
 
+    const changePage = (value: number) => {
+        dispatch(setPageCountNumber(value))
+    }
+
     return (
-        <nav>
+        <nav className={s.navWrapper}>
+
             <div>
                 <button onClick={prevPage} disabled={page === 1}>&lt</button>
                 {pagesArray.map((pg) => (
@@ -41,6 +48,11 @@ export const Pagination = () => {
                             onClick={() => dispatch(setPageNumber(pg))}>{pg}</button>))}
 
                 <button className={s.navButton} onClick={nextPage} disabled={page === totalPage}>&gt</button>
+            </div>
+            <div className={s.selector}>
+                <h6>Show</h6>
+                <Selector value={pageCount} options={options} onChange={changePage}/>
+                <h6>Cards per Page</h6>
             </div>
         </nav>
     );

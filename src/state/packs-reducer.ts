@@ -14,7 +14,8 @@ let initialState: InitStateType = {
     cardPacksTotalCount: 0,
     pageCount: 0
 }
-type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType
+
+type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType | SetTotalCardPacksCountType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -37,10 +38,17 @@ export type ChangeCardPackTitleActionType = {
     newTitle: string
 }
 
+export type SetTotalCardPacksCountType = {
+    type: 'packs/SET_TOTAL_CARD_PACKS_COUNT'
+    totalCount: number
+}
+
+
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
 const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
 const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
+const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -67,6 +75,12 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
                 cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {...pack, name: action.newTitle}: pack)
             }
         }
+        case SET_TOTAL_CARD_PACKS_COUNT: {
+            return {
+                ...state,
+                cardPacksTotalCount: action.totalCount
+            }
+        }
         default:
             return state
     }
@@ -87,6 +101,9 @@ export const addNewCardPack = (newPack: CardsPacksType): AddNewCardPackActionTyp
 export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCardPackTitleActionType => ({
     type: CHANGE_CARD_PACK_TITLE, packId, newTitle
 })
+export const setTotalCardPackCount = (totalCount: number) => ({
+    type: SET_TOTAL_CARD_PACKS_COUNT, totalCount
+})
 
 
 export const getCardPacksTC = () => {
@@ -95,6 +112,7 @@ export const getCardPacksTC = () => {
             packsApi.getPacks(getState().packSearchReducer)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
+                    dispatch(setTotalCardPackCount(data.cardPacksTotalCount))
                 })
         } catch (e) {
             console.log(e);
