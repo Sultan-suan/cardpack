@@ -8,11 +8,13 @@ export type InitStateType = {
     cardsPacks: CardsPacksType[],
     cardPacksTotalCount: number,
     pageCount: number
+    loading: boolean
 }
 let initialState: InitStateType = {
     cardsPacks: [],
     cardPacksTotalCount: 0,
-    pageCount: 0
+    pageCount: 0,
+    loading: true
 }
 
 type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType | SetTotalCardPacksCountType
@@ -109,10 +111,14 @@ export const setTotalCardPackCount = (totalCount: number) => ({
 export const getCardPacksTC = () => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
+            getState().packsReducer.loading = true
             packsApi.getPacks(getState().packSearchReducer)
                 .then((data) => {
                     dispatch(setCardPacks(data.cardPacks))
                     dispatch(setTotalCardPackCount(data.cardPacksTotalCount))
+                    // if(data) {
+                        getState().packsReducer.loading = false
+                    // }
                 })
         } catch (e) {
             console.log(e);

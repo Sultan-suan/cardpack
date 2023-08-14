@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 import s from './Settings.module.css'
 import Slider from "../slider/Slider";
 import {useDispatch, useSelector} from "react-redux";
-import {setPageCountNumber, setShowAllPacks} from "../../state/pack-search-reducer";
-import {Selector} from "../selector/Selector";
+import {setShowAllPacks} from "../../state/pack-search-reducer";
 import {AppRootStateType} from "../../state/store";
-import {options} from "../../helpers/helpers";
 
 export type SettingsPropsType = {
     userId: string
@@ -14,7 +12,6 @@ export type SettingsPropsType = {
 const Settings = (props: SettingsPropsType) => {
     const [isMyActive, setIsMyActive] = useState(false)
     const [isAllActive, setIsAllActive] = useState(false)
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount)
     const dispatch = useDispatch<any>()
 
 
@@ -47,6 +44,7 @@ const Settings = (props: SettingsPropsType) => {
                     <Slider/>
                 </div>
             </div>
+
         </div>
     );
 };

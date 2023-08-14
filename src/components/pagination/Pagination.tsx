@@ -42,12 +42,12 @@ export const Pagination = () => {
         <nav className={s.navWrapper}>
 
             <div>
-                <button onClick={prevPage} disabled={page === 1}>&lt</button>
-                {pagesArray.map((pg) => (
+                <button  className={s.navButton} onClick={prevPage} disabled={page === 1}>{'<<'}</button>
+                {pagesArray.map((pg, i) => (
                     <button key={pg} className={page === pg ? s.navButton_focus : s.navButton}
                             onClick={() => dispatch(setPageNumber(pg))}>{pg}</button>))}
 
-                <button className={s.navButton} onClick={nextPage} disabled={page === totalPage}>&gt</button>
+                <button className={s.navButton} onClick={nextPage} disabled={page === totalPage}>{'>>'}</button>
             </div>
             <div className={s.selector}>
                 <h6>Show</h6>

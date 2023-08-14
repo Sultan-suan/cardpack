@@ -9,6 +9,7 @@ import {CardsPacksType} from "../../types/types";
 import {SearchParamsStateType} from "../../state/pack-search-reducer";
 import s from './Main.module.css'
 import Settings from "../settings/Settings";
+import {Pagination} from "../pagination/Pagination";
 
 
 export const Main = () => {
@@ -51,12 +52,13 @@ export const Main = () => {
             <Settings userId={userId}/>
             <div>
                 <div>
-                    {/*<button className={s.logout} onClick={logout}>*/}
-                        {/*logout*/}
-                    {/*</button>*/}
+                    <button className={s.logout} onClick={logout}>
+                        logout
+                    </button>
                 </div>
                 <div className={s.packList}>
                     <PacksList packs={packs} userId={userId}/>
+                    <Pagination/>
                 </div>
             </div>
         </div>
