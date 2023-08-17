@@ -80,13 +80,6 @@ const PacksList = (props: PacksListType) => {
     }
 
 
-
-
-    const onClickSearch = () => {
-        // dispatch(getCardPacksTC())
-        // testDebounce()
-    }
-
     const onClickSort = () => {
         setUpdated(!updated)
         if (updated) {
@@ -108,7 +101,6 @@ const PacksList = (props: PacksListType) => {
             <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
                     <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>
-                    <button onClick={onClickSearch}>search</button>
                 </div>
                 <div>
                     <button className={s.button} onClick={openAddModal}>Add new pack</button>

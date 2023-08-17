@@ -17,7 +17,7 @@ let initialState: InitStateType = {
     loading: true
 }
 
-type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType | SetTotalCardPacksCountType
+type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType | SetTotalCardPacksCountType | SetLoadingType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -45,12 +45,18 @@ export type SetTotalCardPacksCountType = {
     totalCount: number
 }
 
+export type SetLoadingType = {
+    type: 'packs/SET_LOADING'
+    loading: boolean
+}
+
 
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
 const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
 const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
+const SET_LOADING = 'packs/SET_LOADING'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -83,6 +89,13 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
                 cardPacksTotalCount: action.totalCount
             }
         }
+        case SET_LOADING: {
+            return {
+                ...state,
+                loading: action.loading
+            }
+        }
+
         default:
             return state
     }
@@ -105,6 +118,10 @@ export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCar
 })
 export const setTotalCardPackCount = (totalCount: number) => ({
     type: SET_TOTAL_CARD_PACKS_COUNT, totalCount
+})
+
+export const setLoading = (loading: boolean) => ({
+    type: SET_LOADING, loading
 })
 
 

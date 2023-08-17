@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import s from './Settings.module.css'
 import Slider from "../slider/Slider";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {setShowAllPacks} from "../../state/pack-search-reducer";
-import {AppRootStateType} from "../../state/store";
 
 export type SettingsPropsType = {
     userId: string
