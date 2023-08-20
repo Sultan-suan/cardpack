@@ -12,6 +12,17 @@
     width: 24px;
     height: 24px;
     margin: 5px;
+    /*border: none;*/
+    background: none;
+    border-radius: 3px;
+    border: 1px solid #246fa0;
+
+}
+
+.button {
+    width: 24px;
+    height: 24px;
+    margin: 5px;
     border: none;
     background: none;
     border-radius: 3px;
@@ -21,7 +32,7 @@
     width: 24px;
     height: 24px;
     margin: 5px;
-    border: none;
+    border: 1px solid #246fa0;
     border-radius: 3px;
     background-color: #21268F;
     color: white;

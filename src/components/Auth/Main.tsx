@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {authMeTC, logoutTC, UserType} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import PacksList from "./packsList/PacksList";
-import {getCardPacksTC, packsReducer} from "../../state/packs-reducer";
+import {getCardPacksTC, setIndex} from "../../state/packs-reducer";
 import {CardsPacksType} from "../../types/types";
 import {SearchParamsStateType} from "../../state/pack-search-reducer";
 import s from './Main.module.css'
@@ -18,10 +18,12 @@ export const Main = () => {
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
     const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
     const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer)
-
+    const index = useSelector<AppRootStateType, number>(state => state.packsReducer.index)
     const navigate = useNavigate()
     const dispatch = useDispatch<any>()
 
+
+    // const [index, setIndex] = useState(1)
     useEffect(() => {
         if (!isAuth) {
             dispatch(authMeTC(navigate))

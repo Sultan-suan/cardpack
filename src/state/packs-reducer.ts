@@ -9,15 +9,24 @@ export type InitStateType = {
     cardPacksTotalCount: number,
     pageCount: number
     loading: boolean
+    index: number
 }
 let initialState: InitStateType = {
     cardsPacks: [],
     cardPacksTotalCount: 0,
     pageCount: 0,
-    loading: true
+    loading: true,
+    index: 3
 }
 
-type ActionType = SetCardPacksActionType | DeleteCardPacksActionType | AddNewCardPackActionType | ChangeCardPackTitleActionType | SetTotalCardPacksCountType | SetLoadingType
+type ActionType =
+    SetCardPacksActionType
+    | DeleteCardPacksActionType
+    | AddNewCardPackActionType
+    | ChangeCardPackTitleActionType
+    | SetTotalCardPacksCountType
+    | SetLoadingType
+    | SetIndexType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -50,6 +59,11 @@ export type SetLoadingType = {
     loading: boolean
 }
 
+export type SetIndexType = {
+    type: 'packs/SET_INDEX'
+    index: number
+}
+
 
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
 const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
@@ -57,6 +71,7 @@ const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
 const SET_LOADING = 'packs/SET_LOADING'
+const SET_INDEX = 'packs/SET_INDEX'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -68,19 +83,22 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         }
         case DELETE_CARD_PACKS: {
             return {
-               ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id != action.packId)
+                ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id != action.packId)
             }
         }
         case ADD_NEW_CARD_PACK: {
             return {
                 ...state,
-                cardsPacks: [...state.cardsPacks, action.newPack]
+                cardsPacks: [action.newPack,...state.cardsPacks]
             }
         }
         case CHANGE_CARD_PACK_TITLE: {
             return {
                 ...state,
-                cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {...pack, name: action.newTitle}: pack)
+                cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {
+                    ...pack,
+                    name: action.newTitle
+                } : pack)
             }
         }
         case SET_TOTAL_CARD_PACKS_COUNT: {
@@ -93,6 +111,12 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
             return {
                 ...state,
                 loading: action.loading
+            }
+        }
+        case SET_INDEX: {
+            return {
+                ...state,
+                index: action.index
             }
         }
 
@@ -124,6 +148,10 @@ export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
 })
 
+export const setIndex = (index: number) => ({
+    type: SET_INDEX, index
+})
+
 
 export const getCardPacksTC = () => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -134,7 +162,7 @@ export const getCardPacksTC = () => {
                     dispatch(setCardPacks(data.cardPacks))
                     dispatch(setTotalCardPackCount(data.cardPacksTotalCount))
                     // if(data) {
-                        getState().packsReducer.loading = false
+                    getState().packsReducer.loading = false
                     // }
                 })
         } catch (e) {
