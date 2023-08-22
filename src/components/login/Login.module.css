@@ -1,23 +1,32 @@
-
-.tableWrapper {
-    position:absolute;
-    height: 550px;
-    width: 350px;
-    top: 15%;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    overflow: hidden;
-    background-color: #222;
+.wrapper {
+    background-color: #5a87b4;
+    height: 400px;
+    padding:0 25px;
     border-radius: 15px;
-    background-image: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg');
-    background-position: center;
-    /*background-repeat: no-repeat;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+/*.tableWrapper {*/
+/*    position:absolute;*/
+/*    height: 550px;*/
+/*    width: 350px;*/
+/*    top: 15%;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    margin: 0 auto;*/
+/*    overflow: hidden;*/
+/*    background-color: #222;*/
+/*    border-radius: 15px;*/
+/*    background-image: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg');*/
+/*    background-position: center;*/
+/*    !*background-repeat: no-repeat;*!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 .title {
     padding-top: 50px;
@@ -29,7 +38,8 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+    color: white;
 }
 
 .formHolder {
@@ -84,6 +94,6 @@
 }
 
 .createAccount {
-    color: #3b3b3b;
     text-decoration: none;
+    color: white;
 }
