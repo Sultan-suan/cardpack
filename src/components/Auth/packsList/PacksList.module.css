@@ -99,6 +99,16 @@
     -webkit-transition: all .3s ease;
 }
 
+.sortButton {
+    background-color: #246fa0;
+    border: none;
+    margin-left: 3px;
+}
+
+.arrow {
+    color: white;
+}
+
 .content {
     /*width: 30%;*/
     display: flex;

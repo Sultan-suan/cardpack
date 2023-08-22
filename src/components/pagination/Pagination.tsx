@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     setPageCountNumber,
     setPageNumber
@@ -8,7 +8,6 @@ import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
-import debounce from 'lodash.debounce'
 import {setLoading} from "../../state/packs-reducer";
 
 
@@ -26,10 +25,6 @@ export const Pagination = () => {
     let diapason = 5
 
     const countOfListsPages = Math.ceil(totalPage / diapason)
-
-    // useEffect(()=> {
-    //     dispatch(setLoading(true))
-    // }, [pageCount, page])
 
     const firstPage = () => {
         dispatch(setLoading(true))
@@ -72,6 +67,8 @@ export const Pagination = () => {
                                        className={page === pg ? s.navButton_focus : s.navButton}
                                        onClick={() => onChangePageNumber(pg)
                                        }>{pg}</button>
+                    } else {
+                        return <></>
                     }
                 })}
                 {index + diapason < totalPage && <>

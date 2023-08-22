@@ -4,11 +4,12 @@ import {CardsPacksType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC, getCardPacksTC} from "../../../state/packs-reducer";
+import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
 import {getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
 import debounce from 'lodash.debounce'
+import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -99,6 +100,7 @@ const PacksList = (props: PacksListType) => {
     return (
         <div className={s.container}>
             <h1>Packs list</h1>
+
             <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
                     <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>
@@ -119,7 +121,6 @@ const PacksList = (props: PacksListType) => {
                         />
                 </div> :
                     <div className={s.content}>
-                        {/*<Settings userId={props.userId}/>*/}
                         <div className={s.tableWrapper}>
                             <table className={s.table} >
                                 <thead className={s.head}>
@@ -127,8 +128,9 @@ const PacksList = (props: PacksListType) => {
                                     <th className={s.th}>Name</th>
                                     <th className={s.th}>Cards</th>
                                     <th className={s.th}>Last updated
-                                        <button onClick={onClickSort}>sort
-                                            {/*{updated ? down : up}*/}
+                                        <button className={s.sortButton} onClick={onClickSort}>
+                                            {updated ? <BiSolidDownArrow className={s.arrow}/> : <BiSolidUpArrow className={s.arrow}/>}
+
                                         </button>
                                     </th>
                                     <th className={s.th}>created by</th>
@@ -138,8 +140,6 @@ const PacksList = (props: PacksListType) => {
 
                                 <tbody className={s.tbody}>
                                 {props.packs.map((el, i) => {
-                                    // setNewPackName(el.name)
-                                    // console.log(el.name)
                                     return <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.name}</td>
                                         <td className={s.td}>{el.cardsCount}</td>

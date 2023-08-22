@@ -9,14 +9,12 @@ export type InitStateType = {
     cardPacksTotalCount: number,
     pageCount: number
     loading: boolean
-    index: number
 }
 let initialState: InitStateType = {
     cardsPacks: [],
     cardPacksTotalCount: 0,
     pageCount: 0,
     loading: true,
-    index: 3
 }
 
 type ActionType =
@@ -26,7 +24,6 @@ type ActionType =
     | ChangeCardPackTitleActionType
     | SetTotalCardPacksCountType
     | SetLoadingType
-    | SetIndexType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -59,10 +56,6 @@ export type SetLoadingType = {
     loading: boolean
 }
 
-export type SetIndexType = {
-    type: 'packs/SET_INDEX'
-    index: number
-}
 
 
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
@@ -71,7 +64,6 @@ const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
 const SET_LOADING = 'packs/SET_LOADING'
-const SET_INDEX = 'packs/SET_INDEX'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -83,7 +75,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         }
         case DELETE_CARD_PACKS: {
             return {
-                ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id != action.packId)
+                ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id !== action.packId)
             }
         }
         case ADD_NEW_CARD_PACK: {
@@ -113,12 +105,6 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
                 loading: action.loading
             }
         }
-        case SET_INDEX: {
-            return {
-                ...state,
-                index: action.index
-            }
-        }
 
         default:
             return state
@@ -146,10 +132,6 @@ export const setTotalCardPackCount = (totalCount: number) => ({
 
 export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
-})
-
-export const setIndex = (index: number) => ({
-    type: SET_INDEX, index
 })
 
 
