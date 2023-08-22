@@ -40,8 +40,9 @@ const PacksList = (props: PacksListType) => {
     const onCloseEditModal = () => {
         setEditOpen('')
     }
-    const openEditModal = (id: string) => {
+    const openEditModal = (id: string, name: string) => {
         setEditOpen(id)
+        setNewPackName(name)
         console.log('Modal window open')
     }
     const onCloseAddModal = () => {
@@ -137,6 +138,8 @@ const PacksList = (props: PacksListType) => {
 
                                 <tbody className={s.tbody}>
                                 {props.packs.map((el, i) => {
+                                    // setNewPackName(el.name)
+                                    // console.log(el.name)
                                     return <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.name}</td>
                                         <td className={s.td}>{el.cardsCount}</td>
@@ -149,7 +152,7 @@ const PacksList = (props: PacksListType) => {
                                                     <button onClick={() => openDeleteModal(el._id)}
                                                             className={s.deleteButton}>delete
                                                     </button>
-                                                    <button onClick={() => openEditModal(el._id)} className={s.editButton}>edit
+                                                    <button onClick={() => openEditModal(el._id, el.name)} className={s.editButton}>edit
                                                     </button>
                                                 </>
                                             }
