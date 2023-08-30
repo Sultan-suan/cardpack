@@ -2,6 +2,8 @@ import {Dispatch} from "redux";
 import {packsApi} from "../api/api";
 import {CardsPacksType} from "../types/types";
 import {AppRootStateType} from "./store";
+import {ObjectType} from "../helpers/helpers";
+import {SearchParamsStateType} from "./pack-search-reducer";
 
 
 export type InitStateType = {
@@ -9,12 +11,22 @@ export type InitStateType = {
     cardPacksTotalCount: number,
     pageCount: number
     loading: boolean
+    object: any
 }
 let initialState: InitStateType = {
     cardsPacks: [],
     cardPacksTotalCount: 0,
     pageCount: 0,
     loading: true,
+    object: {
+        min: 0,
+        max: 25,
+        page: 1,
+        pageCount: 8,
+        user_id: "",
+        packName: "",
+        sortPacks: ''
+    }
 }
 
 type ActionType =
@@ -24,6 +36,7 @@ type ActionType =
     | ChangeCardPackTitleActionType
     | SetTotalCardPacksCountType
     | SetLoadingType
+    | SetObjectType
 
 export type SetCardPacksActionType = {
     type: 'packs/SET_CARD_PACKS';
@@ -56,6 +69,10 @@ export type SetLoadingType = {
     loading: boolean
 }
 
+export type SetObjectType = {
+    type: 'packs/SET_OBJECT'
+    object: any
+}
 
 
 const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
@@ -64,6 +81,7 @@ const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
 const SET_LOADING = 'packs/SET_LOADING'
+const SET_OBJECT = 'packs/SET_OBJECT'
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -81,7 +99,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         case ADD_NEW_CARD_PACK: {
             return {
                 ...state,
-                cardsPacks: [action.newPack,...state.cardsPacks]
+                cardsPacks: [action.newPack, ...state.cardsPacks]
             }
         }
         case CHANGE_CARD_PACK_TITLE: {
@@ -103,6 +121,13 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
             return {
                 ...state,
                 loading: action.loading
+            }
+        }
+
+  case SET_OBJECT: {
+            return {
+                ...state,
+                object: action.object
             }
         }
 
@@ -134,21 +159,24 @@ export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
 })
 
+export const setObject = (object: any) => ({
+    type: SET_OBJECT, object
+})
+
 
 export const getCardPacksTC = () => {
-    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            getState().packsReducer.loading = true
-            packsApi.getPacks(getState().packSearchReducer)
-                .then((data) => {
-                    dispatch(setCardPacks(data.cardPacks))
-                    dispatch(setTotalCardPackCount(data.cardPacksTotalCount))
-                    // if(data) {
-                    getState().packsReducer.loading = false
-                    // }
-                })
+            dispatch(setLoading(true))
+            // dispatch(setObject()
+            // console.log(getState().packsReducer.object)
+            const response = await packsApi.getPacks(getState().packSearchReducer)
+                    dispatch(setCardPacks(response.cardPacks))
+                    dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
         } catch (e) {
             console.log(e);
+        } finally {
+            getState().packsReducer.loading = false
         }
     }
 }

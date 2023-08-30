@@ -4,7 +4,7 @@ import {CardsPacksType} from "../../../types/types";
 import {changeDateFormat} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC} from "../../../state/packs-reducer";
+import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC, setLoading} from "../../../state/packs-reducer";
 import {getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
@@ -110,7 +110,7 @@ const PacksList = (props: PacksListType) => {
                 </div>
             </div>
             {
-                loading ? <div>loading...
+                loading ? <div className={s.loading}>
                         <ClockLoader
                             color={'blue'}
                             loading={loading}

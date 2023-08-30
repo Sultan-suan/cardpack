@@ -27,13 +27,11 @@ export const Pagination = () => {
     const countOfListsPages = Math.ceil(totalPage / diapason)
 
     const firstPage = () => {
-        dispatch(setLoading(true))
         dispatch(setPageNumber(1))
         setIndex(1)
     }
 
     const lastPage = () => {
-        dispatch(setLoading(true))
         dispatch(setPageNumber(totalPage))
         setIndex(1 + diapason * (countOfListsPages - 1))
     }
@@ -41,12 +39,10 @@ export const Pagination = () => {
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1)
 
     const changeCardsPerPage = (value: number) => {
-        dispatch(setLoading(true))
         dispatch(setPageCountNumber(value))
     }
 
     const onChangePageNumber = (page: number) => {
-        dispatch(setLoading(true))
         dispatch(setPageNumber(page))
     }
 

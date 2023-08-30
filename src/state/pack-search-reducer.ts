@@ -1,8 +1,4 @@
-import {Dispatch} from "redux";
-import {AppRootStateType} from "./store";
-import {packsApi} from "../api/api";
-import {CardsPacksType} from "../types/types";
-import {setCardPacks} from "./packs-reducer";
+
 
 type ActionsType =
     | ReturnType<typeof getPacksName>
@@ -14,8 +10,8 @@ type ActionsType =
 
 
 export type SearchParamsStateType = {
-    max: number
     min: number
+    max: number
     page: number
     pageCount: number
     user_id: string
