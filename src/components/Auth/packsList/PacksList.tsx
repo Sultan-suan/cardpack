@@ -10,6 +10,8 @@ import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
 import debounce from 'lodash.debounce'
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
+import {getCardsTC} from "../../../state/cards-reducer";
+import {useNavigate} from "react-router-dom";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -25,6 +27,8 @@ const PacksList = (props: PacksListType) => {
     const [packName, setPackName] = useState('')
     const [newPackName, setNewPackName] = useState('')
     const [updated, setUpdated] = useState(true)
+
+    const navigate = useNavigate()
 
     const SearchDebounce = useCallback(debounce((value: string)=>{
         dispatch(getPacksName(value))
@@ -81,7 +85,6 @@ const PacksList = (props: PacksListType) => {
         SearchDebounce(e.currentTarget.value)
     }
 
-
     const onClickSort = () => {
         setUpdated(!updated)
         if (updated) {
@@ -89,6 +92,11 @@ const PacksList = (props: PacksListType) => {
         } else {
             dispatch(setSortPacks(''))
         }
+    }
+
+    const onClickCards = (id: string) => {
+        navigate('/cards')
+        dispatch(getCardsTC(id))
     }
 
     const override: CSSProperties = {
@@ -142,7 +150,7 @@ const PacksList = (props: PacksListType) => {
                                 {props.packs.map((el, i) => {
                                     return <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.name}</td>
-                                        <td className={s.td}>{el.cardsCount}</td>
+                                        <td onClick={()=>onClickCards(el._id)} className={s.td}>{el.cardsCount}</td>
                                         <td className={s.td}>{changeDateFormat(el.updated)}</td>
                                         <td className={s.td}>{el.user_name}</td>
                                         <td className={s.td}>

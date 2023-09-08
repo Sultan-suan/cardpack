@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ResponseCardsPackType} from "../types/types";
+import {ResponseCardsPackType, ResponseCardsType} from "../types/types";
 import {objectToString, ObjectType} from "../helpers/helpers";
 
 const instance = axios.create({
@@ -66,3 +66,35 @@ export const packsApi = {
             })
     }
 }
+
+export const cardsApi = {
+    getCards: (id: string) => {
+        return instance.get<ResponseCardsType>(`cards/card?cardsPack_id=${id}`)
+            .then((response) => {
+                return response.data
+            })
+    },
+    // deletePack: (packId: string) => {
+    //     return instance.delete('cards/pack?id=' + packId)
+    //         .then((response) => {
+    //             return response.data
+    //         })
+    // },
+    // addPack: (newPackName: string) => {
+    //     return instance.post('cards/pack', {cardsPack: {name: newPackName}})
+    //         .then((response) => {
+    //             return response.data
+    //         })
+    // },
+    // editPack: (packId: string,newPackName: string) => {
+    //     return instance.put('cards/pack', {cardsPack: {
+    //             _id: packId,
+    //             name: newPackName
+    //         }
+    //     })
+    //         .then((response) => {
+    //             return response.data
+    //         })
+    // }
+}
+

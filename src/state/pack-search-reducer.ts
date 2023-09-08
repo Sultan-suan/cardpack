@@ -7,6 +7,7 @@ type ActionsType =
     | ReturnType<typeof setMinMaxPacks>
     | ReturnType<typeof setShowAllPacks>
     | ReturnType<typeof setSortPacks>
+    // | ReturnType<typeof setObject>
 
 
 export type SearchParamsStateType = {
@@ -42,6 +43,12 @@ export const packSearchReducer = (state: SearchParamsStateType = initialSearchSt
             return {...state, user_id: action.userId}
         case 'SET_SORT_PACKS':
             return {...state, sortPacks: action.sortBy}
+        // case 'SET_OBJECT': {
+        //     return {
+        //         ...state,
+        //          min:action.filter
+        //     }
+        // }
 
         default:
             return state
@@ -66,5 +73,10 @@ export const setShowAllPacks = (userId: string) => ({
 export const setSortPacks = (sortBy: string) => ({
     type: 'SET_SORT_PACKS' as const, sortBy
 })
+//
+// export const setObject = (filter: any) => ({
+//     type: 'SET_OBJECT', filter
+// })
+
 
 

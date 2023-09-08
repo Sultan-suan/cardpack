@@ -20,17 +20,18 @@ export const Main = () => {
     const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
     const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
     const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer)
-    const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.object)
+    const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.filter)
     const dispatch = useDispatch<any>()
 
     const [searchParams, setSearchParams] = useSearchParams()
+
     const location = useLocation()
-    // const param = useParams()
+    const param = useParams()
 
     const navigate = useNavigate()
 
 
-    const params = qs.parse(location.search.substring(1))
+
 
     useEffect(() => {
         if (!isAuth) {
@@ -40,18 +41,20 @@ export const Main = () => {
             // console.log(qs.parse(window.location.search.substring(1)))
             dispatch(authMeTC(navigate))
             if (window.location.search) {
-                // console.log(objectOfParams2)
+                const params = qs.parse(window.location.search.substring(1))
+                console.log(params)
                 // console.log(window.location.search)
                 // setSearchParams( {
                 //     ...params
                 // })
             }
         }
+
     }, [])
 
     // console.log(useParams())
     useEffect(() => {
-
+        const searchParams = new URLSearchParams(location.search)
         if (isAuth) {
             dispatch(getCardPacksTC())
             const queryString = qs.stringify({
@@ -64,14 +67,15 @@ export const Main = () => {
                 sortPacks: objectOfParams.sortPacks
             })
             // const filter =
-            dispatch(setObject(params))
+            dispatch(setObject(queryString))
             // console.log(params)
             // console.log(filter.object)
-            // console.log(objectOfParams2)
             navigate(`?${queryString}`)
-            console.log(qs.parse(window.location.search.substring(1)))
+            console.log(objectOfParams2)
+            // console.log(searchParams.toString())
             // console.log(qs.parse(window.location.search.substring(1)))
-            console.log(params)
+            // console.log(qs.parse(window.location.search.substring(1)))
+            // console.log(params)
         }
     }, [
         isAuth,
@@ -91,9 +95,9 @@ export const Main = () => {
     return (
         <div className={s.container}>
             <Settings userId={userId}/>
-            {/*<div>{filter.object.min}</div>*/}
             <div>
                 <div>
+                    <div>{objectOfParams2}</div>
                     <button className={s.logout} onClick={logout}>
                         logout
                     </button>

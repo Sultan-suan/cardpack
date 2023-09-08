@@ -11,22 +11,23 @@ export type InitStateType = {
     cardPacksTotalCount: number,
     pageCount: number
     loading: boolean
-    object: any
+    filter: string
 }
 let initialState: InitStateType = {
     cardsPacks: [],
     cardPacksTotalCount: 0,
     pageCount: 0,
     loading: true,
-    object: {
-        min: 0,
-        max: 25,
-        page: 1,
-        pageCount: 8,
-        user_id: "",
-        packName: "",
-        sortPacks: ''
-    }
+    filter: ''
+    //     {
+    //     min: 0,
+    //     max: 25,
+    //     page: 1,
+    //     pageCount: 8,
+    //     user_id: "",
+    //     packName: "",
+    //     sortPacks: ''
+    // }
 }
 
 type ActionType =
@@ -71,7 +72,7 @@ export type SetLoadingType = {
 
 export type SetObjectType = {
     type: 'packs/SET_OBJECT'
-    object: any
+    filter: string
 }
 
 
@@ -127,7 +128,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
   case SET_OBJECT: {
             return {
                 ...state,
-                object: action.object
+                filter: action.filter
             }
         }
 
@@ -159,8 +160,8 @@ export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
 })
 
-export const setObject = (object: any) => ({
-    type: SET_OBJECT, object
+export const setObject = (filter: string) => ({
+    type: SET_OBJECT, filter
 })
 
 
