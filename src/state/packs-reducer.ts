@@ -12,6 +12,7 @@ export type InitStateType = {
     pageCount: number
     loading: boolean
     filter: string
+
 }
 let initialState: InitStateType = {
     cardsPacks: [],

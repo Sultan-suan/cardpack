@@ -4,6 +4,7 @@ import {CardsPacksType, CardsType} from "../types/types";
 import {AppRootStateType} from "./store";
 import {ObjectType} from "../helpers/helpers";
 import {SearchParamsStateType} from "./pack-search-reducer";
+import {setLoading} from "./packs-reducer";
 
 
 export type InitStateType = {
@@ -16,6 +17,8 @@ export type InitStateType = {
     token?: string
     tokenDeathTime?: number
     packUserId: string
+    packId: string
+    packTitle: string
 }
 let initialState: InitStateType = {
     cards: [],
@@ -24,7 +27,9 @@ let initialState: InitStateType = {
     minGrade: 2.0100984354076568,
     page: 1,
     pageCount: 4,
-    packUserId: "5eecf82a3ed8f700042f1186"
+    packUserId: "",
+    packId: '',
+    packTitle: ''
     //     {
     //     min: 0,
     //     max: 25,
@@ -39,20 +44,20 @@ let initialState: InitStateType = {
 type ActionType =
     SetCardActionType
     | DeleteCardPacksActionType
-    | AddNewCardPackActionType
+    | AddNewCardActionType
     | ChangeCardPackTitleActionType
     | SetTotalCardPacksCountType
-    | SetLoadingType
-    | SetObjectType
+    | SetPackIdType
+    | SetTitleType
 
 export type SetCardActionType = {
     type: 'cards/SET_CARDS';
     data: CardsType[];
 }
 
-export  type AddNewCardPackActionType = {
-    type: 'packs/ADD_NEW_CARD_PACK';
-    newPack: any
+export  type AddNewCardActionType = {
+    type: 'packs/ADD_NEW_CARD';
+    newCard: any
 }
 
 export type DeleteCardPacksActionType = {
@@ -71,24 +76,24 @@ export type SetTotalCardPacksCountType = {
     totalCount: number
 }
 
-export type SetLoadingType = {
-    type: 'packs/SET_LOADING'
-    loading: boolean
+export type SetPackIdType = {
+    type: 'packs/SET_PACK_ID'
+    packId: string
 }
 
-export type SetObjectType = {
-    type: 'packs/SET_OBJECT'
-    filter: string
+export type SetTitleType = {
+    type: 'packs/SET_TITLE'
+    title: string
 }
 
 
 const SET_CARDS = 'cards/SET_CARDS'
 const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
-const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
+const ADD_NEW_CARD = 'packs/ADD_NEW_CARD'
 const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
 const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
-const SET_LOADING = 'packs/SET_LOADING'
-const SET_OBJECT = 'packs/SET_OBJECT'
+const SET_PACK_ID = 'packs/SET_PACK_ID'
+const SET_TITLE = 'packs/SET_TITLE'
 
 export const cardsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -98,45 +103,46 @@ export const cardsReducer = (state: InitStateType = initialState, action: Action
                 cards: action.data
             }
         }
-  //       case DELETE_CARD_PACKS: {
-  //           return {
-  //               ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id !== action.packId)
-  //           }
-  //       }
-  //       case ADD_NEW_CARD_PACK: {
-  //           return {
-  //               ...state,
-  //               cardsPacks: [action.newPack, ...state.cardsPacks]
-  //           }
-  //       }
-  //       case CHANGE_CARD_PACK_TITLE: {
-  //           return {
-  //               ...state,
-  //               cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {
-  //                   ...pack,
-  //                   name: action.newTitle
-  //               } : pack)
-  //           }
-  //       }
-  //       case SET_TOTAL_CARD_PACKS_COUNT: {
-  //           return {
-  //               ...state,
-  //               cardPacksTotalCount: action.totalCount
-  //           }
-  //       }
-  //       case SET_LOADING: {
-  //           return {
-  //               ...state,
-  //               loading: action.loading
-  //           }
-  //       }
-  //
-  // case SET_OBJECT: {
-  //           return {
-  //               ...state,
-  //               filter: action.filter
-  //           }
-  //       }
+        //       case DELETE_CARD_PACKS: {
+        //           return {
+        //               ...state, cardsPacks: state.cardsPacks.filter(pack => pack._id !== action.packId)
+        //           }
+        //       }
+        case ADD_NEW_CARD: {
+            return {
+                ...state,
+                cards: [ ...state.cards, action.newCard]
+            }
+        }
+        //       case CHANGE_CARD_PACK_TITLE: {
+        //           return {
+        //               ...state,
+        //               cardsPacks: state.cardsPacks.map(pack => pack._id === action.packId ? {
+        //                   ...pack,
+        //                   name: action.newTitle
+        //               } : pack)
+        //           }
+        //       }
+        //       case SET_TOTAL_CARD_PACKS_COUNT: {
+        //           return {
+        //               ...state,
+        //               cardPacksTotalCount: action.totalCount
+        //           }
+        //       }
+        case SET_PACK_ID: {
+            return {
+                ...state,
+                packId: action.packId
+            }
+        }
+        //
+        case SET_TITLE: {
+
+            return {
+                ...state,
+                packTitle: action.title
+            }
+        }
 
         default:
             return state
@@ -151,9 +157,9 @@ export const setCards = (data: CardsType[]): SetCardActionType => ({
 //     type: DELETE_CARD_PACKS, packId
 // })
 //
-// export const addNewCardPack = (newPack: CardsPacksType): AddNewCardPackActionType => ({
-//     type: ADD_NEW_CARD_PACK, newPack
-// })
+export const addNewCard = (newCard: CardsType): AddNewCardActionType => ({
+    type: ADD_NEW_CARD, newCard
+})
 //
 // export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCardPackTitleActionType => ({
 //     type: CHANGE_CARD_PACK_TITLE, packId, newTitle
@@ -162,28 +168,31 @@ export const setCards = (data: CardsType[]): SetCardActionType => ({
 //     type: SET_TOTAL_CARD_PACKS_COUNT, totalCount
 // })
 //
-// export const setLoading = (loading: boolean) => ({
-//     type: SET_LOADING, loading
-// })
+export const setPackId = (packId: string) => ({
+    type: 'packs/SET_PACK_ID', packId
+})
 //
-// export const setObject = (filter: string) => ({
-//     type: SET_OBJECT, filter
-// })
+export const setTitle = (title: string) => ({
+    type: SET_TITLE, title
+})
 
 
 export const getCardsTC = (id: string) => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            // dispatch(setLoading(true))
-            // dispatch(setObject()
+            dispatch(setLoading(true))
+            dispatch(setPackId(id))
+            console.log(id)
             // console.log(getState().packsReducer.object)
             const response = await cardsApi.getCards(id)
-                    dispatch(setCards(response.cards))
-                    // dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
+            dispatch(setCards(response.cards))
+            console.log(response)
+
+            // dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
         } catch (e) {
             console.log(e);
         } finally {
-            // getState().packsReducer.loading = false
+            dispatch(setLoading(false))
         }
     }
 }
@@ -201,18 +210,19 @@ export const getCardsTC = (id: string) => {
 //     }
 // }
 
-// export const addNewCardPackTC = (newPackName: string) => {
-//     return (dispatch: Dispatch) => {
-//         try {
-//             packsApi.addPack(newPackName)
-//                 .then((data) => {
-//                     dispatch(addNewCardPack(data.newCardsPack))
-//                 })
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     }
-// }
+export const addNewCardTC = (packId: string, question: string, answer: string) => {
+    return async (dispatch: Dispatch) => {
+        try {
+            dispatch(setLoading(true))
+            const response = await cardsApi.addCard(packId, question, answer)
+            dispatch(addNewCard(response.newCard))
+        } catch (e) {
+            console.log(e);
+        } finally {
+            dispatch(setLoading(false))
+        }
+    }
+}
 //
 // export const changeCardPackTitleTC = (packId: string, newTitle: string) => {
 //     return (dispatch: Dispatch) => {

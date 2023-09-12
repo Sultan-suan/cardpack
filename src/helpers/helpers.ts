@@ -1,4 +1,5 @@
 import {SearchParamsStateType} from "../state/pack-search-reducer";
+import {CSSProperties} from "react";
 
 export function changeDateFormat(date: string) {
     let n = 0
@@ -28,4 +29,10 @@ export const options = [
     {value: 6, body: '6'},
     {value: 8, body: '8'}
 ]
+
+export const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+};
 

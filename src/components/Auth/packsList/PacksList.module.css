@@ -9,6 +9,17 @@
     margin: 0;
 }
 
+.mainContainer {
+    width: 70%;
+    min-height: 700px;
+    background-color: #c9d1e5;
+    /* margin: 10px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
 .container {
     min-width: 100%;
     /*margin: 0 15px;*/

@@ -1,7 +1,7 @@
 import React, {ChangeEvent, CSSProperties, useCallback, useState} from 'react';
 import s from './PacksList.module.css'
 import {CardsPacksType} from "../../../types/types";
-import {changeDateFormat} from "../../../helpers/helpers";
+import {changeDateFormat, override} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC, setLoading} from "../../../state/packs-reducer";
@@ -10,7 +10,7 @@ import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
 import debounce from 'lodash.debounce'
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
-import {getCardsTC} from "../../../state/cards-reducer";
+import {getCardsTC, setPackId, setTitle} from "../../../state/cards-reducer";
 import {useNavigate} from "react-router-dom";
 
 type PacksListType = {
@@ -94,16 +94,14 @@ const PacksList = (props: PacksListType) => {
         }
     }
 
-    const onClickCards = (id: string) => {
+    const onClickCards = (id: string, name: string) => {
         navigate('/cards')
         dispatch(getCardsTC(id))
+        // dispatch(setPackId('hello'))
+        dispatch(setTitle(name))
+        console.log(name)
+        console.log(id)
     }
-
-    const override: CSSProperties = {
-        display: "block",
-        margin: "0 auto",
-        borderColor: "red",
-    };
 
     return (
         <div className={s.container}>
@@ -150,7 +148,7 @@ const PacksList = (props: PacksListType) => {
                                 {props.packs.map((el, i) => {
                                     return <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.name}</td>
-                                        <td onClick={()=>onClickCards(el._id)} className={s.td}>{el.cardsCount}</td>
+                                        <td onClick={()=>onClickCards(el._id, el.name)} className={s.td}>{el.cardsCount}</td>
                                         <td className={s.td}>{changeDateFormat(el.updated)}</td>
                                         <td className={s.td}>{el.user_name}</td>
                                         <td className={s.td}>

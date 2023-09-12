@@ -1,30 +1,78 @@
-import React, {useEffect} from 'react';
+import React, {ChangeEvent, CSSProperties, useEffect, useState} from 'react';
 import s from './../Auth/packsList/PacksList.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
-import {getCardsTC} from "../../state/cards-reducer";
+import {addNewCardTC, getCardsTC} from "../../state/cards-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
-import {changeDateFormat} from "../../helpers/helpers";
+import {changeDateFormat, override} from "../../helpers/helpers";
 import CommonModal from "../../portals/CommonModal";
 import {CardsType} from "../../types/types";
 import {useNavigate} from "react-router-dom";
+import {ClockLoader} from "react-spinners";
+import {addNewCardPackTC} from "../../state/packs-reducer";
+import {string} from "yup";
 
 const Pack = () => {
     const cards = useSelector<AppRootStateType, any>((state) => state.cards.cards)
+    const packTitle = useSelector<AppRootStateType, any>((state) => state.cards.packTitle)
+    const packId = useSelector<AppRootStateType, any>((state) => state.cards.packId)
+    const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading)
     const dispatch = useDispatch<any>()
     const navigate = useNavigate()
-    // const str = '/PacksList.module.css'
-    // // useEffect(() => {
-    // //     dispatch(getCardsTC('64509d312cc655001e72cb7b'))
-    // // }, [])
-    const onClickHandler = () => {
+
+    const [addCard, setAddCard] = useState(false)
+    const [question, setQuestion] = useState('')
+    const [answer, setAnswer] = useState('')
+
+
+    const onCloseAddModal = () => {
+        setAddCard(false)
+    }
+    const openAddCardModal = () => {
+        setAddCard(true)
+        console.log('Added card')
+    }
+
+    const add = () => {
+        dispatch(addNewCardTC(packId, question, answer))
+        setAddCard(false)
+    }
+
+    const onClickBackHandler = () => {
         navigate('/')
     }
+
+    const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuestion(e.currentTarget.value)
+    }
+    const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>) => {
+        setAnswer(e.currentTarget.value)
+    }
+
+
     return (
-        <div>
-            <button onClick={onClickHandler}>Back</button>
-            <h1>Pack name</h1>
-                {cards.length === 0 ? <h2>No cards</h2> :            <div className={s.content}>
+        <div className={s.mainContainer}>
+            <button onClick={onClickBackHandler}>Back</button>
+            <h1>Pack: {packTitle}</h1>
+            <div>packId: {packId}</div>
+            <div className={s.searchWrapper}>
+                <input className={s.inputSearch} placeholder={'Search'} type="search"/>
+            </div>
+            <div>
+                <button className={s.button} onClick={openAddCardModal}>Add new pack</button>
+            </div>
+            {loading ? <div className={s.loading}>
+                    <ClockLoader
+                        color={'blue'}
+                        loading={loading}
+                        cssOverride={override}
+                        size={300}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
+                </div> : cards.length === 0 ?<h2>No cards</h2> :
+
+                <div className={s.content}>
                     <div className={s.tableWrapper}>
                         <table className={s.table}>
                             <thead className={s.head}>
@@ -44,7 +92,7 @@ const Pack = () => {
                             <tbody className={s.tbody}>
 
                             {cards.map((el: CardsType, i: number) => {
-                                return(
+                                return (
                                     <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.question}</td>
                                         <td className={s.td}>{el.answer}</td>
@@ -65,15 +113,6 @@ const Pack = () => {
                                         {/*</td>*/}
                                     </tr>)
                             })}
-                            {/*<CommonModal onOpen={addPack}*/}
-                            {/*             onClose={onCloseAddModal}*/}
-                            {/*             buttonTitle={'Add'}*/}
-                            {/*             onAction={add}*/}
-                            {/*             title={'Add new pack'}*/}
-                            {/*             isDeleteModal={deleteId}*/}
-                            {/*             inputValue={packName}*/}
-                            {/*             onChange={onChangeName}*/}
-                            {/*/>*/}
                             {/*<CommonModal onOpen={EditPackId}*/}
                             {/*             onClose={onCloseEditModal}*/}
                             {/*             buttonTitle={'Edit'}*/}
@@ -92,9 +131,21 @@ const Pack = () => {
                             {/*/>*/}
                             </tbody>
                         </table>
-                    </div>
-                </div> }
 
+                    </div>
+                </div>}
+            <CommonModal onOpen={addCard}
+                         onClose={onCloseAddModal}
+                         buttonTitle={'Add'}
+                         onAction={add}
+                         title={String(addCard)}
+                         isDeleteModal={''}
+                         inputValue={question}
+                         inputValue2={answer}
+                         onChange={onChangeQuestion}
+                         onChange2={onChangeAnswer}
+                         isCardModal={addCard}
+            />
         </div>
     );
 };

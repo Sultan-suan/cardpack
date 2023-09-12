@@ -55,12 +55,13 @@ export const packsApi = {
                 return response.data
             })
     },
-    editPack: (packId: string,newPackName: string) => {
-        return instance.put('cards/pack', {cardsPack: {
-                    _id: packId,
-                    name: newPackName
-                }
-            })
+    editPack: (packId: string, newPackName: string) => {
+        return instance.put('cards/pack', {
+            cardsPack: {
+                _id: packId,
+                name: newPackName
+            }
+        })
             .then((response) => {
                 return response.data
             })
@@ -80,12 +81,18 @@ export const cardsApi = {
     //             return response.data
     //         })
     // },
-    // addPack: (newPackName: string) => {
-    //     return instance.post('cards/pack', {cardsPack: {name: newPackName}})
-    //         .then((response) => {
-    //             return response.data
-    //         })
-    // },
+    addCard: (packId: string, question: string, answer: string) => {
+        return instance.post('cards/card', {
+            card: {
+                cardsPack_id: packId,
+                question: question,
+                answer: answer
+            }
+        })
+            .then((response) => {
+                return response.data
+            })
+    },
     // editPack: (packId: string,newPackName: string) => {
     //     return instance.put('cards/pack', {cardsPack: {
     //             _id: packId,

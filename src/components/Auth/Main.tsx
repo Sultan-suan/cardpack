@@ -42,7 +42,7 @@ export const Main = () => {
             dispatch(authMeTC(navigate))
             if (window.location.search) {
                 const params = qs.parse(window.location.search.substring(1))
-                console.log(params)
+                // console.log(params)
                 // console.log(window.location.search)
                 // setSearchParams( {
                 //     ...params
@@ -72,6 +72,7 @@ export const Main = () => {
             // console.log(filter.object)
             navigate(`?${queryString}`)
             console.log(objectOfParams2)
+
             // console.log(searchParams.toString())
             // console.log(qs.parse(window.location.search.substring(1)))
             // console.log(qs.parse(window.location.search.substring(1)))
