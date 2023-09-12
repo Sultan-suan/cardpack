@@ -22,7 +22,7 @@ type PacksListType = {
 const PacksList = (props: PacksListType) => {
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading)
     const [deleteId, setDeleteId] = useState('')
-    const [EditPackId, setEditOpen] = useState('')
+    const [EditOpen, setEditOpen] = useState('')
     const [addPack, setAddPack] = useState(false)
     const [packName, setPackName] = useState('')
     const [newPackName, setNewPackName] = useState('')
@@ -69,7 +69,7 @@ const PacksList = (props: PacksListType) => {
     }
 
     const edit = () => {
-        dispatch(changeCardPackTitleTC(EditPackId, newPackName))
+        dispatch(changeCardPackTitleTC(EditOpen, newPackName))
         setEditOpen('')
     }
 
@@ -94,9 +94,9 @@ const PacksList = (props: PacksListType) => {
         }
     }
 
-    const onClickCards = (id: string, name: string) => {
+    const onClickCards = (id: string, name: string, packUserId: string) => {
         navigate('/cards')
-        dispatch(getCardsTC(id))
+        dispatch(getCardsTC(id, packUserId))
         // dispatch(setPackId('hello'))
         dispatch(setTitle(name))
         console.log(name)
@@ -148,7 +148,7 @@ const PacksList = (props: PacksListType) => {
                                 {props.packs.map((el, i) => {
                                     return <tr className={s.tr} key={i}>
                                         <td className={s.td}>{el.name}</td>
-                                        <td onClick={()=>onClickCards(el._id, el.name)} className={s.td}>{el.cardsCount}</td>
+                                        <td onClick={()=>onClickCards(el._id, el.name, el.user_id)} className={s.td}>{el.cardsCount}</td>
                                         <td className={s.td}>{changeDateFormat(el.updated)}</td>
                                         <td className={s.td}>{el.user_name}</td>
                                         <td className={s.td}>
@@ -175,7 +175,7 @@ const PacksList = (props: PacksListType) => {
                                              inputValue={packName}
                                              onChange={onChangeName}
                                 />
-                                <CommonModal onOpen={EditPackId}
+                                <CommonModal onOpen={EditOpen}
                                              onClose={onCloseEditModal}
                                              buttonTitle={'Edit'}
                                              onAction={edit}

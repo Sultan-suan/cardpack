@@ -75,12 +75,12 @@ export const cardsApi = {
                 return response.data
             })
     },
-    // deletePack: (packId: string) => {
-    //     return instance.delete('cards/pack?id=' + packId)
-    //         .then((response) => {
-    //             return response.data
-    //         })
-    // },
+    deleteCard: (packId: string) => {
+        return instance.delete('cards/card?id=' + packId)
+            .then((response) => {
+                return response.data
+            })
+    },
     addCard: (packId: string, question: string, answer: string) => {
         return instance.post('cards/card', {
             card: {
@@ -93,15 +93,16 @@ export const cardsApi = {
                 return response.data
             })
     },
-    // editPack: (packId: string,newPackName: string) => {
-    //     return instance.put('cards/pack', {cardsPack: {
-    //             _id: packId,
-    //             name: newPackName
-    //         }
-    //     })
-    //         .then((response) => {
-    //             return response.data
-    //         })
-    // }
+    editPack: (packId: string,question: string, answer: string) => {
+        return instance.put('cards/pack', {card: {
+                _id: packId,
+                question: question,
+                answer: answer
+            }
+        })
+            .then((response) => {
+                return response.data
+            })
+    }
 }
 
