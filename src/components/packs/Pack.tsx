@@ -2,13 +2,13 @@ import React, {ChangeEvent, useState} from 'react';
 import s from './../Auth/packsList/PacksList.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
-import {addNewCardTC, deleteCardTC, getCardsTC} from "../../state/cards-reducer";
+import {addNewCardTC, changeCardInfoTC, deleteCardTC, getCardsTC} from "../../state/cards-reducer";
 import {changeDateFormat, override} from "../../helpers/helpers";
 import CommonModal from "../../portals/CommonModal";
 import {CardsType} from "../../types/types";
 import {useNavigate} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
-import {deleteCardPacksTC} from "../../state/packs-reducer";
+import {changeCardPackTitleTC, deleteCardPacksTC} from "../../state/packs-reducer";
 
 
 const Pack = () => {
@@ -25,14 +25,13 @@ const Pack = () => {
     const [question, setQuestion] = useState('')
     const [answer, setAnswer] = useState('')
     const [deleteCardId, setDeleteCardId] = useState('')
-    const [EditOpen, setEditOpen] = useState('')
+    const [editOpen, setEditOpen] = useState('')
 
 
     const openAddCardModal = () => {
         setAddCard(true)
         console.log('Added card')
     }
-
     const onCloseAddCardModal = () => {
         setAddCard(false)
     }
@@ -41,21 +40,21 @@ const Pack = () => {
         // alert(id === userId)
         setDeleteCardId(id)
     }
-
     const onCloseDeleteModal = () => {
         setDeleteCardId('')
     }
+
 
     const openEditCardModal = (id: string, question: string, answer: string) => {
         setEditOpen(id)
         setQuestion(question)
         setAnswer(answer)
-        console.log('Modal window open')
+        console.log(id)
+        console.log('Modal edit open')
     }
 
-    const add = () => {
-        dispatch(addNewCardTC(packId, question, answer))
-        setAddCard(false)
+    const onCloseEditModal = () => {
+        setEditOpen('')
     }
 
     const onClickBackHandler = () => {
@@ -69,10 +68,19 @@ const Pack = () => {
         setAnswer(e.currentTarget.value)
     }
 
+    const add = () => {
+        dispatch(addNewCardTC(packId, question, answer))
+        setAddCard(false)
+    }
 
     const deletePack = () => {
         dispatch(deleteCardTC(deleteCardId))
         setDeleteCardId('')
+    }
+
+    const edit = () => {
+        dispatch(changeCardInfoTC(editOpen, question, answer))
+        setEditOpen('')
     }
 
     return (
@@ -171,17 +179,18 @@ const Pack = () => {
                          title={'Delete card'}
                          isDeleteModal={deleteCardId}
             />
-            {/*<CommonModal onOpen={EditPackId}*/}
-            {/*             onClose={onCloseEditModal}*/}
-            {/*             buttonTitle={'Edit'}*/}
-            {/*             onAction={edit}*/}
-            {/*             title={'Change pack name'}*/}
-            {/*             isDeleteModal={deleteCardId}*/}
-            {/*             inputValue={question}*/}
-            {/*             inputValue2={answer}*/}
-            {/*             onChange={onChangeQuestion}*/}
-            {/*             onChange2={onChangeAnswer}*/}
-            {/*/>*/}
+            <CommonModal onOpen={editOpen}
+                         onClose={onCloseEditModal}
+                         buttonTitle={'Edit'}
+                         onAction={edit}
+                         title={'Change card info'}
+                         isDeleteModal={deleteCardId}
+                         inputValue={question}
+                         inputValue2={answer}
+                         onChange={onChangeQuestion}
+                         onChange2={onChangeAnswer}
+                         isCardModal={editOpen}
+            />
         </div>
     );
 };

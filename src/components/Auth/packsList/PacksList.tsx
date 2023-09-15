@@ -22,7 +22,7 @@ type PacksListType = {
 const PacksList = (props: PacksListType) => {
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading)
     const [deleteId, setDeleteId] = useState('')
-    const [EditOpen, setEditOpen] = useState('')
+    const [editOpen, setEditOpen] = useState('')
     const [addPack, setAddPack] = useState(false)
     const [packName, setPackName] = useState('')
     const [newPackName, setNewPackName] = useState('')
@@ -69,7 +69,7 @@ const PacksList = (props: PacksListType) => {
     }
 
     const edit = () => {
-        dispatch(changeCardPackTitleTC(EditOpen, newPackName))
+        dispatch(changeCardPackTitleTC(editOpen, newPackName))
         setEditOpen('')
     }
 
@@ -175,7 +175,7 @@ const PacksList = (props: PacksListType) => {
                                              inputValue={packName}
                                              onChange={onChangeName}
                                 />
-                                <CommonModal onOpen={EditOpen}
+                                <CommonModal onOpen={editOpen}
                                              onClose={onCloseEditModal}
                                              buttonTitle={'Edit'}
                                              onAction={edit}

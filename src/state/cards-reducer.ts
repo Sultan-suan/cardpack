@@ -26,7 +26,7 @@ let initialState: InitStateType = {
     maxGrade: 4.987525071790364,
     minGrade: 2.0100984354076568,
     page: 1,
-    pageCount: 4,
+    pageCount: 8,
     packUserId: "",
     packId: '',
     packTitle: ''
@@ -231,16 +231,17 @@ export const addNewCardTC = (packId: string, question: string, answer: string) =
     }
 }
 
-// export const changeCardPackTitleTC = (packId: string, newTitle: string) => {
-//     return (dispatch: Dispatch) => {
-//         try {
-//             packsApi.editPack(packId, newTitle)
-//                 .then((data) => {
-//                     dispatch(changeCardPackTitle(data.updatedCardsPack._id, data.updatedCardsPack.name))
-//                 })
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     }
-// }
+export const changeCardInfoTC = (packId: string, question: string, answer: string) => {
+    return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        try {
+            dispatch(setLoading(true))
+            const response = await cardsApi.editCard(packId, question, answer)
+            dispatch(changeCardInfo(response.updatedCard._id, response.updatedCard.question, response.updatedCard.answer))
+        } catch (e) {
+            console.log(e);
+        } finally {
+            dispatch(setLoading(false))
+        }
+    }
+}
 

@@ -16,7 +16,7 @@ type ModalPropsType = {
     onChange2?: (e: ChangeEvent<HTMLInputElement>) => void
     inputValue?: string
     inputValue2?: string
-    isCardModal?: boolean
+    isCardModal?: boolean | string
 };
 
 const CommonModal: React.FC<ModalPropsType> = ({

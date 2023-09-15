@@ -4,7 +4,10 @@ import {objectToString, ObjectType} from "../helpers/helpers";
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'https://cards-nya-back-production.up.railway.app/2.0/'
+    baseURL: 'https://cards-nya-back-production.up.railway.app/2.0/',
+    headers: {
+        'Content-Type': 'application/json'
+    }
 })
 
 
@@ -28,6 +31,7 @@ export const authApi = {
                 return response.data
             })
     },
+
     logout: (token: string) => {
         return instance.delete('auth/me?' + token)
             .then((response) => {
@@ -93,9 +97,10 @@ export const cardsApi = {
                 return response.data
             })
     },
-    editPack: (packId: string,question: string, answer: string) => {
-        return instance.put('cards/pack', {card: {
-                _id: packId,
+    editCard: (cardId: string, question: string, answer: string) => {
+        return instance.put('cards/card', {
+            card: {
+                _id: cardId,
                 question: question,
                 answer: answer
             }
