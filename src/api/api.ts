@@ -8,7 +8,7 @@ const instance = axios.create({
     headers: {
         'Content-Type': 'application/json'
     }
-})
+});
 
 
 export const authApi = {
@@ -38,7 +38,7 @@ export const authApi = {
                 return response.data
             })
     }
-}
+};
 
 export const packsApi = {
     getPacks: (objectOfParams: ObjectType) => {
@@ -47,6 +47,7 @@ export const packsApi = {
                 return response.data
             })
     },
+
     deletePack: (packId: string) => {
         return instance.delete('cards/pack?id=' + packId)
             .then((response) => {
@@ -70,12 +71,13 @@ export const packsApi = {
                 return response.data
             })
     }
-}
+};
 
 export const cardsApi = {
-    getCards: (id: string) => {
-        return instance.get<ResponseCardsType>(`cards/card?cardsPack_id=${id}`)
+    getCards: (id: string, objectOfParams: ObjectType) => {
+        return instance.get<ResponseCardsType>(`cards/card?cardsPack_id=${id}&${objectOfParams}`)
             .then((response) => {
+
                 return response.data
             })
     },
@@ -109,5 +111,5 @@ export const cardsApi = {
                 return response.data
             })
     }
-}
+};
 

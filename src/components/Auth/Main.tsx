@@ -13,6 +13,7 @@ import {Pagination} from "../pagination/Pagination";
 import {useParams} from 'react-router-dom'
 import qs from 'qs'
 import {objectToString} from "../../helpers/helpers";
+import {createBrowserHistory} from "history";
 
 
 export const Main = () => {
@@ -30,6 +31,10 @@ export const Main = () => {
 
     const navigate = useNavigate()
 
+    const [count, setCount] = useState(0);
+
+    const history = createBrowserHistory();
+
 
 
 
@@ -39,6 +44,12 @@ export const Main = () => {
             // console.log(qs.parse(location.search.substring(1)))
             // console.log(param)
             // console.log(qs.parse(window.location.search.substring(1)))
+            const filterParams = history.location.search.substr(1);
+            const filtersFromParams = qs.parse(filterParams);
+            // console.log(filtersFromParams)
+            if (filtersFromParams.count) {
+                setCount(Number(filtersFromParams.count));
+            }
             dispatch(authMeTC(navigate))
             if (window.location.search) {
                 const params = qs.parse(window.location.search.substring(1))
@@ -51,6 +62,23 @@ export const Main = () => {
         }
 
     }, [])
+
+
+
+    // useEffect(() => {
+    //     history.push(`?count=${count}`);
+    //     navigate(`?count=${count}`)
+    //     console.log(history.location)
+    // }, [count]);
+
+    const increaseCount = () => {
+        return setCount(count + 1);
+    }
+    const decreaseCount = () => {
+        return setCount(count - 1)
+    }
+
+
 
     // console.log(useParams())
     useEffect(() => {
@@ -95,6 +123,9 @@ export const Main = () => {
 
     return (
         <div className={s.container}>
+            {/*<h1> Count {count} </h1>*/}
+            {/*<button onClick={increaseCount}>+</button>*/}
+            {/*<button onClick={decreaseCount}>-</button>*/}
             <Settings userId={userId}/>
             <div>
                 <div>

@@ -5,6 +5,7 @@ import {packsReducer} from "./packs-reducer";
 import {packSearchReducer} from "./pack-search-reducer";
 import {cardSearchReducer} from "./searchCard-reducer";
 import {cardsReducer} from "./cards-reducer";
+import {cardsSearchReducer} from "./card-search-reducer";
 
 
 const rootReducer = combineReducers({
@@ -12,8 +13,9 @@ const rootReducer = combineReducers({
     packsReducer: packsReducer,
     packSearchReducer: packSearchReducer,
     cardReducer: cardSearchReducer,
-    cards: cardsReducer
-})
+    cards: cardsReducer,
+    searchCards: cardsSearchReducer
+});
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 

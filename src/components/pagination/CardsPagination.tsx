@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {
-    setPageCountNumber,
-    setPageNumber
-} from "../../state/pack-search-reducer";
+    setCardsPageCountNumber,
+    setCardsPageNumber
+} from "../../state/card-search-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
@@ -11,39 +11,42 @@ import {options} from "../../helpers/helpers";
 import {setLoading} from "../../state/packs-reducer";
 
 
-export const Pagination = () => {
-    const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page);
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
-    const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount);
+export const CardsPagination = () => {
+    const page = useSelector<AppRootStateType, number>((state) => state.cards.page);
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.cards.pageCount);
+    const cardsTotalCount = useSelector<AppRootStateType, any>((state) => state.cards.cardsTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
 
+
     const [index, setIndex] = useState(1);
 
-    const totalPage = Math.ceil(cardPacksTotalCount / pageCount);
+    const totalPage = Math.ceil(cardsTotalCount / pageCount);
 
     let diapason = 5;
 
     const countOfListsPages = Math.ceil(totalPage / diapason);
 
     const firstPage = () => {
-        dispatch(setPageNumber(1));
+        dispatch(setCardsPageNumber(1));
         setIndex(1)
     };
 
+    console.log(cardsTotalCount, page, pageCount);
+
     const lastPage = () => {
-        dispatch(setPageNumber(totalPage));
+        dispatch(setCardsPageNumber(totalPage));
         setIndex(1 + diapason * (countOfListsPages - 1))
     };
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1);
 
     const changeCardsPerPage = (value: number) => {
-        dispatch(setPageCountNumber(value))
+        dispatch(setCardsPageCountNumber(value))
     };
 
     const onChangePageNumber = (page: number) => {
-        dispatch(setPageNumber(page))
+        dispatch(setCardsPageNumber(page))
     };
 
     return (

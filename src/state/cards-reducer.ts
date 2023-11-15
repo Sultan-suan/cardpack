@@ -5,6 +5,7 @@ import {AppRootStateType} from "./store";
 import {ObjectType} from "../helpers/helpers";
 import {SearchParamsStateType} from "./pack-search-reducer";
 import {setLoading} from "./packs-reducer";
+import {getPackId, getPackUserId} from "../utils/getPackId";
 
 
 export type InitStateType = {
@@ -26,9 +27,9 @@ let initialState: InitStateType = {
     maxGrade: 4.987525071790364,
     minGrade: 2.0100984354076568,
     page: 1,
-    pageCount: 8,
-    packUserId: "",
-    packId: '',
+    pageCount: 4,
+    packUserId: getPackUserId(),
+    packId: getPackId(),
     packTitle: ''
     //     {
     //     min: 0,
@@ -39,14 +40,14 @@ let initialState: InitStateType = {
     //     packName: "",
     //     sortPacks: ''
     // }
-}
+};
 
 type ActionType =
     SetCardActionType
     | DeleteCardActionType
     | AddNewCardActionType
     | ChangeCardInfoActionType
-    | SetTotalCardPacksCountType
+    | SetTotalCardCountType
     | SetPackIdType
     | SetTitleType
 
@@ -72,8 +73,8 @@ export type ChangeCardInfoActionType = {
     answer: string
 }
 
-export type SetTotalCardPacksCountType = {
-    type: 'packs/SET_TOTAL_CARD_PACKS_COUNT'
+export type SetTotalCardCountType = {
+    type: 'packs/SET_TOTAL_CARD_COUNT'
     totalCount: number
 }
 
@@ -89,13 +90,13 @@ export type SetTitleType = {
 }
 
 
-const SET_CARDS = 'cards/SET_CARDS'
-const DELETE_CARD = 'packs/DELETE_CARD'
-const ADD_NEW_CARD = 'packs/ADD_NEW_CARD'
-const CHANGE_CARD_INFO = 'packs/CHANGE_CARD_INFO'
-const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
-const SET_PACK_ID = 'packs/SET_PACK_ID'
-const SET_TITLE = 'packs/SET_TITLE'
+const SET_CARDS = 'cards/SET_CARDS';
+const DELETE_CARD = 'packs/DELETE_CARD';
+const ADD_NEW_CARD = 'packs/ADD_NEW_CARD';
+const CHANGE_CARD_INFO = 'packs/CHANGE_CARD_INFO';
+const SET_TOTAL_CARD_COUNT = 'packs/SET_TOTAL_CARD_COUNT';
+const SET_PACK_ID = 'packs/SET_PACK_ID';
+const SET_TITLE = 'packs/SET_TITLE';
 
 export const cardsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -126,12 +127,12 @@ export const cardsReducer = (state: InitStateType = initialState, action: Action
                 } : card)
             }
         }
-        //       case SET_TOTAL_CARD_PACKS_COUNT: {
-        //           return {
-        //               ...state,
-        //               cardPacksTotalCount: action.totalCount
-        //           }
-        //       }
+        case SET_TOTAL_CARD_COUNT: {
+            return {
+                ...state,
+                cardsTotalCount: action.totalCount
+            }
+        }
         case SET_PACK_ID: {
             return {
                 ...state,
@@ -151,77 +152,74 @@ export const cardsReducer = (state: InitStateType = initialState, action: Action
         default:
             return state
     }
-}
+};
 
 export const setCards = (data: CardsType[]): SetCardActionType => ({
     type: SET_CARDS, data
-})
+});
 
 export const deleteCard = (cardId: string): DeleteCardActionType => ({
     type: DELETE_CARD, cardId
-})
+});
 
 export const addNewCard = (newCard: CardsType): AddNewCardActionType => ({
     type: ADD_NEW_CARD, newCard
-})
+});
 //
 export const changeCardInfo = (cardId: string, question: string, answer: string): ChangeCardInfoActionType => ({
     type: CHANGE_CARD_INFO, cardId, question, answer
-})
-// export const setTotalCardPackCount = (totalCount: number) => ({
-//     type: SET_TOTAL_CARD_PACKS_COUNT, totalCount
-// })
-//
+});
+export const setTotalCardCount = (totalCount: number) => ({
+    type: SET_TOTAL_CARD_COUNT, totalCount
+});
+
 export const setPackId = (packId: string, packUserId: string) => ({
-    type: 'packs/SET_PACK_ID', packId, packUserId
-})
+    type: SET_PACK_ID, packId, packUserId
+});
 //
 export const setTitle = (title: string) => ({
     type: SET_TITLE, title
-})
+});
+
 
 
 export const getCardsTC = (id: string, packUserId: string) => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            dispatch(setLoading(true))
-            dispatch(setPackId(id, packUserId))
-            console.log(id)
-            // console.log(getState().packsReducer.object)
-            const response = await cardsApi.getCards(id)
-            dispatch(setCards(response.cards))
-            console.log(response)
+            dispatch(setLoading(true));
+            dispatch(setPackId(id, packUserId));
+            const response = await cardsApi.getCards(id, getState().searchCards);
+            dispatch(setCards(response.cards));
+            console.log(getState().searchCards);
 
-            // dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
+            dispatch(setTotalCardCount(response.cardsTotalCount))
         } catch (e) {
             console.log(e);
         } finally {
             dispatch(setLoading(false))
         }
     }
-}
+};
 
 export const deleteCardTC = (id: string) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         try {
-            dispatch(setLoading(true))
-            cardsApi.deleteCard(id)
-                .then(() => {
-                    dispatch(deleteCard(id))
-                })
+            dispatch(setLoading(true));
+            await cardsApi.deleteCard(id);
+            dispatch(deleteCard(id))
         } catch (e) {
             console.log(e);
         } finally {
             dispatch(setLoading(false))
         }
     }
-}
+};
 
 export const addNewCardTC = (packId: string, question: string, answer: string) => {
     return async (dispatch: Dispatch) => {
         try {
-            dispatch(setLoading(true))
-            const response = await cardsApi.addCard(packId, question, answer)
+            dispatch(setLoading(true));
+            const response = await cardsApi.addCard(packId, question, answer);
             dispatch(addNewCard(response.newCard))
         } catch (e) {
             console.log(e);
@@ -229,13 +227,13 @@ export const addNewCardTC = (packId: string, question: string, answer: string) =
             dispatch(setLoading(false))
         }
     }
-}
+};
 
 export const changeCardInfoTC = (packId: string, question: string, answer: string) => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            dispatch(setLoading(true))
-            const response = await cardsApi.editCard(packId, question, answer)
+            dispatch(setLoading(true));
+            const response = await cardsApi.editCard(packId, question, answer);
             dispatch(changeCardInfo(response.updatedCard._id, response.updatedCard.question, response.updatedCard.answer))
         } catch (e) {
             console.log(e);
@@ -243,5 +241,5 @@ export const changeCardInfoTC = (packId: string, question: string, answer: strin
             dispatch(setLoading(false))
         }
     }
-}
+};
 

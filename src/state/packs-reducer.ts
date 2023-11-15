@@ -4,6 +4,7 @@ import {CardsPacksType} from "../types/types";
 import {AppRootStateType} from "./store";
 import {ObjectType} from "../helpers/helpers";
 import {SearchParamsStateType} from "./pack-search-reducer";
+import {log} from "util";
 
 
 export type InitStateType = {
@@ -29,7 +30,7 @@ let initialState: InitStateType = {
     //     packName: "",
     //     sortPacks: ''
     // }
-}
+};
 
 type ActionType =
     SetCardPacksActionType
@@ -77,13 +78,13 @@ export type SetObjectType = {
 }
 
 
-const SET_CARD_PACKS = 'packs/SET_CARD_PACKS'
-const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS'
-const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK'
-const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE'
-const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT'
-const SET_LOADING = 'packs/SET_LOADING'
-const SET_OBJECT = 'packs/SET_OBJECT'
+const SET_CARD_PACKS = 'packs/SET_CARD_PACKS';
+const DELETE_CARD_PACKS = 'packs/DELETE_CARD_PACKS';
+const ADD_NEW_CARD_PACK = 'packs/ADD_NEW_CARD_PACK';
+const CHANGE_CARD_PACK_TITLE = 'packs/CHANGE_CARD_PACK_TITLE';
+const SET_TOTAL_CARD_PACKS_COUNT = 'packs/SET_TOTAL_CARD_PACKS_COUNT';
+const SET_LOADING = 'packs/SET_LOADING';
+const SET_OBJECT = 'packs/SET_OBJECT';
 
 export const packsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
     switch (action.type) {
@@ -126,7 +127,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
             }
         }
 
-  case SET_OBJECT: {
+        case SET_OBJECT: {
             return {
                 ...state,
                 filter: action.filter
@@ -136,52 +137,54 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         default:
             return state
     }
-}
+};
 
 export const setCardPacks = (data: CardsPacksType[]): SetCardPacksActionType => ({
     type: SET_CARD_PACKS, data
-})
+});
 
 export const deleteCardPack = (packId: string): DeleteCardPacksActionType => ({
     type: DELETE_CARD_PACKS, packId
-})
+});
 
 export const addNewCardPack = (newPack: CardsPacksType): AddNewCardPackActionType => ({
     type: ADD_NEW_CARD_PACK, newPack
-})
+});
 
 export const changeCardPackTitle = (packId: string, newTitle: string): ChangeCardPackTitleActionType => ({
     type: CHANGE_CARD_PACK_TITLE, packId, newTitle
-})
+});
 export const setTotalCardPackCount = (totalCount: number) => ({
     type: SET_TOTAL_CARD_PACKS_COUNT, totalCount
-})
+});
 
 export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
-})
+});
 
 export const setObject = (filter: string) => ({
     type: SET_OBJECT, filter
-})
+});
 
 
 export const getCardPacksTC = () => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
-            dispatch(setLoading(true))
+            dispatch(setLoading(true));
             // dispatch(setObject()
             // console.log(getState().packsReducer.object)
-            const response = await packsApi.getPacks(getState().packSearchReducer)
-                    dispatch(setCardPacks(response.cardPacks))
-                    dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
+            const response = await packsApi.getPacks(getState().packSearchReducer);
+
+            dispatch(setCardPacks(response.cardPacks));
+            dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
+            console.log(response)
         } catch (e) {
             console.log(e);
         } finally {
             getState().packsReducer.loading = false
         }
     }
-}
+};
 
 export const deleteCardPacksTC = (id: string) => {
     return (dispatch: Dispatch) => {
@@ -194,7 +197,7 @@ export const deleteCardPacksTC = (id: string) => {
             console.log(e);
         }
     }
-}
+};
 
 export const addNewCardPackTC = (newPackName: string) => {
     return (dispatch: Dispatch) => {
@@ -207,7 +210,7 @@ export const addNewCardPackTC = (newPackName: string) => {
             console.log(e);
         }
     }
-}
+};
 
 export const changeCardPackTitleTC = (packId: string, newTitle: string) => {
     return (dispatch: Dispatch) => {
@@ -220,5 +223,5 @@ export const changeCardPackTitleTC = (packId: string, newTitle: string) => {
             console.log(e);
         }
     }
-}
+};
 
