@@ -4,9 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useSearchParams, useLocation} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import PacksList from "./packsList/PacksList";
-import {getCardPacksTC, setObject} from "../../state/packs-reducer";
+import {getCardPacksTC} from "../../state/packs-reducer";
 import {CardsPacksType} from "../../types/types";
-import {SearchParamsStateType} from "../../state/pack-search-reducer";
+import {
+    SearchParamsStateType,
+    setMinMaxPacks, setObject,
+    setPageCountNumber,
+    setShowAllPacks
+} from "../../state/pack-search-reducer";
 import s from './Main.module.css'
 import Settings from "../settings/Settings";
 import {Pagination} from "../pagination/Pagination";
@@ -17,21 +22,21 @@ import {createBrowserHistory} from "history";
 
 
 export const Main = () => {
-    const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
-    const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks)
-    const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id)
-    const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer)
-    const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.filter)
-    const dispatch = useDispatch<any>()
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth);
+    const packs = useSelector<AppRootStateType, CardsPacksType[]>(state => state.packsReducer.cardsPacks);
+    const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id);
+    const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer);
+    const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.filter);
+    const dispatch = useDispatch<any>();
 
-    const [searchParams, setSearchParams] = useSearchParams()
 
-    const location = useLocation()
-    const param = useParams()
 
-    const navigate = useNavigate()
+    const location = useLocation();
+    const param = useParams();
 
-    const [count, setCount] = useState(0);
+    const navigate = useNavigate();
+
+    // const [count, setCount] = useState(0);
 
     const history = createBrowserHistory();
 
@@ -46,11 +51,13 @@ export const Main = () => {
             // console.log(qs.parse(window.location.search.substring(1)))
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
-            // console.log(filtersFromParams)
-            if (filtersFromParams.count) {
-                setCount(Number(filtersFromParams.count));
-            }
-            dispatch(authMeTC(navigate))
+            console.log(filtersFromParams)
+            dispatch(setObject(filtersFromParams));
+
+            // if (filtersFromParams.count) {
+            //     setCount(Number(filtersFromParams.count));
+            // }
+            dispatch(authMeTC(navigate));
             if (window.location.search) {
                 const params = qs.parse(window.location.search.substring(1))
                 // console.log(params)
@@ -61,7 +68,7 @@ export const Main = () => {
             }
         }
 
-    }, [])
+    }, []);
 
 
 
@@ -71,20 +78,37 @@ export const Main = () => {
     //     console.log(history.location)
     // }, [count]);
 
-    const increaseCount = () => {
-        return setCount(count + 1);
-    }
-    const decreaseCount = () => {
-        return setCount(count - 1)
-    }
+    // const increaseCount = () => {
+    //     return setCount(count + 1);
+    // };
+    // const decreaseCount = () => {
+    //     return setCount(count - 1)
+    // };
 
 
 
     // console.log(useParams())
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search)
+        const searchParams = new URLSearchParams(location.search);
+        // console.log(searchParams.get('max'));
+        // const getParamsObject = {
+        //     min: searchParams.get('min'),
+        //     max: searchParams.get('max')
+        // }
         if (isAuth) {
-            dispatch(getCardPacksTC())
+            dispatch(getCardPacksTC());
+            const filterParams = history.location.search.substr(1);
+            const filtersFromParams = qs.parse(filterParams);
+            console.log(filtersFromParams);
+            // if(searchParams.get('user_id') ) {
+            //     dispatch(setShowAllPacks(searchParams.get('user_id')!))
+            // }
+            //  if(searchParams.get('pageCount') ) {
+            //     dispatch(setPageCountNumber(Number(searchParams.get('pageCount'))!))
+            // }
+            // dispatch(setMinMaxPacks(Number(searchParams.get('max')), Number(searchParams.get('min'))));
+
+
             const queryString = qs.stringify({
                 min: objectOfParams.min,
                 max: objectOfParams.max,
@@ -93,12 +117,13 @@ export const Main = () => {
                 user_id: objectOfParams.user_id,
                 packName: objectOfParams.packName,
                 sortPacks: objectOfParams.sortPacks
-            })
+            });
+
             // const filter =
-            dispatch(setObject(queryString))
-            // console.log(params)
+            // dispatch(setObject(queryString));
+            console.log(queryString)
             // console.log(filter.object)
-            navigate(`?${queryString}`)
+            navigate(`?${queryString}`);
             console.log(objectOfParams2)
 
             // console.log(searchParams.toString())
@@ -115,11 +140,11 @@ export const Main = () => {
         objectOfParams.user_id,
         objectOfParams.packName,
         objectOfParams.page
-    ])
+    ]);
 
     const logout = () => {
         dispatch(logoutTC(navigate))
-    }
+    };
 
     return (
         <div className={s.container}>

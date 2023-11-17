@@ -1,13 +1,18 @@
 
 
 type ActionsType =
-    | ReturnType<typeof getPacksName>
+    | ReturnType<typeof setPacksName>
     | ReturnType<typeof setPageNumber>
     | ReturnType<typeof setPageCountNumber>
     | ReturnType<typeof setMinMaxPacks>
     | ReturnType<typeof setShowAllPacks>
     | ReturnType<typeof setSortPacks>
-    // | ReturnType<typeof setObject>
+    | setObjectType
+
+type setObjectType = {
+    type: 'SET_OBJECT'
+    filter: any
+}
 
 
 export type SearchParamsStateType = {
@@ -43,19 +48,24 @@ export const packSearchReducer = (state: SearchParamsStateType = initialSearchSt
             return {...state, user_id: action.userId};
         case 'SET_SORT_PACKS':
             return {...state, sortPacks: action.sortBy};
-        // case 'SET_OBJECT': {
-        //     return {
-        //         ...state,
-        //          min:action.filter
-        //     }
-        // }
+        case 'SET_OBJECT': {
+            return {...state,
+                min: action.filter.min,
+                max: action.filter.max,
+                page: action.filter.page,
+                pageCount: action.filter.pageCount,
+                user_id: action.filter.user_id,
+                packName: action.filter.packName,
+                sortPacks: action.filter.sortPacks,
+            }
+        }
 
         default:
             return state
     }
 };
 
-export const getPacksName = (packName: string) => ({
+export const setPacksName = (packName: string) => ({
     type: 'GET_PACKS_BY_SEARCH' as const, packName
 });
 export const setPageNumber = (page: number) => ({
@@ -73,10 +83,10 @@ export const setShowAllPacks = (userId: string) => ({
 export const setSortPacks = (sortBy: string) => ({
     type: 'SET_SORT_PACKS' as const, sortBy
 });
-//
-// export const setObject = (filter: any) => ({
-//     type: 'SET_OBJECT', filter
-// })
+
+export const setObject = (filter: any) => ({
+    type: 'SET_OBJECT', filter
+});
 
 
 

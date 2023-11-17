@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
 import {changeCardPackTitleTC, deleteCardPacksTC} from "../../state/packs-reducer";
 import debounce from "lodash.debounce";
-import {getPacksName, setSortPacks} from "../../state/pack-search-reducer";
+import {setPacksName, setSortPacks} from "../../state/pack-search-reducer";
 import {setCardsPackId, setSortCards} from "../../state/card-search-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {Pagination} from "../pagination/Pagination";

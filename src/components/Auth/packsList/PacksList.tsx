@@ -5,7 +5,7 @@ import {changeDateFormat, override} from "../../../helpers/helpers";
 import CommonModal from "../../../portals/CommonModal";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewCardPackTC, changeCardPackTitleTC, deleteCardPacksTC, setLoading} from "../../../state/packs-reducer";
-import {getPacksName, setSortPacks} from "../../../state/pack-search-reducer";
+import {setPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
 import debounce from 'lodash.debounce'
@@ -31,7 +31,7 @@ const PacksList = (props: PacksListType) => {
     const navigate = useNavigate()
 
     const SearchDebounce = useCallback(debounce((value: string)=>{
-        dispatch(getPacksName(value))
+        dispatch(setPacksName(value))
     }, 1000), [])
 
     const dispatch = useDispatch<any>();

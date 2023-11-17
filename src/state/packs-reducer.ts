@@ -162,9 +162,9 @@ export const setLoading = (loading: boolean) => ({
     type: SET_LOADING, loading
 });
 
-export const setObject = (filter: string) => ({
-    type: SET_OBJECT, filter
-});
+// export const setObject = (filter: string) => ({
+//     type: SET_OBJECT, filter
+// });
 
 
 export const getCardPacksTC = () => {
@@ -177,7 +177,7 @@ export const getCardPacksTC = () => {
 
             dispatch(setCardPacks(response.cardPacks));
             dispatch(setTotalCardPackCount(response.cardPacksTotalCount))
-            console.log(response)
+            // console.log(response)
         } catch (e) {
             console.log(e);
         } finally {
