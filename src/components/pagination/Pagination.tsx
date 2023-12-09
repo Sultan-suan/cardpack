@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     setPageCountNumber,
     setPageNumber
@@ -9,6 +9,7 @@ import s from "./Pagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
 import {setLoading} from "../../state/packs-reducer";
+import {log} from "util";
 
 
 export const Pagination = () => {
@@ -17,6 +18,10 @@ export const Pagination = () => {
     const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
+
+    useEffect(()=> {
+        console.log(page)
+    }, [page]);
 
     const [index, setIndex] = useState(1);
 
@@ -31,6 +36,8 @@ export const Pagination = () => {
         setIndex(1)
     };
 
+
+
     const lastPage = () => {
         dispatch(setPageNumber(totalPage));
         setIndex(1 + diapason * (countOfListsPages - 1))
@@ -43,7 +50,8 @@ export const Pagination = () => {
     };
 
     const onChangePageNumber = (page: number) => {
-        dispatch(setPageNumber(page))
+        dispatch(setPageNumber(page));
+        console.log(page)
     };
 
     return (
@@ -60,7 +68,7 @@ export const Pagination = () => {
                     let iPlusOne = i + 1;
                     if (iPlusOne >= index && iPlusOne < (index + diapason)) {
                         return <button disabled={loading} key={pg}
-                                       className={page === pg ? s.navButton_focus : s.navButton}
+                                       className={page === pg ?s.navButton_focus : s.navButton  }
                                        onClick={() => onChangePageNumber(pg)
                                        }>{pg}</button>
                     } else {
@@ -80,7 +88,6 @@ export const Pagination = () => {
                 <Selector value={pageCount} options={options} onChange={changeCardsPerPage}/>
                 <h6>Cards per Page</h6>
             </div>
-
         </div>
     );
 };

@@ -45,27 +45,11 @@ export const Main = () => {
 
     useEffect(() => {
         if (!isAuth) {
-            // console.log(searchParams)
-            // console.log(qs.parse(location.search.substring(1)))
-            // console.log(param)
-            // console.log(qs.parse(window.location.search.substring(1)))
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
-            console.log(filtersFromParams)
-            dispatch(setObject(filtersFromParams));
-
-            // if (filtersFromParams.count) {
-            //     setCount(Number(filtersFromParams.count));
-            // }
+            console.log(filtersFromParams);
             dispatch(authMeTC(navigate));
-            if (window.location.search) {
-                const params = qs.parse(window.location.search.substring(1))
-                // console.log(params)
-                // console.log(window.location.search)
-                // setSearchParams( {
-                //     ...params
-                // })
-            }
+            dispatch(setObject(filtersFromParams));
         }
 
     }, []);
@@ -121,7 +105,7 @@ export const Main = () => {
 
             // const filter =
             // dispatch(setObject(queryString));
-            console.log(queryString)
+            console.log(queryString);
             // console.log(filter.object)
             navigate(`?${queryString}`);
             console.log(objectOfParams2)

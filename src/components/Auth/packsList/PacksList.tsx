@@ -12,6 +12,7 @@ import debounce from 'lodash.debounce'
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {getCardsTC, setPackId, setTitle} from "../../../state/cards-reducer";
 import {useNavigate} from "react-router-dom";
+import {log} from "util";
 
 type PacksListType = {
     packs: CardsPacksType[],
@@ -20,88 +21,92 @@ type PacksListType = {
 
 
 const PacksList = (props: PacksListType) => {
-    const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading)
-    const [deleteId, setDeleteId] = useState('')
-    const [editOpen, setEditOpen] = useState('')
-    const [addPack, setAddPack] = useState(false)
-    const [packName, setPackName] = useState('')
-    const [newPackName, setNewPackName] = useState('')
-    const [updated, setUpdated] = useState(true)
+    const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
+    const searchName = useSelector<AppRootStateType, string>((state => state.packSearchReducer.packName));
+    const [inputValue, setInputValue] = useState(searchName);
+    const [deleteId, setDeleteId] = useState('');
+    const [editOpen, setEditOpen] = useState('');
+    const [addPack, setAddPack] = useState(false);
+    const [packName, setPackName] = useState('');
+    const [newPackName, setNewPackName] = useState('');
+    const [updated, setUpdated] = useState(true);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const SearchDebounce = useCallback(debounce((value: string)=>{
         dispatch(setPacksName(value))
-    }, 1000), [])
+    }, 1000), []);
 
     const dispatch = useDispatch<any>();
     const onCloseDeleteModal = () => {
         setDeleteId('')
-    }
+    };
     const openDeleteModal = (id: string) => {
-        setDeleteId(id)
+        setDeleteId(id);
         console.log('Modal window open ' + id)
-    }
+    };
     const onCloseEditModal = () => {
         setEditOpen('')
-    }
+    };
     const openEditModal = (id: string, name: string) => {
-        setEditOpen(id)
-        setNewPackName(name)
+        setEditOpen(id);
+        setNewPackName(name);
         console.log('Modal window open')
-    }
+    };
     const onCloseAddModal = () => {
         setAddPack(false)
-    }
+    };
     const openAddModal = () => {
-        setAddPack(true)
+        setAddPack(true);
         console.log('Added pack')
-    }
+    };
 
     const add = () => {
-        dispatch(addNewCardPackTC(packName))
+        dispatch(addNewCardPackTC(packName));
         setAddPack(false)
-    }
+    };
 
     const deletePack = () => {
-        dispatch(deleteCardPacksTC(deleteId))
+        dispatch(deleteCardPacksTC(deleteId));
         setDeleteId('')
-    }
+    };
 
     const edit = () => {
-        dispatch(changeCardPackTitleTC(editOpen, newPackName))
+        dispatch(changeCardPackTitleTC(editOpen, newPackName));
         setEditOpen('')
-    }
+    };
 
     const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.currentTarget.value)
-    }
+    };
 
     const onChangeEditName = (e: ChangeEvent<HTMLInputElement>) => {
         setNewPackName(e.currentTarget.value)
-    }
+    };
 
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        SearchDebounce(e.currentTarget.value)
-    }
-
+        // e.preventDefault()
+        SearchDebounce(e.currentTarget.value);
+        setInputValue(e.currentTarget.value);
+    };
+    // console.log(inputValue)
     const onClickSort = () => {
-        setUpdated(!updated)
+        setUpdated(!updated);
         if (updated) {
             dispatch(setSortPacks('updated'))
         } else {
             dispatch(setSortPacks(''))
         }
-    }
+    };
 
     const onClickCards = (id: string, name: string, packUserId: string) => {
-        navigate('/cards')
-        dispatch(getCardsTC(id, packUserId))
+        navigate('/cards');
+        dispatch(getCardsTC(id));
         // dispatch(setPackId('hello'))
-        dispatch(setTitle(name))
-        console.log(name)
+        dispatch(setTitle(name));
+        console.log(name);
         console.log(id)
-    }
+    };
 
     return (
         <div className={s.container}>
@@ -109,7 +114,7 @@ const PacksList = (props: PacksListType) => {
 
             <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
-                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>
+                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch} value={inputValue}/>
                 </div>
                 <div>
                     <button className={s.button} onClick={openAddModal}>Add new pack</button>

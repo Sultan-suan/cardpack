@@ -10,8 +10,8 @@ import {useNavigate} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
 import {changeCardPackTitleTC, deleteCardPacksTC} from "../../state/packs-reducer";
 import debounce from "lodash.debounce";
-import {setPacksName, setSortPacks} from "../../state/pack-search-reducer";
-import {setCardsPackId, setSortCards} from "../../state/card-search-reducer";
+import {SearchParamsStateType, setPacksName, setSortPacks} from "../../state/pack-search-reducer";
+import {SearchCardsParamsStateType, setCardsPackId, setSortCards} from "../../state/card-search-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {Pagination} from "../pagination/Pagination";
 import {CardsPagination} from "../pagination/CardsPagination";
@@ -28,6 +28,7 @@ const Pack = () => {
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount);
+    const objectOfParams = useSelector<AppRootStateType, SearchCardsParamsStateType>(state => state.searchCards);
     const dispatch = useDispatch<any>();
     const navigate = useNavigate();
     const isMounted = useRef(false);
@@ -40,11 +41,11 @@ const Pack = () => {
     const [sorted, setSorted] = useState(true);
     const [packLocalId, setPackLocalId] = useState(packId);
 
-    useEffect(()=> {
-            localStorage.setItem('pack', packId);
-            localStorage.setItem('packUserId', packUserId);
-            console.log(totalCount);
-        dispatch(getCardsTC(packId, packUserId));
+    useEffect(() => {
+        localStorage.setItem('pack', packId);
+        localStorage.setItem('packUserId', packUserId);
+        console.log(totalCount);
+        dispatch(getCardsTC(packId));
         dispatch(setCardsPackId(packId))
     }, [packId, packUserId]);
 
@@ -59,9 +60,9 @@ const Pack = () => {
         }
     }, []);
 
-    useEffect(() => {
-        history.push(`?packId=${packLocalId}`);
-    }, [packLocalId]);
+    // useEffect(() => {
+    //     history.push(`?packId=${packLocalId}`);
+    // }, [packLocalId]);
     // useEffect(() => {
     //     const savedCount = localStorage.getItem('packId');
     //     if (savedCount !== null) {
@@ -69,7 +70,24 @@ const Pack = () => {
     //     }
     // }, []);
 
-    const SearchDebounce = useCallback(debounce((value: string)=>{
+    useEffect(() => {
+        const queryString = qs.stringify({
+            cardAnswer: objectOfParams.cardAnswer,
+            cardQuestion: objectOfParams.cardQuestion,
+            cardsPack_id: objectOfParams.cardsPack_id,
+            min: objectOfParams.min,
+            max: objectOfParams.max,
+            page: objectOfParams.page,
+            pageCount: objectOfParams.pageCount,
+            sortCards: objectOfParams.sortCards
+        });
+
+        console.log(queryString);
+        // console.log(filter.object)
+        navigate(`?${queryString}`);
+    }, []);
+
+    const SearchDebounce = useCallback(debounce((value: string) => {
         // dispatch(getCardName(value))
     }, 1000), []);
 
@@ -129,7 +147,6 @@ const Pack = () => {
     };
 
 
-
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
         SearchDebounce(e.currentTarget.value)
     };
@@ -178,7 +195,8 @@ const Pack = () => {
                                 <th className={s.th}>Answer</th>
                                 <th className={s.th}>Last updated
                                     <button className={s.sortButton} onClick={onClickSort}>
-                                        {sorted ? <BiSolidDownArrow className={s.arrow}/> : <BiSolidUpArrow className={s.arrow}/>}
+                                        {sorted ? <BiSolidDownArrow className={s.arrow}/> :
+                                            <BiSolidUpArrow className={s.arrow}/>}
                                     </button>
                                 </th>
                                 <th className={s.th}>Grade</th>
@@ -251,8 +269,11 @@ const Pack = () => {
                          isCardModal={editOpen}
             />
             <CardsPagination/>
+
+
         </div>
     );
 };
 
 export default Pack;
+

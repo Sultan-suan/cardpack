@@ -34,6 +34,7 @@ const initialSearchState: SearchParamsStateType = {
     packName: "",
     sortPacks: ''
 };
+
 export const packSearchReducer = (state: SearchParamsStateType = initialSearchState, action: ActionsType): SearchParamsStateType => {
     switch (action.type) {
         case 'GET_PACKS_BY_SEARCH':
@@ -50,10 +51,10 @@ export const packSearchReducer = (state: SearchParamsStateType = initialSearchSt
             return {...state, sortPacks: action.sortBy};
         case 'SET_OBJECT': {
             return {...state,
-                min: action.filter.min,
-                max: action.filter.max,
-                page: action.filter.page,
-                pageCount: action.filter.pageCount,
+                min: Number(action.filter.min),
+                max: Number(action.filter.max),
+                page: Number(action.filter.page),
+                pageCount: Number(action.filter.pageCount),
                 user_id: action.filter.user_id,
                 packName: action.filter.packName,
                 sortPacks: action.filter.sortPacks,

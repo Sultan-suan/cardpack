@@ -9,22 +9,22 @@ export type SettingsPropsType = {
 }
 
 const Settings = (props: SettingsPropsType) => {
-    const [isMyActive, setIsMyActive] = useState(false)
-    const [isAllActive, setIsAllActive] = useState(false)
-    const dispatch = useDispatch<any>()
+    const [isMyActive, setIsMyActive] = useState(false);
+    const [isAllActive, setIsAllActive] = useState(false);
+    const dispatch = useDispatch<any>();
 
 
     const handleAllChange = () => {
-        setIsAllActive(true)
-        setIsMyActive(false)
+        setIsAllActive(true);
+        setIsMyActive(false);
         dispatch(setShowAllPacks(''))
-    }
+    };
 
     const handleMyChange = () => {
-        setIsAllActive(false)
-        setIsMyActive(true)
+        setIsAllActive(false);
+        setIsMyActive(true);
         dispatch(setShowAllPacks(props.userId))
-    }
+    };
 
 
 

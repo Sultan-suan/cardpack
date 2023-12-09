@@ -183,15 +183,14 @@ export const setTitle = (title: string) => ({
 
 
 
-export const getCardsTC = (id: string, packUserId: string) => {
+export const getCardsTC = (id: string) => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setLoading(true));
-            dispatch(setPackId(id, packUserId));
+            // dispatch(setPackId(id, packUserId));
             const response = await cardsApi.getCards(id, getState().searchCards);
             dispatch(setCards(response.cards));
             console.log(getState().searchCards);
-
             dispatch(setTotalCardCount(response.cardsTotalCount))
         } catch (e) {
             console.log(e);

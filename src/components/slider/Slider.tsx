@@ -8,19 +8,19 @@ import debounce from 'lodash.debounce'
 
 
 const Slider = () => {
-    const min = useSelector<AppRootStateType, number>(state => state.packSearchReducer.min)
-    const max = useSelector<AppRootStateType, number>(state => state.packSearchReducer.max)
-    const dispatch = useDispatch<any>()
-    const [minValue, setMinValue] = useState(min)
-    const [maxValue, setMaxValue] = useState(max)
+    const min = useSelector<AppRootStateType, number>(state => state.packSearchReducer.min);
+    const max = useSelector<AppRootStateType, number>(state => state.packSearchReducer.max);
+    const dispatch = useDispatch<any>();
+    const [minValue, setMinValue] = useState(min);
+    const [maxValue, setMaxValue] = useState(max);
 
     const setMinMaxDebounce = useCallback(debounce((min: number, max: number)=>{
         dispatch(setMinMaxPacks(min, max))
-    }, 1000), [])
+    }, 1000), []);
 
     const handleInput = (e: any) => {
-        setMinValue(e.minValue)
-        setMaxValue(e.maxValue)
+        setMinValue(e.minValue);
+        setMaxValue(e.maxValue);
         setMinMaxDebounce(e.minValue, e.maxValue)
     };
 
@@ -35,8 +35,8 @@ const Slider = () => {
                     ruler={false}
                     label={true}
                     preventWheel={true}
-                    minValue={minValue}
-                    maxValue={maxValue}
+                    minValue={min}
+                    maxValue={max}
                     barInnerColor={'blue'}
                     onInput={(e) => {
                         handleInput(e);
