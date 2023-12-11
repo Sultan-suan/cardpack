@@ -45,7 +45,7 @@ export const CardsPagination = () => {
         dispatch(setCardsPageCountNumber(value))
     };
 
-    const onChangePageNumber = (page: number) => {
+    const onChangeCardsPageNumber = (page: number) => {
         dispatch(setCardsPageNumber(page))
     };
 
@@ -64,7 +64,7 @@ export const CardsPagination = () => {
                     if (iPlusOne >= index && iPlusOne < (index + diapason)) {
                         return <button disabled={loading} key={pg}
                                        className={page === pg ? s.navButton_focus : s.navButton}
-                                       onClick={() => onChangePageNumber(pg)
+                                       onClick={() => onChangeCardsPageNumber(pg)
                                        }>{pg}</button>
                     } else {
                         return <></>

@@ -45,7 +45,7 @@ const Pack = () => {
         localStorage.setItem('pack', packId);
         localStorage.setItem('packUserId', packUserId);
         console.log(totalCount);
-        dispatch(getCardsTC(packId));
+        dispatch(getCardsTC(packId, packUserId));
         dispatch(setCardsPackId(packId))
     }, [packId, packUserId]);
 

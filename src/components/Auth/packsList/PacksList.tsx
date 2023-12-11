@@ -101,7 +101,7 @@ const PacksList = (props: PacksListType) => {
 
     const onClickCards = (id: string, name: string, packUserId: string) => {
         navigate('/cards');
-        dispatch(getCardsTC(id));
+        dispatch(getCardsTC(id, packUserId));
         // dispatch(setPackId('hello'))
         dispatch(setTitle(name));
         console.log(name);
