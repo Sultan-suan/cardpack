@@ -190,7 +190,7 @@ export const getCardsTC = (id: string, packUserId: string) => {
             dispatch(setPackId(id, packUserId));
             const response = await cardsApi.getCards(id, getState().searchCards);
             dispatch(setCards(response.cards));
-            console.log(getState().searchCards);
+            console.log(response);
             dispatch(setTotalCardCount(response.cardsTotalCount))
         } catch (e) {
             console.log(e);

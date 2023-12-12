@@ -36,8 +36,6 @@ export const Pagination = () => {
         setIndex(1)
     };
 
-
-
     const lastPage = () => {
         dispatch(setPageNumber(totalPage));
         setIndex(1 + diapason * (countOfListsPages - 1))

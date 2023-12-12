@@ -16,7 +16,7 @@ export type SearchCardsParamsStateType = {
     max: number
     page: number
     pageCount: number
-    cardsPack_id: string
+    // cardsPack_id: string
     sortCards: string
 }
 
@@ -27,7 +27,7 @@ const initialSearchState: SearchCardsParamsStateType = {
     max: 25,
     page: 1,
     pageCount: 4,
-    cardsPack_id: "",
+    // cardsPack_id: "",
     sortCards: ''
 };
 
@@ -40,8 +40,8 @@ export const cardsSearchReducer = (state: SearchCardsParamsStateType = initialSe
             return {...state, pageCount: action.pageCount};
         case 'SET_MIN_MAX_CARDS':
             return {...state, min: action.min, max: action.max};
-        case 'SET_CARDS_PACK_ID':
-            return {...state, cardsPack_id: action.cardsPack_id};
+        // case 'SET_CARDS_PACK_ID':
+        //     return {...state, cardsPack_id: action.cardsPack_id};
         case 'SET_SORT_CARDS':
             return {...state, sortCards: action.sortBy};
         // case 'SET_OBJECT': {

@@ -75,7 +75,7 @@ export const packsApi = {
 
 export const cardsApi = {
     getCards: (id: string, objectOfParams: ObjectType) => {
-        return instance.get<ResponseCardsType>(`cards/card?cardsPack_id=${id}&${objectOfParams}`)
+        return instance.get<ResponseCardsType>(`cards/card?cardsPack_id=${id}&${objectToString(objectOfParams)}`)
             .then((response) => {
 
                 return response.data

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     setCardsPageCountNumber,
     setCardsPageNumber
@@ -9,14 +9,19 @@ import s from "./Pagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
 import {setLoading} from "../../state/packs-reducer";
+import {log} from "util";
 
 
 export const CardsPagination = () => {
-    const page = useSelector<AppRootStateType, number>((state) => state.cards.page);
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.cards.pageCount);
+    const page = useSelector<AppRootStateType, number>((state) => state.searchCards.page);
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.searchCards.pageCount);
     const cardsTotalCount = useSelector<AppRootStateType, any>((state) => state.cards.cardsTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
+
+    useEffect(() => {
+        console.log(pageCount, page, cardsTotalCount)
+    }, [pageCount, page, cardsTotalCount]);
 
 
     const [index, setIndex] = useState(1);
@@ -32,7 +37,7 @@ export const CardsPagination = () => {
         setIndex(1)
     };
 
-    console.log(cardsTotalCount, page, pageCount);
+
 
     const lastPage = () => {
         dispatch(setCardsPageNumber(totalPage));
@@ -43,11 +48,15 @@ export const CardsPagination = () => {
 
     const changeCardsPerPage = (value: number) => {
         dispatch(setCardsPageCountNumber(value))
+        console.log(value)
     };
 
     const onChangeCardsPageNumber = (page: number) => {
         dispatch(setCardsPageNumber(page))
+
     };
+
+    console.log(page)
 
     return (
         <div className={s.navWrapper}>

@@ -41,13 +41,13 @@ const Pack = () => {
     const [sorted, setSorted] = useState(true);
     const [packLocalId, setPackLocalId] = useState(packId);
 
-    useEffect(() => {
-        localStorage.setItem('pack', packId);
-        localStorage.setItem('packUserId', packUserId);
-        console.log(totalCount);
-        dispatch(getCardsTC(packId, packUserId));
-        dispatch(setCardsPackId(packId))
-    }, [packId, packUserId]);
+    // useEffect(() => {
+    //     localStorage.setItem('pack', packId);
+    //     localStorage.setItem('packUserId', packUserId);
+    //     console.log(totalCount);
+    //     // dispatch(getCardsTC(packId, packUserId));
+    //     dispatch(setCardsPackId(packId))
+    // }, [packId, packUserId]);
 
 
     const history = createBrowserHistory();
@@ -74,7 +74,7 @@ const Pack = () => {
         const queryString = qs.stringify({
             cardAnswer: objectOfParams.cardAnswer,
             cardQuestion: objectOfParams.cardQuestion,
-            cardsPack_id: objectOfParams.cardsPack_id,
+            // cardsPack_id: objectOfParams.cardsPack_id,
             min: objectOfParams.min,
             max: objectOfParams.max,
             page: objectOfParams.page,
