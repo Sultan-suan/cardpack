@@ -15,7 +15,7 @@ import {log} from "util";
 export const Pagination = () => {
     const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page);
     const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
-    const cardPacksTotalCount = useSelector<AppRootStateType, any>((state) => state.packsReducer.cardPacksTotalCount);
+    const cardPacksTotalCount = useSelector<AppRootStateType, number>((state) => state.packsReducer.cardPacksTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
 
@@ -23,10 +23,13 @@ export const Pagination = () => {
         console.log(page)
     }, [page]);
 
+
     const [index, setIndex] = useState(1);
 
-    const totalPage = Math.ceil(cardPacksTotalCount / pageCount);
-
+    const totalPage = Math.ceil(cardPacksTotalCount / pageCount
+        || 8
+    );
+    console.log(cardPacksTotalCount, pageCount)
     let diapason = 5;
 
     const countOfListsPages = Math.ceil(totalPage / diapason);
@@ -41,7 +44,8 @@ export const Pagination = () => {
         setIndex(1 + diapason * (countOfListsPages - 1))
     };
 
-    const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1);
+    const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1) ;
+    // const pagesArray = Array.from({ length: totalPage }, (_, index) => index + 1);
 
     const changeCardsPerPage = (value: number) => {
         dispatch(setPageCountNumber(value))

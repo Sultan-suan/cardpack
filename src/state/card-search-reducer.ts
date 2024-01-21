@@ -6,7 +6,12 @@ type ActionsType =
     | ReturnType<typeof setMinMaxCards>
     | ReturnType<typeof setCardsPackId>
     | ReturnType<typeof setSortCards>
-    // | ReturnType<typeof setObject>
+    | SetCardObjectType
+
+type SetCardObjectType = {
+    type: 'SET_CARD_OBJECT'
+    filter: any
+}
 
 
 export type SearchCardsParamsStateType = {
@@ -44,12 +49,15 @@ export const cardsSearchReducer = (state: SearchCardsParamsStateType = initialSe
         //     return {...state, cardsPack_id: action.cardsPack_id};
         case 'SET_SORT_CARDS':
             return {...state, sortCards: action.sortBy};
-        // case 'SET_OBJECT': {
-        //     return {
-        //         ...state,
-        //          min:action.filter
-        //     }
-        // }
+        case 'SET_CARD_OBJECT': {
+                return {...state,
+                    min: Number(action.filter.min),
+                    max: Number(action.filter.max),
+                    page: Number(action.filter.page),
+                    pageCount: Number(action.filter.pageCount),
+                    sortCards: action.filter.sortCards,
+                }
+            }
 
         default:
             return state
@@ -71,10 +79,10 @@ export const setCardsPackId = (cardsPack_id: string) => ({
 export const setSortCards = (sortBy: string) => ({
     type: 'SET_SORT_CARDS' as const, sortBy
 });
-//
-// export const setObject = (filter: any) => ({
-//     type: 'SET_OBJECT', filter
-// })
+
+export const setCardObject = (filter: any) => ({
+    type: 'SET_OBJECT', filter
+})
 
 
 

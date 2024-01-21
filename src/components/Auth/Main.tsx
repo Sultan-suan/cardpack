@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {authMeTC, logoutTC} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useSearchParams, useLocation} from 'react-router-dom';
@@ -9,7 +9,7 @@ import {CardsPacksType} from "../../types/types";
 import {
     SearchParamsStateType,
     setMinMaxPacks, setObject,
-    setPageCountNumber,
+    // setPageCountNumber,
     setShowAllPacks
 } from "../../state/pack-search-reducer";
 import s from './Main.module.css'
@@ -19,6 +19,7 @@ import {useParams} from 'react-router-dom'
 import qs from 'qs'
 import {objectToString} from "../../helpers/helpers";
 import {createBrowserHistory} from "history";
+import {Dispatch} from "redux";
 
 
 export const Main = () => {
@@ -28,6 +29,7 @@ export const Main = () => {
     const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer);
     const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.filter);
     const dispatch = useDispatch<any>();
+    const isLoaded = useRef(false)
 
 
 
@@ -45,11 +47,15 @@ export const Main = () => {
 
     useEffect(() => {
         if (!isAuth) {
+
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
             console.log(filtersFromParams);
             dispatch(authMeTC(navigate));
-            dispatch(setObject(filtersFromParams));
+            if(isLoaded.current) {
+                dispatch(setObject(filtersFromParams));
+            }
+            isLoaded.current = true
         }
 
     }, []);
@@ -145,7 +151,7 @@ export const Main = () => {
                 </div>
                 <div className={s.packList}>
                     <PacksList packs={packs} userId={userId}/>
-                    <Pagination/>
+                    {/*<Pagination/>*/}
                 </div>
             </div>
         </div>

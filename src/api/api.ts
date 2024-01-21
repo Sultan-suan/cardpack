@@ -81,6 +81,7 @@ export const cardsApi = {
                 return response.data
             })
     },
+
     deleteCard: (packId: string) => {
         return instance.delete('cards/card?id=' + packId)
             .then((response) => {

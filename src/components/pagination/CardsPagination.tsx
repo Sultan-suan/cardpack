@@ -15,7 +15,7 @@ import {log} from "util";
 export const CardsPagination = () => {
     const page = useSelector<AppRootStateType, number>((state) => state.searchCards.page);
     const pageCount = useSelector<AppRootStateType, any>((state) => state.searchCards.pageCount);
-    const cardsTotalCount = useSelector<AppRootStateType, any>((state) => state.cards.cardsTotalCount);
+    const cardsTotalCount = useSelector<AppRootStateType, number>((state) => state.cards.cardsTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
 
@@ -53,7 +53,6 @@ export const CardsPagination = () => {
 
     const onChangeCardsPageNumber = (page: number) => {
         dispatch(setCardsPageNumber(page))
-
     };
 
     console.log(page)

@@ -10,14 +10,15 @@ import {useNavigate} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
 import {changeCardPackTitleTC, deleteCardPacksTC} from "../../state/packs-reducer";
 import debounce from "lodash.debounce";
-import {SearchParamsStateType, setPacksName, setSortPacks} from "../../state/pack-search-reducer";
-import {SearchCardsParamsStateType, setCardsPackId, setSortCards} from "../../state/card-search-reducer";
+import {SearchParamsStateType, setObject, setPacksName, setSortPacks} from "../../state/pack-search-reducer";
+import {SearchCardsParamsStateType, setCardObject, setCardsPackId, setSortCards} from "../../state/card-search-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {Pagination} from "../pagination/Pagination";
 import {CardsPagination} from "../pagination/CardsPagination";
 import {createBrowserHistory} from "history";
 import qs from "qs";
 import {getPackId} from "../../utils/getPackId";
+import {authMeTC} from "../../state/auth-reducer";
 
 
 const Pack = () => {
@@ -45,12 +46,19 @@ const Pack = () => {
     //     localStorage.setItem('pack', packId);
     //     localStorage.setItem('packUserId', packUserId);
     //     console.log(totalCount);
-    //     // dispatch(getCardsTC(packId, packUserId));
+    //     dispatch(getCardsTC(packId, packUserId));
     //     dispatch(setCardsPackId(packId))
     // }, [packId, packUserId]);
 
 
     const history = createBrowserHistory();
+
+    useEffect(() => {
+            const filterParams = history.location.search.substr(1);
+            const filtersFromParams = qs.parse(filterParams);
+            console.log(filtersFromParams);
+            dispatch(setCardObject(filtersFromParams));
+    }, []);
 
     useEffect(() => {
         const filterParams = history.location.search.substr(1);
@@ -71,21 +79,28 @@ const Pack = () => {
     // }, []);
 
     useEffect(() => {
-        const queryString = qs.stringify({
-            cardAnswer: objectOfParams.cardAnswer,
-            cardQuestion: objectOfParams.cardQuestion,
-            // cardsPack_id: objectOfParams.cardsPack_id,
-            min: objectOfParams.min,
-            max: objectOfParams.max,
-            page: objectOfParams.page,
-            pageCount: objectOfParams.pageCount,
-            sortCards: objectOfParams.sortCards
-        });
+        if(isMounted) {
+            // dispatch(getCardsTC(packId, packUserId))
+            const queryString = qs.stringify({
+                cardAnswer: objectOfParams.cardAnswer,
+                cardQuestion: objectOfParams.cardQuestion,
+                // cardsPack_id: objectOfParams.cardsPack_id,
+                min: objectOfParams.min,
+                max: objectOfParams.max,
+                page: objectOfParams.page,
+                pageCount: objectOfParams.pageCount,
+                sortCards: objectOfParams.sortCards
+            });
 
-        console.log(queryString);
-        // console.log(filter.object)
-        navigate(`?${queryString}`);
-    }, []);
+            console.log(queryString);
+            // console.log(filter.object)
+            navigate(`?${queryString}`);
+        }
+        isMounted.current = true
+    }, [
+        objectOfParams.page,
+        objectOfParams.pageCount
+    ]);
 
     const SearchDebounce = useCallback(debounce((value: string) => {
         // dispatch(getCardName(value))
@@ -184,7 +199,8 @@ const Pack = () => {
                     aria-label="Loading Spinner"
                     data-testid="loader"
                 />
-            </div> : cards.length === 0 ? <h2>No cards</h2> :
+            </div>
+                : cards?.length === 0 ? <h2>No cards</h2> :
 
                 <div className={s.content}>
                     <div className={s.tableWrapper}>

@@ -117,7 +117,7 @@ export const packsReducer = (state: InitStateType = initialState, action: Action
         case SET_TOTAL_CARD_PACKS_COUNT: {
             return {
                 ...state,
-                cardPacksTotalCount: action.totalCount
+                cardPacksTotalCount: (action.totalCount)
             }
         }
         case SET_LOADING: {
