@@ -8,7 +8,7 @@ import CommonModal from "../../portals/CommonModal";
 import {CardsType} from "../../types/types";
 import {useNavigate} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
-import {changeCardPackTitleTC, deleteCardPacksTC} from "../../state/packs-reducer";
+import {changeCardPackTitleTC, deleteCardPacksTC, getCardPacksTC} from "../../state/packs-reducer";
 import debounce from "lodash.debounce";
 import {SearchParamsStateType, setObject, setPacksName, setSortPacks} from "../../state/pack-search-reducer";
 import {SearchCardsParamsStateType, setCardObject, setCardsPackId, setSortCards} from "../../state/card-search-reducer";
@@ -80,7 +80,7 @@ const Pack = () => {
 
     useEffect(() => {
         if(isMounted) {
-            // dispatch(getCardsTC(packId, packUserId))
+            dispatch(getCardsTC(packId, packUserId))
             const queryString = qs.stringify({
                 cardAnswer: objectOfParams.cardAnswer,
                 cardQuestion: objectOfParams.cardQuestion,
@@ -137,6 +137,7 @@ const Pack = () => {
 
     const onClickBackHandler = () => {
         navigate('/')
+        // dispatch(getCardPacksTC())
     };
 
     const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {

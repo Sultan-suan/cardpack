@@ -50,11 +50,12 @@ export const packSearchReducer = (state: SearchParamsStateType = initialSearchSt
         case 'SET_SORT_PACKS':
             return {...state, sortPacks: action.sortBy};
         case 'SET_OBJECT': {
+            debugger
             return {...state,
-                min: Number(action.filter.min),
-                max: Number(action.filter.max),
-                page: Number(action.filter.page),
-                pageCount: Number(action.filter.pageCount),
+                min: !Number(action.filter.min) ? state.min : Number(action.filter.min),
+                max: !Number(action.filter.max) ? state.max : Number(action.filter.max),
+                page: !Number(action.filter.page) ? state.page : Number(action.filter.page),
+                pageCount: !Number(action.filter.pageCount) ? state.pageCount : Number(action.filter.pageCount),
                 user_id: action.filter.user_id,
                 packName: action.filter.packName,
                 sortPacks: action.filter.sortPacks,

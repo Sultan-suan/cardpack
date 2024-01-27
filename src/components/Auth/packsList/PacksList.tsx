@@ -153,8 +153,8 @@ const PacksList = (props: PacksListType) => {
                                 <tbody className={s.tbody}>
                                 {props.packs.map((el, i) => {
                                     return <tr className={s.tr} key={i}>
-                                        <td className={s.td}>{el.name}</td>
-                                        <td onClick={()=>onClickCards(el._id, el.name, el.user_id)} className={s.td}>{el.cardsCount}</td>
+                                        <td onClick={()=>onClickCards(el._id, el.name, el.user_id)} className={s.td}>{el.name}</td>
+                                        <td  className={s.td}>{el.cardsCount}</td>
                                         <td className={s.td}>{changeDateFormat(el.updated)}</td>
                                         <td className={s.td}>{el.user_name}</td>
                                         <td className={s.td}>

@@ -29,8 +29,7 @@ export const Main = () => {
     const objectOfParams = useSelector<AppRootStateType, SearchParamsStateType>(state => state.packSearchReducer);
     const objectOfParams2 = useSelector<AppRootStateType, any>(state => state.packsReducer.filter);
     const dispatch = useDispatch<any>();
-    const isLoaded = useRef(false)
-
+    const isMounted = useRef(false)
 
 
     const location = useLocation();
@@ -43,23 +42,23 @@ export const Main = () => {
     const history = createBrowserHistory();
 
 
-
-
     useEffect(() => {
-        if (!isAuth) {
 
+        if (!isAuth) {
+            isMounted.current = true
+            // debugger
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
             console.log(filtersFromParams);
             dispatch(authMeTC(navigate));
-            if(isLoaded.current) {
+            if (isMounted.current) {
+                // debugger
                 dispatch(setObject(filtersFromParams));
             }
-            isLoaded.current = true
+            isMounted.current = true
         }
 
     }, []);
-
 
 
     // useEffect(() => {
@@ -76,9 +75,9 @@ export const Main = () => {
     // };
 
 
-
     // console.log(useParams())
     useEffect(() => {
+
         const searchParams = new URLSearchParams(location.search);
         // console.log(searchParams.get('max'));
         // const getParamsObject = {
@@ -86,9 +85,18 @@ export const Main = () => {
         //     max: searchParams.get('max')
         // }
         if (isAuth) {
+            // debugger
+
             dispatch(getCardPacksTC());
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
+            console.log(isMounted)
+            // if (isMounted.current) {
+            //     // debugger
+            //     dispatch(setObject(filtersFromParams));
+            // }
+
+            console.log(filterParams);
             console.log(filtersFromParams);
             // if(searchParams.get('user_id') ) {
             //     dispatch(setShowAllPacks(searchParams.get('user_id')!))
@@ -111,16 +119,16 @@ export const Main = () => {
 
             // const filter =
             // dispatch(setObject(queryString));
-            console.log(queryString);
+            // console.log(queryString);
             // console.log(filter.object)
             navigate(`?${queryString}`);
-            console.log(objectOfParams2)
-
+            // console.log(objectOfParams2)
             // console.log(searchParams.toString())
             // console.log(qs.parse(window.location.search.substring(1)))
             // console.log(qs.parse(window.location.search.substring(1)))
             // console.log(params)
         }
+        // isMounted.current = true
     }, [
         isAuth,
         objectOfParams.pageCount,
