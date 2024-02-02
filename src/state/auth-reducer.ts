@@ -13,8 +13,8 @@ export type UserType = {
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
 }
-export type InitialStateType = {
 
+export type InitialStateType = {
     user: UserType,
     isAuth: boolean
     isRegister: boolean
@@ -95,8 +95,10 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
             authApi.getLogin(email, password, rememberMe)
                 .then((data) => {
                     dispatch(setUserData(data));
+                    console.log(data)
                     dispatch(setIsAuth(true));
                     localStorage.setItem('token', data.token)
+                    localStorage.setItem('userId', data._id);
                 })
         } catch (e) {
             console.log(e);

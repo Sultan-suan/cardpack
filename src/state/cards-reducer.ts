@@ -5,7 +5,7 @@ import {AppRootStateType} from "./store";
 import {ObjectType} from "../helpers/helpers";
 import {SearchParamsStateType} from "./pack-search-reducer";
 import {setLoading} from "./packs-reducer";
-import {getPackId, getPackUserId} from "../utils/getPackId";
+import {getPackId, getPackUserId, getUserId} from "../utils/getPackId";
 
 
 export type InitStateType = {
@@ -19,6 +19,7 @@ export type InitStateType = {
     tokenDeathTime?: number
     packUserId: string
     packId: string
+    userId: string
     packTitle: string
 }
 let initialState: InitStateType = {
@@ -30,6 +31,7 @@ let initialState: InitStateType = {
     pageCount: 4,
     packUserId: getPackUserId(),
     packId: getPackId(),
+    userId: getUserId(),
     packTitle: ''
     //     {
     //     min: 0,
@@ -49,6 +51,7 @@ type ActionType =
     | ChangeCardInfoActionType
     | SetTotalCardCountType
     | SetPackIdType
+    | SetUserIdType
     | SetTitleType
 
 export type SetCardActionType = {
@@ -81,7 +84,11 @@ export type SetTotalCardCountType = {
 export type SetPackIdType = {
     type: 'packs/SET_PACK_ID'
     packId: string
-    packUserId: string
+    packUserId: string,
+}
+export type SetUserIdType = {
+    type: 'packs/SET_USER_ID'
+    userId: string
 }
 
 export type SetTitleType = {
@@ -96,6 +103,7 @@ const ADD_NEW_CARD = 'packs/ADD_NEW_CARD';
 const CHANGE_CARD_INFO = 'packs/CHANGE_CARD_INFO';
 const SET_TOTAL_CARD_COUNT = 'packs/SET_TOTAL_CARD_COUNT';
 const SET_PACK_ID = 'packs/SET_PACK_ID';
+const SET_USER_ID = 'packs/SET_USER_ID';
 const SET_TITLE = 'packs/SET_TITLE';
 
 export const cardsReducer = (state: InitStateType = initialState, action: ActionType): InitStateType => {
@@ -140,6 +148,12 @@ export const cardsReducer = (state: InitStateType = initialState, action: Action
                 packUserId: action.packUserId
             }
         }
+        case SET_USER_ID: {
+            return {
+                ...state,
+                userId: action.userId
+            }
+        }
         //
         case SET_TITLE: {
 
@@ -176,6 +190,9 @@ export const setTotalCardCount = (totalCount: number) => ({
 export const setPackId = (packId: string, packUserId: string) => ({
     type: SET_PACK_ID, packId, packUserId
 });
+export const setUserId = (userId: string) => ({
+    type: SET_USER_ID, userId
+});
 //
 export const setTitle = (title: string) => ({
     type: SET_TITLE, title
@@ -183,14 +200,17 @@ export const setTitle = (title: string) => ({
 
 
 
-export const getCardsTC = (id: string, packUserId: string) => {
+export const getCardsTC = (id: string, packUserId: string, userId: string) => {
     return async (dispatch: Dispatch, getState: () => AppRootStateType) => {
         try {
             dispatch(setLoading(true));
             dispatch(setPackId(id, packUserId));
             const response = await cardsApi.getCards(id, getState().searchCards);
+            localStorage.setItem('userId', userId);
+            const idOfUser = localStorage.getItem('userId')
+            dispatch(setUserId(idOfUser || ''))
             dispatch(setCards(response.cards));
-            console.log(response);
+            console.log(getState().searchCards);
             dispatch(setTotalCardCount(response.cardsTotalCount))
         } catch (e) {
             console.log(e);

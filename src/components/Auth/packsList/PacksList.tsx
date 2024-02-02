@@ -24,6 +24,7 @@ type PacksListType = {
 const PacksList = (props: PacksListType) => {
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const searchName = useSelector<AppRootStateType, string>((state => state.packSearchReducer.packName));
+    const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const [inputValue, setInputValue] = useState(searchName);
     const [deleteId, setDeleteId] = useState('');
     const [editOpen, setEditOpen] = useState('');
@@ -34,7 +35,7 @@ const PacksList = (props: PacksListType) => {
 
     const navigate = useNavigate();
 
-    const SearchDebounce = useCallback(debounce((value: string)=>{
+    const SearchDebounce = useCallback(debounce((value: string) => {
         dispatch(setPacksName(value))
     }, 1000), []);
 
@@ -101,8 +102,8 @@ const PacksList = (props: PacksListType) => {
     };
 
     const onClickCards = (id: string, name: string, packUserId: string) => {
-        navigate('/cards');
-        dispatch(getCardsTC(id, packUserId));
+        navigate('/cards/'+userId);
+        dispatch(getCardsTC(id, packUserId, userId));
         // dispatch(setPackId('hello'))
         dispatch(setTitle(name));
         console.log(name);
@@ -115,7 +116,8 @@ const PacksList = (props: PacksListType) => {
 
             <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
-                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch} value={inputValue}/>
+                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}
+                           value={inputValue}/>
                 </div>
                 <div>
                     <button className={s.button} onClick={openAddModal}>Add new pack</button>
@@ -131,17 +133,18 @@ const PacksList = (props: PacksListType) => {
                             aria-label="Loading Spinner"
                             data-testid="loader"
                         />
-                </div> :
+                    </div> :
                     <div className={s.content}>
                         <div className={s.tableWrapper}>
-                            <table className={s.table} >
+                            <table className={s.table}>
                                 <thead className={s.head}>
                                 <tr className={s.tr}>
                                     <th className={s.th}>Name</th>
                                     <th className={s.th}>Cards</th>
                                     <th className={s.th}>Last updated
                                         <button className={s.sortButton} onClick={onClickSort}>
-                                            {updated ? <BiSolidDownArrow className={s.arrow}/> : <BiSolidUpArrow className={s.arrow}/>}
+                                            {updated ? <BiSolidDownArrow className={s.arrow}/> :
+                                                <BiSolidUpArrow className={s.arrow}/>}
 
                                         </button>
                                     </th>
@@ -153,8 +156,9 @@ const PacksList = (props: PacksListType) => {
                                 <tbody className={s.tbody}>
                                 {props.packs.map((el, i) => {
                                     return <tr className={s.tr} key={i}>
-                                        <td onClick={()=>onClickCards(el._id, el.name, el.user_id)} className={s.td}>{el.name}</td>
-                                        <td  className={s.td}>{el.cardsCount}</td>
+                                        <td onClick={() => onClickCards(el._id, el.name, el.user_id)}
+                                            className={s.td}>{el.name}</td>
+                                        <td className={s.td}>{el.cardsCount}</td>
                                         <td className={s.td}>{changeDateFormat(el.updated)}</td>
                                         <td className={s.td}>{el.user_name}</td>
                                         <td className={s.td}>
@@ -164,7 +168,8 @@ const PacksList = (props: PacksListType) => {
                                                     <button onClick={() => openDeleteModal(el._id)}
                                                             className={s.deleteButton}>delete
                                                     </button>
-                                                    <button onClick={() => openEditModal(el._id, el.name)} className={s.editButton}>edit
+                                                    <button onClick={() => openEditModal(el._id, el.name)}
+                                                            className={s.editButton}>edit
                                                     </button>
                                                 </>
                                             }
