@@ -20,7 +20,7 @@ export const CardsPagination = () => {
     const dispatch = useDispatch<any>();
 
     useEffect(() => {
-        console.log(pageCount, page, cardsTotalCount)
+        // console.log(pageCount, page, cardsTotalCount)
     }, [pageCount, page, cardsTotalCount]);
 
 
@@ -48,14 +48,14 @@ export const CardsPagination = () => {
 
     const changeCardsPerPage = (value: number) => {
         dispatch(setCardsPageCountNumber(value))
-        console.log(value)
+        // console.log(value)
     };
 
     const onChangeCardsPageNumber = (page: number) => {
         dispatch(setCardsPageNumber(page))
     };
 
-    console.log(page)
+    // console.log(page)
 
     return (
         <div className={s.navWrapper}>

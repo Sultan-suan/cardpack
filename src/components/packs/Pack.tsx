@@ -10,8 +10,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {ClockLoader} from "react-spinners";
 import {changeCardPackTitleTC, deleteCardPacksTC, getCardPacksTC} from "../../state/packs-reducer";
 import debounce from "lodash.debounce";
-import {SearchParamsStateType, setObject, setPacksName, setSortPacks} from "../../state/pack-search-reducer";
-import {SearchCardsParamsStateType, setCardObject, setCardsPackId, setSortCards} from "../../state/card-search-reducer";
+import {SearchCardsParamsStateType, setCardObject, setSortCards} from "../../state/card-search-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {Pagination} from "../pagination/Pagination";
 import {CardsPagination} from "../pagination/CardsPagination";
@@ -46,13 +45,14 @@ const Pack = () => {
     const [packLocalId, setPackLocalId] = useState(packId);
     // const [userLocalIsId, setUserLocalIsId] = useState(userId);
 
+    const history = createBrowserHistory();
+    const filterParams = history.location.search.substr(1);
+    const filtersFromParams = qs.parse(filterParams);
 
     useEffect(() => {
         localStorage.setItem('packId', packId);
         localStorage.setItem('packUserId', packUserId);
-        console.log('userName: ', localStorage.getItem('userId'))
-        const filterParams = history.location.search.substr(1);
-        const filtersFromParams = qs.parse(filterParams);
+
         // debugger
         dispatch(setCardObject(filtersFromParams));
         console.log(filtersFromParams)
@@ -63,10 +63,16 @@ const Pack = () => {
 
         // dispatch(setUserId(userId))
 
-        dispatch(setCardsPackId(packId))
-    }, [packId, packUserId, userId]);
+        // dispatch(setCardsPackId(packId))
+    }, [
+        // packId,
+        // packUserId,
+        // userId,
+        objectOfParams.page,
+        objectOfParams.pageCount
+    ]);
 
-    const history = createBrowserHistory();
+
 
 
     // useEffect(() => {
@@ -110,7 +116,6 @@ const Pack = () => {
             const queryString = qs.stringify({
                 cardAnswer: objectOfParams.cardAnswer,
                 cardQuestion: objectOfParams.cardQuestion,
-                // cardsPack_id: objectOfParams.cardsPack_id,
                 min: objectOfParams.min,
                 max: objectOfParams.max,
                 page: objectOfParams.page,
@@ -125,7 +130,8 @@ const Pack = () => {
         isMounted.current = true
     }, [
         objectOfParams.page,
-        objectOfParams.pageCount
+        objectOfParams.pageCount,
+        objectOfParams.sortCards
     ]);
 
 
@@ -198,21 +204,23 @@ const Pack = () => {
         setSorted(!sorted);
         if (sorted) {
             dispatch(setSortCards('grade'))
+            console.log('0grade')
         } else {
             dispatch(setSortCards(''))
+            console.log('')
         }
     };
-    console.log('packUserId: ' + packUserId,
-        'userId: ' + userId,
-        packId)
+    // console.log('packUserId: ' + packUserId,
+    //     'userId: ' + userId,
+    //     packId)
 
     return (
         <div className={s.mainContainer}>
             <button onClick={onClickBackHandler}>Back</button>
             <h1>Pack: {packTitle}</h1>
-            {/*<div>userId: {userId}</div>*/}
-            {/*<div>packUserId: {packUserId}</div>*/}
-            {/*<div>packId: {packId}</div>*/}
+            <div>userId: {userId}</div>
+            <div>packUserId: {packUserId}</div>
+            <div>packId: {packId}</div>
             <div className={s.searchAndAdd}>
                 <div className={s.searchWrapper}>
                     <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}/>

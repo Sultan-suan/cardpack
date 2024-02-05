@@ -106,8 +106,8 @@ const PacksList = (props: PacksListType) => {
         dispatch(getCardsTC(id, packUserId, userId));
         // dispatch(setPackId('hello'))
         dispatch(setTitle(name));
-        console.log(name);
-        console.log(id)
+        // console.log(name);
+        // console.log(id)
     };
 
     return (

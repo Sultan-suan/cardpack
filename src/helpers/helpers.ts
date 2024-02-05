@@ -22,7 +22,7 @@ export type ObjectType = {[key: string]: string | number}
 
 export function objectToString(obj: ObjectType) {
     let str = Object.entries(obj).map(ar => ar.join('=')).join('&');
-        console.log(str);
+        // console.log(str);
     return str
 }
 

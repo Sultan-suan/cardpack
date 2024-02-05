@@ -20,7 +20,7 @@ export const Pagination = () => {
     const dispatch = useDispatch<any>();
 
     useEffect(()=> {
-        console.log(page)
+        // console.log(page)
     }, [page]);
 
 
@@ -29,7 +29,7 @@ export const Pagination = () => {
     const totalPage = Math.ceil(cardPacksTotalCount / pageCount
         || 8
     );
-    console.log(cardPacksTotalCount, pageCount)
+    // console.log(cardPacksTotalCount, pageCount)
     let diapason = 5;
 
     const countOfListsPages = Math.ceil(totalPage / diapason);
@@ -53,7 +53,7 @@ export const Pagination = () => {
 
     const onChangePageNumber = (page: number) => {
         dispatch(setPageNumber(page));
-        console.log(page)
+        // console.log(page)
     };
 
     return (
@@ -69,7 +69,7 @@ export const Pagination = () => {
                 {pagesArray.map((pg, i) => {
                     let iPlusOne = i + 1;
                     if (iPlusOne >= index && iPlusOne < (index + diapason)) {
-                        return <button disabled={loading} key={pg}
+                        return <button key={i} disabled={loading}
                                        className={page === pg ?s.navButton_focus : s.navButton  }
                                        onClick={() => onChangePageNumber(pg)
                                        }>{pg}</button>
