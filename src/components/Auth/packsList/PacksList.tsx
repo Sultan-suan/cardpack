@@ -33,6 +33,10 @@ const PacksList = (props: PacksListType) => {
     const [newPackName, setNewPackName] = useState('');
     const [updated, setUpdated] = useState(true);
 
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
+
+    console.log('pageCount: ' + pageCount)
+
     const navigate = useNavigate();
 
     const SearchDebounce = useCallback(debounce((value: string) => {

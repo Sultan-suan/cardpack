@@ -68,8 +68,8 @@ const Pack = () => {
         // packId,
         // packUserId,
         // userId,
-        objectOfParams.page,
-        objectOfParams.pageCount
+        // objectOfParams.page,
+        // objectOfParams.pageCount
     ]);
 
 
@@ -109,6 +109,7 @@ const Pack = () => {
 
     useEffect(() => {
         isMounted.current = true
+        console.log('cardsPageCount:' + objectOfParams.pageCount)
 
         if (isMounted.current) {
             // debugger
