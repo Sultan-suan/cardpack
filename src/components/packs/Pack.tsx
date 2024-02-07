@@ -3,7 +3,7 @@ import s from './../Auth/packsList/PacksList.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {addNewCardTC, changeCardInfoTC, deleteCardTC, getCardsTC, setUserId} from "../../state/cards-reducer";
-import {changeDateFormat, override} from "../../helpers/helpers";
+import {changeDateFormat, override, starsObjects} from "../../helpers/helpers";
 import CommonModal from "../../portals/CommonModal";
 import {CardsType} from "../../types/types";
 import {useNavigate, useParams} from "react-router-dom";
@@ -16,8 +16,11 @@ import {Pagination} from "../pagination/Pagination";
 import {CardsPagination} from "../pagination/CardsPagination";
 import {createBrowserHistory} from "history";
 import qs from "qs";
+import star from './../../assets/icons/star.png'
+import blackStar from './../../assets/icons/black-star.png'
 import {getPackId} from "../../utils/getPackId";
 import {authMeTC} from "../../state/auth-reducer";
+import {Star} from "../star/Star";
 
 
 const Pack = () => {
@@ -41,7 +44,9 @@ const Pack = () => {
     const [answer, setAnswer] = useState('');
     const [deleteCardId, setDeleteCardId] = useState('');
     const [editOpen, setEditOpen] = useState('');
+    const [stars, setStars] = useState([]);
     const [sorted, setSorted] = useState(true);
+    const [isFilled, setIsFilled] = useState<any>(true);
     const [packLocalId, setPackLocalId] = useState(packId);
     // const [userLocalIsId, setUserLocalIsId] = useState(userId);
 
@@ -71,8 +76,6 @@ const Pack = () => {
         // objectOfParams.page,
         // objectOfParams.pageCount
     ]);
-
-
 
 
     // useEffect(() => {
@@ -258,7 +261,14 @@ const Pack = () => {
                                             <td className={s.td}>{el.question}</td>
                                             <td className={s.td}>{el.answer}</td>
                                             <td className={s.td}>{changeDateFormat(el.updated)}</td>
-                                            <td className={s.td}>{el.grade}</td>
+                                            <td className={s.td}>
+                                                <span className={s.starWrapper}>
+                                                {starsObjects.map((st) => {
+                                                    return <Star filled={st.id < el.grade && isFilled}/>
+
+                                                })}
+                                                </span>
+                                            </td>
                                             {
                                                 // console.log(userId)
                                                 el.user_id === userId &&

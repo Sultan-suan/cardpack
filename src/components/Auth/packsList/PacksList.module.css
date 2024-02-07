@@ -31,6 +31,13 @@
     /*background-color: #6f6f6f;*/
 }
 
+.starWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .tableWrapper {
     min-width: 100%;
     /*display: grid;*/
