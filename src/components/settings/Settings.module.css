@@ -1,8 +1,9 @@
 .container {
     width: 20%;
     padding: 30px 20px;
-    background-color: #70a4dc;
     min-height: 600px;
+    border: #0f09cb 2px solid;
+    border-radius: 5px;
 }
 
 .button {

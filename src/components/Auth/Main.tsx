@@ -77,10 +77,9 @@ export const Main = () => {
     return (
         <div className={s.container}>
             <Settings userId={userId}/>
-            <div>
+            <div className={s.packListContainer}>
                 <div>
                     <div>{objectOfParams2}</div>
-                    <div> userId: {userId}</div>
                     <button className={s.logout} onClick={logout}>
                         logout
                     </button>

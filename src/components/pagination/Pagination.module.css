@@ -1,6 +1,9 @@
 .navWrapper {
     display: flex;
     justify-content: space-around;
+    border-radius: 5px;
+    /*border: #0f09cb 2px solid;*/
+    position: static;
 }
 
 .nav_ex2 {

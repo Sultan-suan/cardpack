@@ -114,101 +114,101 @@ const PacksList = (props: PacksListType) => {
 
     return (
         <div className={s.container}>
-            <h1>Packs list</h1>
-
-            <div className={s.searchAndAdd}>
-                <div className={s.searchWrapper}>
-                    <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}
-                           value={inputValue}/>
-                </div>
-                <div>
-                    <button className={s.button} onClick={openAddModal}>Add new pack</button>
-                </div>
-            </div>
-            {
-                loading ? <div className={s.loading}>
-                        <ClockLoader
-                            color={'blue'}
-                            loading={loading}
-                            cssOverride={override}
-                            size={300}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        />
-                    </div> :
-                    <div className={s.content}>
-                        <div className={s.tableWrapper}>
-                            <table className={s.table}>
-                                <thead className={s.head}>
-                                <tr className={s.tr}>
-                                    <th className={s.th}>Name</th>
-                                    <th className={s.th}>Cards</th>
-                                    <th className={s.th}>Last updated
-                                        <button className={s.sortButton} onClick={onClickSort}>
-                                            {updated ? <BiSolidDownArrow className={s.arrow}/> :
-                                                <BiSolidUpArrow className={s.arrow}/>}
-
-                                        </button>
-                                    </th>
-                                    <th className={s.th}>created by</th>
-                                    <th className={s.th}>Actions</th>
-                                </tr>
-                                </thead>
-
-                                <tbody className={s.tbody}>
-                                {props.packs.map((el, i) => {
-                                    return <tr className={s.tr} key={i}>
-                                        <td onClick={() => onClickCards(el._id, el.name, el.user_id)}
-                                            className={s.td}>{el.name}</td>
-                                        <td className={s.td}>{el.cardsCount}</td>
-                                        <td className={s.td}>{changeDateFormat(el.updated)}</td>
-                                        <td className={s.td}>{el.user_name}</td>
-                                        <td className={s.td}>
-                                            {
-                                                el.user_id === props.userId &&
-                                                <>
-                                                    <button onClick={() => openDeleteModal(el._id)}
-                                                            className={s.deleteButton}>delete
-                                                    </button>
-                                                    <button onClick={() => openEditModal(el._id, el.name)}
-                                                            className={s.editButton}>edit
-                                                    </button>
-                                                </>
-                                            }
-                                            <button className={s.learnButton}>learn</button>
-                                        </td>
-                                    </tr>
-                                })}
-                                <CommonModal onOpen={addPack}
-                                             onClose={onCloseAddModal}
-                                             buttonTitle={'Add'}
-                                             onAction={add}
-                                             title={'Add new pack'}
-                                             isDeleteModal={deleteId}
-                                             inputValue={packName}
-                                             onChange={onChangeName}
-                                />
-                                <CommonModal onOpen={editOpen}
-                                             onClose={onCloseEditModal}
-                                             buttonTitle={'Edit'}
-                                             onAction={edit}
-                                             title={'Change pack name'}
-                                             isDeleteModal={deleteId}
-                                             inputValue={newPackName}
-                                             onChange={onChangeEditName}
-                                />
-                                <CommonModal onOpen={deleteId}
-                                             onClose={onCloseDeleteModal}
-                                             buttonTitle={'Delete'}
-                                             onAction={deletePack}
-                                             title={'Delete Pack'}
-                                             isDeleteModal={deleteId}
-                                />
-                                </tbody>
-                            </table>
-                        </div>
+            <div>
+                <h1>Packs list</h1>
+                <div className={s.searchAndAdd}>
+                    <div className={s.searchWrapper}>
+                        <input className={s.inputSearch} placeholder={'Search'} type="search" onChange={onChangeSearch}
+                               value={inputValue}/>
                     </div>
-            }
+                    <div>
+                        <button className={s.button} onClick={openAddModal}>Add new pack</button>
+                    </div>
+                </div>
+                {
+                    loading ? <div className={s.loading}>
+                            <ClockLoader
+                                color={'blue'}
+                                loading={loading}
+                                cssOverride={override}
+                                size={300}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div> :
+                        <div className={s.content}>
+                            <div className={s.tableWrapper}>
+                                <table className={s.table}>
+                                    <thead className={s.head}>
+                                    <tr className={s.tr}>
+                                        <th className={s.th}>Name</th>
+                                        <th className={s.th}>Cards</th>
+                                        <th className={s.th}>Last updated
+                                            <button className={s.sortButton} onClick={onClickSort}>
+                                                {updated ? <BiSolidDownArrow className={s.arrow}/> :
+                                                    <BiSolidUpArrow className={s.arrow}/>}
+
+                                            </button>
+                                        </th>
+                                        <th className={s.th}>created by</th>
+                                        <th className={s.th}>Actions</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody className={s.tbody}>
+                                    {props.packs.map((el, i) => {
+                                        return <tr className={s.tr} key={i}>
+                                            <td onClick={() => onClickCards(el._id, el.name, el.user_id)}
+                                                className={s.td}>{el.name}</td>
+                                            <td className={s.td}>{el.cardsCount}</td>
+                                            <td className={s.td}>{changeDateFormat(el.updated)}</td>
+                                            <td className={s.td}>{el.user_name}</td>
+                                            <td className={s.td}>
+                                                {
+                                                    el.user_id === props.userId &&
+                                                    <>
+                                                        <button onClick={() => openDeleteModal(el._id)}
+                                                                className={s.deleteButton}>delete
+                                                        </button>
+                                                        <button onClick={() => openEditModal(el._id, el.name)}
+                                                                className={s.editButton}>edit
+                                                        </button>
+                                                    </>
+                                                }
+                                                <button className={s.learnButton}>learn</button>
+                                            </td>
+                                        </tr>
+                                    })}
+                                    <CommonModal onOpen={addPack}
+                                                 onClose={onCloseAddModal}
+                                                 buttonTitle={'Add'}
+                                                 onAction={add}
+                                                 title={'Add new pack'}
+                                                 isDeleteModal={deleteId}
+                                                 inputValue={packName}
+                                                 onChange={onChangeName}
+                                    />
+                                    <CommonModal onOpen={editOpen}
+                                                 onClose={onCloseEditModal}
+                                                 buttonTitle={'Edit'}
+                                                 onAction={edit}
+                                                 title={'Change pack name'}
+                                                 isDeleteModal={deleteId}
+                                                 inputValue={newPackName}
+                                                 onChange={onChangeEditName}
+                                    />
+                                    <CommonModal onOpen={deleteId}
+                                                 onClose={onCloseDeleteModal}
+                                                 buttonTitle={'Delete'}
+                                                 onAction={deletePack}
+                                                 title={'Delete Pack'}
+                                                 isDeleteModal={deleteId}
+                                    />
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                }</div>
             <Pagination/>
         </div>
     );

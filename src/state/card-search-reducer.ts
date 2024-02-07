@@ -46,7 +46,6 @@ export const cardsSearchReducer = (state: SearchCardsParamsStateType = initialSe
             return {...state, sortCards: action.sortBy};
         case 'SET_CARD_OBJECT': {
             console.log('action:' + action.filter.pageCount)
-            debugger
                 return {...state,
                     min: !Number(action.filter.min) ? state.min : Number(action.filter.min),
                     max: !Number(action.filter.max) ? state.max : Number(action.filter.max),

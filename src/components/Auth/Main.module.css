@@ -6,18 +6,22 @@
 .container {
     width: 70%;
     min-height: 700px;
-    background-color: #c9d1e5;
+    background-color: #a6baea;
     /*margin: 10px;*/
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
+.packListContainer {
+    min-width: 880px;
+}
+
 .packList {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
     /*background-color: #eeeeee;*/
     min-height: 700px;
     margin: 20px;
