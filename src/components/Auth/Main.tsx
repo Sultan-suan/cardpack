@@ -1,25 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {authMeTC, logoutTC} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate, useSearchParams, useLocation} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {AppRootStateType} from "../../state/store";
 import PacksList from "./packsList/PacksList";
 import {getCardPacksTC} from "../../state/packs-reducer";
 import {CardsPacksType} from "../../types/types";
 import {
-    SearchParamsStateType,
-    setMinMaxPacks, setObject,
-    // setPageCountNumber,
-    setShowAllPacks
+    SearchParamsStateType, setObject,
 } from "../../state/pack-search-reducer";
 import s from './Main.module.css'
 import Settings from "../settings/Settings";
-import {Pagination} from "../pagination/Pagination";
-import {useParams} from 'react-router-dom'
 import qs from 'qs'
-import {objectToString} from "../../helpers/helpers";
 import {createBrowserHistory} from "history";
-import {Dispatch} from "redux";
 
 
 export const Main = () => {
@@ -31,14 +24,7 @@ export const Main = () => {
     const dispatch = useDispatch<any>();
     const isMounted = useRef(false)
 
-
-    const location = useLocation();
-    const param = useParams();
-
     const navigate = useNavigate();
-
-    // const [count, setCount] = useState(0);
-
     const history = createBrowserHistory();
 
 
@@ -46,16 +32,10 @@ export const Main = () => {
 
         if (!isAuth) {
             isMounted.current = true
-            // debugger
-            // localStorage.setItem('userId', JSON.stringify(userId) );
-            // localStorage.getItem('userId')
-            // const localUserId = localStorage.getItem('userId')
-            // console.log(localUserId)
             const filterParams = history.location.search.substr(1);
             const filtersFromParams = qs.parse(filterParams);
             dispatch(authMeTC(navigate));
             if (isMounted.current) {
-                // debugger
                 dispatch(setObject(filtersFromParams));
             }
             isMounted.current = true
@@ -65,12 +45,8 @@ export const Main = () => {
 
     useEffect(() => {
 
-        const searchParams = new URLSearchParams(location.search);
         if (isAuth) {
             dispatch(getCardPacksTC());
-            const filterParams = history.location.search.substr(1);
-            const filtersFromParams = qs.parse(filterParams);
-
             const queryString = qs.stringify({
                 min: objectOfParams.min,
                 max: objectOfParams.max,

@@ -8,8 +8,6 @@ import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
-import {setLoading} from "../../state/packs-reducer";
-import {log} from "util";
 
 
 export const Pagination = () => {
@@ -20,7 +18,6 @@ export const Pagination = () => {
     const dispatch = useDispatch<any>();
 
     useEffect(()=> {
-        // console.log(page)
     }, [page]);
 
 
@@ -29,7 +26,6 @@ export const Pagination = () => {
     const totalPage = Math.ceil(cardPacksTotalCount / pageCount
         || 8
     );
-    // console.log(cardPacksTotalCount, pageCount)
     let diapason = 5;
 
     const countOfListsPages = Math.ceil(totalPage / diapason);
@@ -45,7 +41,6 @@ export const Pagination = () => {
     };
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1) ;
-    // const pagesArray = Array.from({ length: totalPage }, (_, index) => index + 1);
 
     const changeCardsPerPage = (value: number) => {
         dispatch(setPageCountNumber(value))
@@ -53,7 +48,6 @@ export const Pagination = () => {
 
     const onChangePageNumber = (page: number) => {
         dispatch(setPageNumber(page));
-        // console.log(page)
     };
 
     return (

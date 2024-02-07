@@ -112,7 +112,6 @@ const Pack = () => {
         console.log('cardsPageCount:' + objectOfParams.pageCount)
 
         if (isMounted.current) {
-            // debugger
             dispatch(getCardsTC(packId, packUserId, userId as string))
             const queryString = qs.stringify({
                 cardAnswer: objectOfParams.cardAnswer,
@@ -125,7 +124,6 @@ const Pack = () => {
             });
 
             console.log(queryString);
-            // console.log(filter.object)
             navigate(`?${queryString}`);
         }
         isMounted.current = true
@@ -137,7 +135,6 @@ const Pack = () => {
 
 
     const SearchDebounce = useCallback(debounce((value: string) => {
-        // dispatch(getCardName(value))
     }, 1000), []);
 
     const openAddCardModal = () => {
@@ -149,7 +146,6 @@ const Pack = () => {
     };
 
     const openDeleteModal = (id: string) => {
-        // alert(id === userId)
         setDeleteCardId(id)
     };
     const onCloseDeleteModal = () => {
@@ -161,7 +157,6 @@ const Pack = () => {
         setEditOpen(id);
         setQuestion(question);
         setAnswer(answer);
-        console.log(id);
         console.log('Modal edit open')
     };
 
@@ -171,7 +166,6 @@ const Pack = () => {
 
     const onClickBackHandler = () => {
         navigate('/')
-        // dispatch(getCardPacksTC())
     };
 
     const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
@@ -205,15 +199,10 @@ const Pack = () => {
         setSorted(!sorted);
         if (sorted) {
             dispatch(setSortCards('grade'))
-            console.log('0grade')
         } else {
             dispatch(setSortCards(''))
-            console.log('')
         }
     };
-    // console.log('packUserId: ' + packUserId,
-    //     'userId: ' + userId,
-    //     packId)
 
     return (
         <div className={s.mainContainer}>

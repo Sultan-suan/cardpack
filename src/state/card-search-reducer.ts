@@ -4,7 +4,6 @@ type ActionsType =
     | ReturnType<typeof setCardsPageNumber>
     | ReturnType<typeof setCardsPageCountNumber>
     | ReturnType<typeof setMinMaxCards>
-    // | ReturnType<typeof setCardsPackId>
     | ReturnType<typeof setSortCards>
     | SetCardObjectType
 
@@ -71,9 +70,6 @@ export const setCardsPageCountNumber = (pageCount: number) => ({
 export const setMinMaxCards = (min: number, max: number) => ({
     type: 'SET_MIN_MAX_CARDS' as const, min, max
 });
-// export const setCardsPackId = (cardsPack_id: string) => ({
-//     type: 'SET_CARDS_PACK_ID' as const, cardsPack_id
-// });
 export const setSortCards = (sortBy: string) => ({
     type: 'SET_SORT_CARDS' as const, sortBy
 });

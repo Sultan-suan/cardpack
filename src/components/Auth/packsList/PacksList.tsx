@@ -9,7 +9,7 @@ import {setPacksName, setSortPacks} from "../../../state/pack-search-reducer";
 import {AppRootStateType} from "../../../state/store";
 import {ClockLoader} from "react-spinners";
 import debounce from 'lodash.debounce'
-import {Pagination} from './../../pagination/Pagination'
+import {Pagination} from '../../pagination/Pagination'
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {getCardsTC, setPackId, setTitle} from "../../../state/cards-reducer";
 import {useNavigate} from "react-router-dom";
@@ -108,10 +108,8 @@ const PacksList = (props: PacksListType) => {
     const onClickCards = (id: string, name: string, packUserId: string) => {
         navigate('/cards/'+userId);
         dispatch(getCardsTC(id, packUserId, userId));
-        // dispatch(setPackId('hello'))
         dispatch(setTitle(name));
-        // console.log(name);
-        // console.log(id)
+
     };
 
     return (
