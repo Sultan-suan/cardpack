@@ -13,6 +13,9 @@ import {Pagination} from '../../pagination/Pagination'
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {getCardsTC, setPackId, setTitle} from "../../../state/cards-reducer";
 import {useNavigate} from "react-router-dom";
+import del from './../../../assets/icons/delete.png';
+import editEl from './../../../assets/icons/edit.png';
+import learn from './../../../assets/icons/learn.png';
 import {log} from "util";
 
 type PacksListType = {
@@ -167,15 +170,20 @@ const PacksList = (props: PacksListType) => {
                                                 {
                                                     el.user_id === props.userId &&
                                                     <>
-                                                        <button onClick={() => openDeleteModal(el._id)}
-                                                                className={s.deleteButton}>delete
-                                                        </button>
-                                                        <button onClick={() => openEditModal(el._id, el.name)}
-                                                                className={s.editButton}>edit
-                                                        </button>
+                                                        {/*<button onClick={() => openDeleteModal(el._id)}*/}
+                                                        {/*        className={s.deleteButton}>delete*/}
+                                                            <img  onClick={() => openDeleteModal(el._id)} className={s.buttonIcon} src={del} alt="delete"/>
+                                                        {/*</button>*/}
+                                                        {/*<button onClick={() => openEditModal(el._id, el.name)}*/}
+                                                        {/*        className={s.editButton}>edit*/}
+                                                            <img  onClick={() => openEditModal(el._id, el.name)} className={s.buttonIcon} src={editEl} alt="edit"/>
+                                                        {/*</button>*/}
                                                     </>
                                                 }
-                                                <button className={s.learnButton}>learn</button>
+                                                {/*<button className={s.learnButton}>*/}
+                                                {/*    learn*/}
+                                                    <img className={s.buttonIcon} src={learn} alt="learn"/>
+                                                {/*</button>*/}
                                             </td>
                                         </tr>
                                     })}

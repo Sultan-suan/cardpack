@@ -145,6 +145,12 @@
     min-width: 100vh;
 }
 
+.buttonIcon {
+    width: 25px;
+    height: 25px;
+    margin: 0 3px ;
+}
+
 .deleteButton,
 .editButton,
 .learnButton {

@@ -5,7 +5,7 @@ import {
 } from "../../state/card-search-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
-import s from "./Pagination.module.css"
+import s from "./CardsPagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
 import {setLoading} from "../../state/packs-reducer";

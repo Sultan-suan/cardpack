@@ -16,10 +16,13 @@ import {Pagination} from "../pagination/Pagination";
 import {CardsPagination} from "../pagination/CardsPagination";
 import {createBrowserHistory} from "history";
 import qs from "qs";
-import star from './../../assets/icons/star.png'
-import blackStar from './../../assets/icons/black-star.png'
-import {getPackId} from "../../utils/getPackId";
-import {authMeTC} from "../../state/auth-reducer";
+import del from './../../assets/icons/delete.png';
+import editEl from './../../assets/icons/edit.png';
+// import learn from './../../../assets/icons/learn.png';
+// import star from './../../assets/icons/star.png'
+// import blackStar from './../../assets/icons/black-star.png'
+// import {getPackId} from "../../utils/getPackId";
+// import {authMeTC} from "../../state/auth-reducer";
 import {Star} from "../star/Star";
 
 
@@ -276,13 +279,15 @@ const Pack = () => {
                                                     el.user_id === userId &&
                                                     <td className={s.td}>
                                                         <>
-                                                            <button onClick={() => openDeleteModal(el._id)}
-                                                                    className={s.deleteButton}>delete
-                                                            </button>
-                                                            <button
-                                                                onClick={() => openEditCardModal(el._id, el.question, el.answer)}
-                                                                className={s.editButton}>edit
-                                                            </button>
+                                                            {/*<button onClick={() => openDeleteModal(el._id)}*/}
+                                                            {/*        className={s.deleteButton}>delete*/}
+                                                                <img  onClick={() => openDeleteModal(el._id)} className={s.buttonIcon} src={del} alt="delete"/>
+                                                            {/*</button>*/}
+                                                            {/*<button*/}
+                                                            {/*    onClick={() => openEditCardModal(el._id, el.question, el.answer)}*/}
+                                                            {/*    className={s.editButton}>edit*/}
+                                                                <img  onClick={() => openEditCardModal(el._id, el.question, el.answer)} className={s.buttonIcon} src={editEl} alt="edit"/>
+                                                            {/*</button>*/}
                                                         </>
                                                         {/*<button className={s.learnButton}>learn</button>*/}
                                                     </td>
