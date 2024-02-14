@@ -13,16 +13,11 @@ import debounce from "lodash.debounce";
 import {SearchCardsParamsStateType, setCardObject, setSortCards} from "../../state/card-search-reducer";
 import {BiSolidDownArrow, BiSolidUpArrow} from "react-icons/bi";
 import {Pagination} from "../pagination/Pagination";
-import {CardsPagination} from "../pagination/CardsPagination";
 import {createBrowserHistory} from "history";
 import qs from "qs";
 import del from './../../assets/icons/delete.png';
 import editEl from './../../assets/icons/edit.png';
-// import learn from './../../../assets/icons/learn.png';
-// import star from './../../assets/icons/star.png'
-// import blackStar from './../../assets/icons/black-star.png'
-// import {getPackId} from "../../utils/getPackId";
-// import {authMeTC} from "../../state/auth-reducer";
+import back from '../../assets/icons/backIcon.png';
 import {Star} from "../star/Star";
 
 
@@ -35,23 +30,22 @@ const Pack = () => {
     const packId = useSelector<AppRootStateType, any>((state) => state.cards.packId);
     const packUserId = useSelector<AppRootStateType, any>((state) => state.cards.packUserId);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
-    // const userId = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    const totalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount);
     const objectOfParams = useSelector<AppRootStateType, SearchCardsParamsStateType>(state => state.searchCards);
     const dispatch = useDispatch<any>();
     const navigate = useNavigate();
     const isMounted = useRef(false);
+
+    const page = useSelector<AppRootStateType, number>((state) => state.searchCards.page);
+    const pageCount = useSelector<AppRootStateType, any>((state) => state.searchCards.pageCount);
+    const cardsTotalCount = useSelector<AppRootStateType, number>((state) => state.cards.cardsTotalCount);
 
     const [addCard, setAddCard] = useState(false);
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [deleteCardId, setDeleteCardId] = useState('');
     const [editOpen, setEditOpen] = useState('');
-    const [stars, setStars] = useState([]);
     const [sorted, setSorted] = useState(true);
     const [isFilled, setIsFilled] = useState<any>(true);
-    const [packLocalId, setPackLocalId] = useState(packId);
-    // const [userLocalIsId, setUserLocalIsId] = useState(userId);
 
     const history = createBrowserHistory();
     const filterParams = history.location.search.substr(1);
@@ -61,62 +55,11 @@ const Pack = () => {
         localStorage.setItem('packId', packId);
         localStorage.setItem('packUserId', packUserId);
 
-        // debugger
         dispatch(setCardObject(filtersFromParams));
-        console.log(filtersFromParams)
-        // dispatch(authMeTC(navigate));
-
-
-        // localStorage.getItem('userId');
-
-        // dispatch(setUserId(userId))
-
-        // dispatch(setCardsPackId(packId))
-    }, [
-        // packId,
-        // packUserId,
-        // userId,
-        // objectOfParams.page,
-        // objectOfParams.pageCount
-    ]);
-
-
-    // useEffect(() => {
-    //     const filterParams = history.location.search.substr(1);
-    //     const filtersFromParams = qs.parse(filterParams);
-    //     // debugger
-    //     dispatch(setCardObject(filtersFromParams));
-    //     console.log(filtersFromParams)
-    //
-    // }, []);
-    //
-    // useEffect(() => {
-    //     const filterParams = history.location.search.substr(1);
-    //     const filtersFromParams = qs.parse(filterParams);
-    //     if (filtersFromParams.count) {
-    //         setPackLocalId(Number(filtersFromParams.count));
-    //     }
-    //
-    // }, []);
-
-    // console.log(packId)
-    // console.log(packUserId)
-    // console.log( 'userName: ', userId)
-
-    // useEffect(() => {
-    //     history.push(`?packId=${packLocalId}`);
-    // }, [packLocalId]);
-    // useEffect(() => {
-    //     const savedCount = localStorage.getItem('packId');
-    //     if (savedCount !== null) {
-    //         setPackLocalId(savedCount);
-    //     }
-    // }, []);
+    }, []);
 
     useEffect(() => {
         isMounted.current = true
-        console.log('cardsPageCount:' + objectOfParams.pageCount)
-
         if (isMounted.current) {
             dispatch(getCardsTC(packId, packUserId, userId as string))
             const queryString = qs.stringify({
@@ -129,7 +72,6 @@ const Pack = () => {
                 sortCards: objectOfParams.sortCards,
             });
 
-            console.log(queryString);
             navigate(`?${queryString}`);
         }
         isMounted.current = true
@@ -213,11 +155,11 @@ const Pack = () => {
     return (
         <div className={s.mainContainer}>
             <div>
-                <button onClick={onClickBackHandler}>Back</button>
+                {/*<button onClick={onClickBackHandler}>*/}
+                {/*    Back*/}
+                    <img className={s.back} onClick={onClickBackHandler} src={back} alt="back" style={{'color': 'red'}}/>
+                {/*</button>*/}
                 <h1>Pack: {packTitle}</h1>
-                {/*<div>userId: {userId}</div>*/}
-                {/*<div>packUserId: {packUserId}</div>*/}
-                {/*<div>packId: {packId}</div>*/}
                 <div className={s.searchAndAdd}>
                     <div className={s.searchWrapper}>
                         <input className={s.inputSearch} placeholder={'Search'} type="search"
@@ -262,11 +204,11 @@ const Pack = () => {
 
                                     {cards.map((el: CardsType, i: number) => {
                                         return (
-                                            <tr className={s.tr} key={i}>
+                                            <tr key={el._id} className={s.tr}>
                                                 <td className={s.td}>{el.question}</td>
                                                 <td className={s.td}>{el.answer}</td>
                                                 <td className={s.td}>{changeDateFormat(el.updated)}</td>
-                                                <td className={s.td}>
+                                                <td className={s.td} key={el._id}>
                                                 <span className={s.starWrapper}>
                                                 {starsObjects.map((st) => {
                                                     return <Star filled={st.id < el.grade && isFilled}/>
@@ -281,12 +223,15 @@ const Pack = () => {
                                                         <>
                                                             {/*<button onClick={() => openDeleteModal(el._id)}*/}
                                                             {/*        className={s.deleteButton}>delete*/}
-                                                                <img  onClick={() => openDeleteModal(el._id)} className={s.buttonIcon} src={del} alt="delete"/>
+                                                            <img onClick={() => openDeleteModal(el._id)}
+                                                                 className={s.buttonIcon} src={del} alt="delete"/>
                                                             {/*</button>*/}
                                                             {/*<button*/}
                                                             {/*    onClick={() => openEditCardModal(el._id, el.question, el.answer)}*/}
                                                             {/*    className={s.editButton}>edit*/}
-                                                                <img  onClick={() => openEditCardModal(el._id, el.question, el.answer)} className={s.buttonIcon} src={editEl} alt="edit"/>
+                                                            <img
+                                                                onClick={() => openEditCardModal(el._id, el.question, el.answer)}
+                                                                className={s.buttonIcon} src={editEl} alt="edit"/>
                                                             {/*</button>*/}
                                                         </>
                                                         {/*<button className={s.learnButton}>learn</button>*/}
@@ -330,8 +275,9 @@ const Pack = () => {
                              onChange2={onChangeAnswer}
                              isCardModal={editOpen}
                 /></div>
-            {cards?.length > 0 && <CardsPagination/>}
-
+            {cards?.length > 0 && <Pagination page={page} pageCount={pageCount} totalCount={cardsTotalCount} isCard={true}/>
+                // <CardsPagination/>
+            }
 
         </div>
     );

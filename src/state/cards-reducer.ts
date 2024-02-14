@@ -210,7 +210,6 @@ export const getCardsTC = (id: string, packUserId: string, userId: string) => {
             const idOfUser = localStorage.getItem('userId')
             dispatch(setUserId(idOfUser || ''))
             dispatch(setCards(response.cards));
-            console.log(getState().searchCards);
             dispatch(setTotalCardCount(response.cardsTotalCount))
         } catch (e) {
             console.log(e);

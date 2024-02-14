@@ -36,9 +36,13 @@ const PacksList = (props: PacksListType) => {
     const [newPackName, setNewPackName] = useState('');
     const [updated, setUpdated] = useState(true);
 
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
+    const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page);
+    const pageCount = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.pageCount);
+    const cardPacksTotalCount = useSelector<AppRootStateType, number>((state) => state.packsReducer.cardPacksTotalCount);
 
-    console.log('pageCount: ' + pageCount)
+    // const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
+    //
+    // console.log('pageCount: ' + pageCount)
 
     const navigate = useNavigate();
 
@@ -170,20 +174,11 @@ const PacksList = (props: PacksListType) => {
                                                 {
                                                     el.user_id === props.userId &&
                                                     <>
-                                                        {/*<button onClick={() => openDeleteModal(el._id)}*/}
-                                                        {/*        className={s.deleteButton}>delete*/}
                                                             <img  onClick={() => openDeleteModal(el._id)} className={s.buttonIcon} src={del} alt="delete"/>
-                                                        {/*</button>*/}
-                                                        {/*<button onClick={() => openEditModal(el._id, el.name)}*/}
-                                                        {/*        className={s.editButton}>edit*/}
                                                             <img  onClick={() => openEditModal(el._id, el.name)} className={s.buttonIcon} src={editEl} alt="edit"/>
-                                                        {/*</button>*/}
                                                     </>
                                                 }
-                                                {/*<button className={s.learnButton}>*/}
-                                                {/*    learn*/}
                                                     <img className={s.buttonIcon} src={learn} alt="learn"/>
-                                                {/*</button>*/}
                                             </td>
                                         </tr>
                                     })}
@@ -217,7 +212,7 @@ const PacksList = (props: PacksListType) => {
                             </div>
                         </div>
                 }</div>
-            <Pagination/>
+            <Pagination page={page} pageCount={pageCount} totalCount={cardPacksTotalCount} isCard={false}/>
         </div>
     );
 };

@@ -13,6 +13,7 @@ import s from './Main.module.css'
 import Settings from "../settings/Settings";
 import qs from 'qs'
 import {createBrowserHistory} from "history";
+import logoutIcon from './../../assets/icons/logout.png'
 
 
 export const Main = () => {
@@ -80,9 +81,10 @@ export const Main = () => {
             <div className={s.packListContainer}>
                 <div>
                     <div>{objectOfParams2}</div>
-                    <button className={s.logout} onClick={logout}>
-                        logout
-                    </button>
+                    {/*<button className={s.logout} onClick={logout}>*/}
+                    {/*    logout*/}
+                        <img  onClick={logout} className={s.logoutIcon} src={logoutIcon} alt="logout"/>
+                    {/*</button>*/}
                 </div>
                 <div className={s.packList}>
                     <PacksList packs={packs} userId={userId}/>

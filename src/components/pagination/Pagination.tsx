@@ -8,22 +8,31 @@ import {AppRootStateType} from "../../state/store";
 import s from "./Pagination.module.css"
 import {Selector} from "../selector/Selector";
 import {options} from "../../helpers/helpers";
+import {setCardsPageCountNumber, setCardsPageNumber} from "../../state/card-search-reducer";
+
+type PaginationPropsType = {
+    page: number
+    pageCount: number
+    totalCount: number
+    isCard: boolean
+}
 
 
-export const Pagination = () => {
-    const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page);
-    const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
-    const cardPacksTotalCount = useSelector<AppRootStateType, number>((state) => state.packsReducer.cardPacksTotalCount);
+export const Pagination = (props: PaginationPropsType) => {
+    // const page = useSelector<AppRootStateType, number>((state) => state.packSearchReducer.page);
+    // const pageCount = useSelector<AppRootStateType, any>((state) => state.packSearchReducer.pageCount);
+    // const cardPacksTotalCount = useSelector<AppRootStateType, number>((state) => state.packsReducer.cardPacksTotalCount);
     const loading = useSelector<AppRootStateType, boolean>((state) => state.packsReducer.loading);
     const dispatch = useDispatch<any>();
 
     useEffect(()=> {
-    }, [page]);
+        console.log('isCard: ' + props.isCard)
+    }, []);
 
 
     const [index, setIndex] = useState(1);
 
-    const totalPage = Math.ceil(cardPacksTotalCount / pageCount
+    const totalPage = Math.ceil(props.totalCount / props.pageCount
         || 8
     );
     let diapason = 5;
@@ -31,23 +40,24 @@ export const Pagination = () => {
     const countOfListsPages = Math.ceil(totalPage / diapason);
 
     const firstPage = () => {
-        dispatch(setPageNumber(1));
+        props.isCard ? dispatch(setCardsPageNumber(1)) : dispatch(setPageNumber(1));
         setIndex(1)
+
     };
 
     const lastPage = () => {
-        dispatch(setPageNumber(totalPage));
+        props.isCard ? dispatch(setCardsPageNumber(totalPage)) : dispatch(setPageNumber(totalPage));
         setIndex(1 + diapason * (countOfListsPages - 1))
     };
 
     const pagesArray = Array(totalPage).fill(1).map((i, index) => index + 1) ;
 
     const changeCardsPerPage = (value: number) => {
-        dispatch(setPageCountNumber(value))
+        props.isCard ? dispatch(setCardsPageCountNumber(value)) : dispatch(setPageCountNumber(value))
     };
 
     const onChangePageNumber = (page: number) => {
-        dispatch(setPageNumber(page));
+        props.isCard ? dispatch(setCardsPageNumber(page)) : dispatch(setPageNumber(page));
     };
 
     return (
@@ -57,14 +67,14 @@ export const Pagination = () => {
                     setIndex(index - diapason)
                 }} disabled={index === 1}>{'<<'}</button>
                 {index > 1 && <>
-                    <button disabled={loading} className={page === 1 ? s.navButton_focus : s.navButton} onClick={firstPage}>1</button>
+                    <button disabled={loading} className={props.page === 1 ? s.navButton_focus : s.navButton} onClick={firstPage}>1</button>
                     <span>...</span>
                 </>}
                 {pagesArray.map((pg, i) => {
                     let iPlusOne = i + 1;
                     if (iPlusOne >= index && iPlusOne < (index + diapason)) {
                         return <button key={i} disabled={loading}
-                                       className={page === pg ?s.navButton_focus : s.navButton  }
+                                       className={props.page === pg ?s.navButton_focus : s.navButton  }
                                        onClick={() => onChangePageNumber(pg)
                                        }>{pg}</button>
                     } else {
@@ -73,7 +83,7 @@ export const Pagination = () => {
                 })}
                 {index + diapason < totalPage && <>
                     <span>...</span>
-                    <button disabled={loading} className={page === totalPage ? s.navButton_focus : s.navButton} onClick={lastPage}>{totalPage}</button>
+                    <button disabled={loading} className={props.page === totalPage ? s.navButton_focus : s.navButton} onClick={lastPage}>{totalPage}</button>
                 </>}
                 <button className={s.button} onClick={() => {
                     setIndex(index + diapason)
@@ -81,7 +91,7 @@ export const Pagination = () => {
             </div>
             <div className={s.selector}>
                 <h6>Show</h6>
-                <Selector value={pageCount} options={options} onChange={changeCardsPerPage}/>
+                <Selector value={props.pageCount} options={options} onChange={changeCardsPerPage}/>
                 <h6>Cards per Page</h6>
             </div>
         </div>

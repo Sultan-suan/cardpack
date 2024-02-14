@@ -3,7 +3,6 @@ import thunk from 'redux-thunk'
 import {authReducer} from "./auth-reducer";
 import {packsReducer} from "./packs-reducer";
 import {packSearchReducer} from "./pack-search-reducer";
-import {cardSearchReducer} from "./searchCard-reducer";
 import {cardsReducer} from "./cards-reducer";
 import {cardsSearchReducer} from "./card-search-reducer";
 
@@ -12,7 +11,6 @@ const rootReducer = combineReducers({
     auth: authReducer,
     packsReducer: packsReducer,
     packSearchReducer: packSearchReducer,
-    cardReducer: cardSearchReducer,
     cards: cardsReducer,
     searchCards: cardsSearchReducer
 });

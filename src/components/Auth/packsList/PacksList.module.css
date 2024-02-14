@@ -94,6 +94,14 @@
 /*    margin: 10px;*/
 /*}*/
 
+.back {
+    float: left;
+    width: 50px;
+    height: 50px;
+    color: #246fa0;
+    cursor: pointer
+}
+
 .inputSearch {
     border: 0;
     outline: none;
@@ -105,6 +113,7 @@
     border-bottom: 1px solid #eee;
     width: 400px;
     font-size: 12px;
+    margin: 15px auto;
 }
 
 .loading {
@@ -132,6 +141,7 @@
     background-color: #246fa0;
     border: none;
     margin-left: 3px;
+    cursor: pointer;
 }
 
 .arrow {
@@ -149,6 +159,7 @@
     width: 25px;
     height: 25px;
     margin: 0 3px ;
+    cursor: pointer;
 }
 
 .deleteButton,
